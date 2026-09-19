@@ -136,7 +136,7 @@ uv run hf download BAAI/bge-large-zh-v1.5 --local-dir docker/embedding/bge-large
 ### 5. 启动基础服务
 
 ```bash
-docker compose -f docker/docker-compose.yaml up -d
+docker compose --env-file .env -f docker/docker-compose.yaml up -d
 ```
 
 ### 6. 构建元数据索引
