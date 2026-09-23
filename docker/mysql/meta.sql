@@ -46,3 +46,34 @@ CREATE TABLE column_metric
     metric_id VARCHAR(64) COMMENT '指标编号',
     PRIMARY KEY (column_id, metric_id)
 );
+
+
+CREATE TABLE IF NOT EXISTS conversation
+(
+    id         VARCHAR(36) PRIMARY KEY,
+    title      VARCHAR(120) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX ix_conversation_updated_at (updated_at)
+);
+
+
+CREATE TABLE IF NOT EXISTS conversation_message
+(
+    id               VARCHAR(36) PRIMARY KEY,
+    conversation_id  VARCHAR(36) NOT NULL,
+    position         INT NOT NULL,
+    role             VARCHAR(16) NOT NULL,
+    content          TEXT NOT NULL,
+    status           VARCHAR(16) NOT NULL DEFAULT 'done',
+    resolved_query   TEXT,
+    sql              TEXT,
+    result           JSON,
+    steps            JSON,
+    error             TEXT,
+    created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_message_conversation
+        FOREIGN KEY (conversation_id) REFERENCES conversation (id) ON DELETE CASCADE,
+    CONSTRAINT uq_message_position UNIQUE (conversation_id, position),
+    INDEX ix_message_conversation_created (conversation_id, created_at)
+);

@@ -8,7 +8,7 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from starlette.responses import StreamingResponse
 
 from app.api.dependencies import get_query_service
@@ -21,15 +21,46 @@ query_router = APIRouter()
 
 @query_router.post("/api/query")
 async def query_handler(
-    # 请求体参数：FastAPI 会把前端 JSON 自动解析成 QuerySchema
     query: QuerySchema,
-    # 服务依赖：FastAPI 会调用 get_query_service，递归组装它所需的仓储和客户端
     query_service: Annotated[QueryService, Depends(get_query_service)],
 ):
-    """接收用户自然语言问题，并流式返回 LangGraph 工作流输出"""
+    """兼容旧单轮接口：自动创建会话后执行可持久化查询。
+
+    返回 StreamingResponse 后，节点异常只能通过 SSE `error` 事件表达，不能再
+    修改已经发送的 HTTP 状态码；持久化失败记录由 QueryService 负责。
+    """
+
+    conversation_id = await query_service.create_conversation(query.query)
 
     return StreamingResponse(
-        # query.query 是用户问题字符串；QueryService.query 返回异步生成器供响应逐段消费
-        query_service.query(query.query),
+        query_service.query(conversation_id, query.query),
+        media_type="text/event-stream",
+    )
+
+
+@query_router.post("/api/conversations/{conversation_id}/query")
+async def conversation_query_handler(
+    conversation_id: str,
+    query: QuerySchema,
+    query_service: Annotated[QueryService, Depends(get_query_service)],
+):
+    """在指定历史会话中执行一次可续聊的流式查询。
+
+    Args:
+        conversation_id: MySQL 会话 ID，同时作为 LangGraph thread_id。
+        query: 已由 Pydantic 清理空白的自然语言问题。
+        query_service: FastAPI 依赖系统组装的请求级业务服务。
+
+    Returns:
+        持续发送 Agent 自定义事件的 SSE StreamingResponse。
+    """
+
+    # 在创建 StreamingResponse 前完成 404 校验，此时仍能返回标准 HTTP 错误；
+    # 一旦流开始，后续异常只能编码为 SSE 事件。
+    if not await query_service.conversation_exists(conversation_id):
+        raise HTTPException(status_code=404, detail="会话不存在或已被删除。")
+
+    return StreamingResponse(
+        query_service.query(conversation_id, query.query),
         media_type="text/event-stream",
     )

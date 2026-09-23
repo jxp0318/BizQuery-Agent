@@ -23,6 +23,7 @@ from app.agent.nodes.merge_retrieved_info import merge_retrieved_info
 from app.agent.nodes.recall_column import recall_column
 from app.agent.nodes.recall_metric import recall_metric
 from app.agent.nodes.recall_value import recall_value
+from app.agent.nodes.resolve_query import resolve_query
 from app.agent.nodes.run_sql import run_sql
 from app.agent.nodes.validate_sql import validate_sql
 from app.agent.state import DataAgentState
@@ -44,6 +45,7 @@ graph_builder = StateGraph(state_schema=DataAgentState, context_schema=DataAgent
 
 # 注册节点：每个节点负责问数链路中的一个清晰步骤
 graph_builder.add_node("extract_keywords", extract_keywords)
+graph_builder.add_node("resolve_query", resolve_query)
 graph_builder.add_node("recall_column", recall_column)
 graph_builder.add_node("recall_value", recall_value)
 graph_builder.add_node("recall_metric", recall_metric)
@@ -57,7 +59,8 @@ graph_builder.add_node("correct_sql", correct_sql)
 graph_builder.add_node("run_sql", run_sql)
 
 # 从用户问题开始，先抽取关键词作为后续检索的基础
-graph_builder.add_edge(START, "extract_keywords")
+graph_builder.add_edge(START, "resolve_query")
+graph_builder.add_edge("resolve_query", "extract_keywords")
 
 # 关键词抽取后并行进入三类召回，分别面向字段 字段值和业务指标
 graph_builder.add_edge("extract_keywords", "recall_column")
@@ -88,8 +91,12 @@ graph_builder.add_conditional_edges(
 graph_builder.add_edge("correct_sql", "run_sql")
 graph_builder.add_edge("run_sql", END)
 
-# 编译后的 graph 是对外使用的 Agent 执行入口
-graph = graph_builder.compile()
+# 这一层只负责单次 NL2SQL 执行，不直接接 Checkpointer。外层会话图会把它当作
+# 子图调用，从而避免字段召回、候选表等临时大对象进入 Redis 短期记忆。
+data_graph = graph_builder.compile()
+
+# 保留旧名称，避免本地调试脚本和已有导入一次性失效。
+graph = data_graph
 
 # print(graph.get_graph().draw_mermaid())
 

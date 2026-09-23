@@ -1,0 +1,974 @@
+<!-- AI生成 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BizQuery · 五问阅读法</title>
+  <style>
+    :root {
+      --parchment: #f3ead9;
+      --parchment-deep: #efe6d8;
+      --ink: #3d3a34;
+      --ink-soft: #6b655c;
+      --ink-faint: rgba(61, 58, 52, 0.12);
+      --accent: #c45c26;
+      --accent-soft: rgba(196, 92, 38, 0.12);
+      --forest: #3f5d4a;
+      --forest-soft: rgba(63, 93, 74, 0.12);
+      --blue: #3d5a80;
+      --blue-soft: rgba(61, 90, 128, 0.12);
+      --card: #fffdf8;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(61, 58, 52, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      background: var(--parchment);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image:
+        linear-gradient(90deg, rgba(32, 32, 29, 0.035) 1px, transparent 1px),
+        linear-gradient(rgba(32, 32, 29, 0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      padding: 16px 14px calc(88px + env(safe-area-inset-bottom));
+    }
+
+    .shell {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* ===== 顶部 ===== */
+    .hero {
+      background: var(--ink);
+      color: var(--parchment);
+      border-radius: var(--radius);
+      padding: 22px 18px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    .hero-kicker {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      font-size: 22px;
+      font-weight: 650;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      font-size: 13px;
+      opacity: 0.82;
+    }
+
+    .hero-note {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(243, 234, 217, 0.15);
+      font-size: 12px;
+      opacity: 0.75;
+    }
+
+    /* ===== 进度条 ===== */
+    .progress-wrap {
+      background: var(--card);
+      border: 1px solid var(--ink-faint);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-bottom: 10px;
+    }
+
+    .progress-label strong {
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .chain {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .chain-btn {
+      flex: 0 0 auto;
+      border: 1px solid var(--ink-faint);
+      background: var(--parchment-deep);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .chain-btn:active { transform: scale(0.97); }
+    .chain-btn.active {
+      background: var(--ink);
+      color: var(--parchment);
+      border-color: var(--ink);
+    }
+    .chain-btn.done {
+      background: var(--forest-soft);
+      border-color: rgba(63, 93, 74, 0.35);
+      color: var(--forest);
+    }
+    .chain-btn.active.done {
+      background: var(--ink);
+      color: var(--parchment);
+    }
+
+    /* ===== 文件卡 ===== */
+    .file-card {
+      background: var(--card);
+      border: 1px solid var(--ink-faint);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .file-head {
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--ink-faint);
+      background: linear-gradient(180deg, #fffdf8 0%, var(--parchment-deep) 100%);
+    }
+
+    .file-path {
+      display: block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      color: var(--accent);
+      word-break: break-all;
+      margin-bottom: 6px;
+    }
+
+    .file-title {
+      font-size: 17px;
+      font-weight: 650;
+      margin-bottom: 4px;
+    }
+
+    .file-role {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 10.5px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+    .tag.mysql { background: var(--forest-soft); color: var(--forest); }
+    .tag.redis { background: var(--accent-soft); color: var(--accent); }
+    .tag.ui { background: var(--blue-soft); color: var(--blue); }
+
+    /* ===== 五问 ===== */
+    .q-list { padding: 8px 10px 12px; }
+
+    .q-item {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      margin-bottom: 6px;
+      overflow: hidden;
+      background: transparent;
+      transition: background 0.15s ease;
+    }
+
+    .q-item.open {
+      background: var(--parchment);
+      border-color: var(--ink-faint);
+    }
+
+    .q-btn {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+      background: none;
+      border: 0;
+      padding: 12px 10px;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+    }
+
+    .q-num {
+      flex: 0 0 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--parchment);
+      font-size: 11px;
+      font-weight: 650;
+      display: grid;
+      place-items: center;
+    }
+
+    .q-item.open .q-num {
+      background: var(--accent);
+    }
+
+    .q-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      padding-top: 2px;
+    }
+
+    .q-chevron {
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      color: var(--ink-soft);
+      transition: transform 0.18s ease;
+    }
+
+    .q-item.open .q-chevron { transform: rotate(90deg); }
+
+    .q-answer {
+      display: none;
+      padding: 0 12px 14px 44px;
+      font-size: 13.5px;
+      color: var(--ink);
+    }
+
+    .q-item.open .q-answer { display: block; }
+
+    .q-answer p + p { margin-top: 8px; }
+
+    .q-answer code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: rgba(61, 58, 52, 0.07);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .q-answer ul {
+      margin: 6px 0 0 18px;
+    }
+
+    .q-answer li { margin-bottom: 4px; }
+
+    .callout {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-left: 3px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 0 8px 8px 0;
+      font-size: 12.5px;
+      color: var(--ink);
+    }
+
+    .callout.forest {
+      border-left-color: var(--forest);
+      background: var(--forest-soft);
+    }
+
+    /* ===== 总览流程 ===== */
+    .flow-card {
+      background: var(--card);
+      border: 1px solid var(--ink-faint);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .flow-card h2 {
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .flow {
+      display: grid;
+      gap: 0;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+    }
+
+    .flow-rail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flow-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 5px;
+    }
+
+    .flow-line {
+      flex: 1;
+      width: 2px;
+      background: var(--ink-faint);
+      min-height: 18px;
+    }
+
+    .flow-step:last-child .flow-line { display: none; }
+
+    .flow-body {
+      padding-bottom: 14px;
+    }
+
+    .flow-body strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .flow-body span {
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    /* ===== 底部导航 ===== */
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(243, 234, 217, 0.92);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--ink-faint);
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+    }
+
+    .nav-btn {
+      flex: 1;
+      border: 1px solid var(--ink-faint);
+      background: var(--card);
+      color: var(--ink);
+      border-radius: 10px;
+      padding: 12px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .nav-btn.primary {
+      background: var(--ink);
+      color: var(--parchment);
+      border-color: var(--ink);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .checklist {
+      margin-top: 8px;
+    }
+
+    .check-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 6px 0;
+      font-size: 13px;
+    }
+
+    .check-row input {
+      margin-top: 3px;
+      accent-color: var(--forest);
+      width: 16px;
+      height: 16px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin-top: 8px;
+    }
+
+    @media (min-width: 640px) {
+      body { padding: 28px 20px 100px; }
+      .hero h1 { font-size: 28px; }
+      .q-answer { padding-left: 48px; }
+    }
+  </style>
+</head>
+<body>
+<p data-aigc-mark="1" style="margin:0 0 8px;font-size:10px;line-height:1.3;color:#6b6560;font-weight:400;">AI生成</p>
+
+  <div class="shell">
+    <header class="hero">
+      <div class="hero-kicker">BizQuery Agent · 架构导读</div>
+      <h1>五问阅读法：一轮查询的持久化与恢复</h1>
+      <p>每打开一个文件，只回答五个问题。辅助函数的具体语法可以第二遍再看。</p>
+      <div class="hero-note">
+        链路：models → repository → router → agentApi → App.restoreMessages
+      </div>
+    </header>
+
+    <section class="progress-wrap">
+      <div class="progress-label">
+        <strong>调用链</strong>
+        <span id="progress-text">1 / 5</span>
+      </div>
+      <div class="chain" id="chain"></div>
+    </section>
+
+    <section class="flow-card">
+      <h2>写入 / 恢复主链路</h2>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-rail"><div class="flow-dot"></div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <strong>start_turn 成对写入</strong>
+            <span>user + assistant 占位（streaming）一起 commit，失败也有稳定 ID 可补偿。</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-rail"><div class="flow-dot"></div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <strong>finish / fail 原位更新</strong>
+            <span>不插第三条；同一条 assistant 行改写为 done / error / cancelled。</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-rail"><div class="flow-dot"></div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <strong>GET /conversations/:id</strong>
+            <span>只读 MySQL，按 position 升序返回完整消息，不碰 Redis。</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-rail"><div class="flow-dot"></div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <strong>restoreMessages 重建 UI</strong>
+            <span>服务端 ID/status/result 覆盖本地临时状态，刷新后以 MySQL 为真值。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="cards"></main>
+  </div>
+
+  <nav class="bottom-bar">
+    <button class="nav-btn" id="btn-prev" type="button">上一文件</button>
+    <button class="nav-btn primary" id="btn-next" type="button">下一文件</button>
+  </nav>
+
+  <script>
+    const QUESTIONS = [
+      "谁调用这个文件里的核心函数？",
+      "输入是什么？",
+      "它调用下一个谁？",
+      "它修改的是前端状态、LangGraph State、MySQL 还是 Redis？",
+      "失败后由谁处理？",
+    ];
+
+    const FILES = [
+      {
+        id: "model",
+        path: "app/models/conversation.py",
+        title: "ORM 模型层",
+        role: "定义 Meta MySQL 的会话与消息表结构，是用户可见历史的事实来源。",
+        tags: [
+          { text: "MySQL schema", kind: "mysql" },
+          { text: "无运行时逻辑", kind: "" },
+        ],
+        answers: [
+          {
+            short: "Repository 与 SQLAlchemy Session",
+            html: `
+              <p>核心是两个 ORM 类：<code>ConversationMySQL</code>、<code>ConversationMessageMySQL</code>。</p>
+              <ul>
+                <li><code>ConversationRepository</code> 用它们构造查询和写入。</li>
+                <li>SQLAlchemy 通过 <code>__tablename__</code> 把类映射到 <code>conversation</code> / <code>conversation_message</code> 表。</li>
+                <li>API Schema（<code>ConversationMessageSchema</code>）用 <code>from_attributes</code> 从这些对象直接读字段。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "不需要函数输入，只声明字段",
+            html: `
+              <p>本文件没有对外提供业务函数，输入发生在字段被写入时：</p>
+              <ul>
+                <li>会话：<code>id</code>、<code>title</code>、时间戳。</li>
+                <li>消息：<code>conversation_id</code>、<code>position</code>、<code>role</code>、<code>content</code>、<code>status</code>、<code>resolved_query</code>、<code>sql</code>、<code>result</code>、<code>steps</code>、<code>error</code>。</li>
+              </ul>
+              <div class="callout">一轮查询固定产生相邻的 user/assistant 两条消息；assistant 先 streaming 占位，再原位更新。</div>
+            `,
+          },
+          {
+            short: "不主动调用下一层",
+            html: `
+              <p>模型层只定义结构，不发起网络或仓储调用。</p>
+              <p>它的“下一站”是被上层使用：</p>
+              <ul>
+                <li>↓ <code>conversation_repository.py</code> 做 CRUD</li>
+                <li>↓ <code>conversation_schema.py</code> 做序列化</li>
+                <li>↓ <code>query_service.py</code> 读 <code>role</code> / <code>status</code> 构造短期记忆</li>
+              </ul>
+            `,
+          },
+          {
+            short: "只定义 MySQL 表；不改前端 / Graph / Redis",
+            html: `
+              <ul>
+                <li><strong>MySQL</strong>：表结构与约束（主键、外键 CASCADE、position 唯一约束、联合索引）。</li>
+                <li><strong>前端状态</strong>：不直接修改。</li>
+                <li><strong>LangGraph State</strong>：不直接修改（State 在 <code>conversation_state.py</code>）。</li>
+                <li><strong>Redis</strong>：不涉及。模型注释明确 Redis Checkpoint 只能保存可重建摘要。</li>
+              </ul>
+              <div class="callout forest">事实边界：完整消息、SQL、查询结果、执行步骤和错误都在 MySQL；Redis 不能替代本模型。</div>
+            `,
+          },
+          {
+            short: "数据库约束 + 上层写入异常处理",
+            html: `
+              <ul>
+                <li><code>UniqueConstraint(conversation_id, position)</code> 兜底重复序号。</li>
+                <li>外键 <code>ondelete="CASCADE"</code>：删会话时级联删消息。</li>
+                <li>写入失败由 <code>ConversationRepository</code> 的 commit/rollback 与 <code>QueryService</code> 的 <code>fail_turn</code> 补偿。</li>
+              </ul>
+            `,
+          },
+        ],
+      },
+      {
+        id: "repo",
+        path: "app/repositories/mysql/meta/conversation_repository.py",
+        title: "数据访问层",
+        role: "在 Meta MySQL 中持久化会话、消息和完整执行结果；一轮 Turn 的写入入口。",
+        tags: [
+          { text: "MySQL 读写", kind: "mysql" },
+          { text: "start / finish / fail_turn", kind: "" },
+        ],
+        answers: [
+          {
+            short: "QueryService 与 ConversationRouter",
+            html: `
+              <ul>
+                <li><code>QueryService.query</code>：调用 <code>start_turn</code> / <code>finish_turn</code> / <code>fail_turn</code>。</li>
+                <li><code>conversation_router</code>：调用 <code>create</code> / <code>list</code> / <code>get</code> / <code>list_messages</code> / <code>rename</code> / <code>delete</code>。</li>
+                <li>Redis miss 时的 hydration 路径也通过 <code>list_messages</code> 回放历史。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "会话 ID、原始问题、消息 ID、执行证据",
+            html: `
+              <ul>
+                <li><code>start_turn(conversation_id, query)</code> → 返回 <code>(user, assistant)</code> 稳定 UUID。</li>
+                <li><code>finish_turn(message_id, content, resolved_query, sql, result, steps)</code>。</li>
+                <li><code>fail_turn(message_id, content, error, steps, status="error"|"cancelled")</code>。</li>
+                <li>读接口只需 <code>conversation_id</code>，可选 <code>limit</code> 做懒恢复。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "SQLAlchemy AsyncSession → MySQL",
+            html: `
+              <p>Repository 不自建连接池，使用 FastAPI 注入的 <code>AsyncSession</code>。</p>
+              <ul>
+                <li>写路径：<code>add</code> / <code>add_all</code> → <code>commit</code>。</li>
+                <li>读路径：<code>select</code> / <code>session.get</code>。</li>
+                <li>删除：先删 messages，再删 conversation（避免仅依赖 CASCADE 的隐式行为）。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "只修改 Meta MySQL",
+            html: `
+              <ul>
+                <li><strong>MySQL</strong>：conversation 表 + conversation_message 表（含 status/result/sql/steps）。</li>
+                <li><strong>前端</strong>：不直接改，只给 API 返回数据。</li>
+                <li><strong>LangGraph</strong>：不直接改。</li>
+                <li><strong>Redis</strong>：不直接改。删除会话时 Redis 清理由 Router 单独做。</li>
+              </ul>
+              <div class="callout">每个完整业务写入自行 commit：即使后续 Redis 或 Agent 失败，本轮也能被恢复为明确的失败记录。</div>
+            `,
+          },
+          {
+            short: "Repository 上抛；业务补偿在 QueryService",
+            html: `
+              <ul>
+                <li><code>start_turn</code>：会话不存在 → <code>LookupError</code>，由 API 转 404。</li>
+                <li>事务写入失败：异常上抛；SSE 开始后的失败由 <code>fail_turn</code> 补偿。</li>
+                <li><code>fail_turn</code> 先 <code>rollback</code> 再写失败消息，防止图节点污染共享 Session。</li>
+                <li>position 冲突：唯一约束兜底；多 Worker 前需改为原子序号。</li>
+              </ul>
+            `,
+          },
+        ],
+      },
+      {
+        id: "router",
+        path: "app/api/routers/conversation_router.py",
+        title: "HTTP 会话接口",
+        role: "历史会话管理 API。读列表/详情只访问 MySQL，不会因为浏览历史创建 Redis Checkpoint。",
+        tags: [
+          { text: "REST", kind: "" },
+          { text: "MySQL", kind: "mysql" },
+          { text: "删除时触 Redis", kind: "redis" },
+        ],
+        answers: [
+          {
+            short: "前端 agentApi.ts（浏览器 HTTP）",
+            html: `
+              <ul>
+                <li><code>GET /api/conversations</code> → 历史列表</li>
+                <li><code>GET /api/conversations/{id}</code> → 刷新/切换会话恢复</li>
+                <li><code>POST</code> / <code>PATCH</code> / <code>DELETE</code> → 新建、重命名、删除</li>
+              </ul>
+              <p>问数流式接口不在本 Router，在 Query 相关路由；本文件只管会话生命周期与历史读取。</p>
+            `,
+          },
+          {
+            short: "路径参数 + JSON body",
+            html: `
+              <ul>
+                <li>路径：<code>conversation_id</code>（同时也是 LangGraph thread_id）。</li>
+                <li>创建/重命名 body：<code>title</code>（Schema 内规范化空白）。</li>
+                <li>返回：<code>ConversationSummarySchema</code> 或 <code>ConversationDetailSchema</code>（含 messages）。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "ConversationRepository（删除时再碰 Redis）",
+            html: `
+              <ul>
+                <li>默认只调 Repository。</li>
+                <li><code>delete_conversation</code>：MySQL 删除成功后，尽力 <code>redis_checkpoint_manager.delete_thread</code>。</li>
+                <li>不调用 LangGraph 执行图；继续提问才走 QueryService。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "主要写 MySQL；删除时尽力清理 Redis",
+            html: `
+              <ul>
+                <li><strong>MySQL</strong>：create / rename / delete / 读 messages。</li>
+                <li><strong>Redis</strong>：仅删除会话时清理 Thread；浏览历史不读不写。</li>
+                <li><strong>前端状态</strong>：不直接改。</li>
+                <li><strong>LangGraph State</strong>：不改。</li>
+              </ul>
+              <div class="callout forest">设计原因：浏览历史不应该创建/膨胀 Redis 短期记忆；只有用户继续提问才恢复 Checkpoint。</div>
+            `,
+          },
+          {
+            short: "HTTPException + Redis 清理仅记日志",
+            html: `
+              <ul>
+                <li>会话不存在 → <code>HTTPException 404</code>，detail 给前端 <code>requestJson</code> 展示。</li>
+                <li>MySQL 删除成功后 Redis 清理失败 → 只 <code>logger.error</code>，不回滚删除。</li>
+              </ul>
+              <div class="callout">删除语义以 MySQL 为准；Redis State 可重建，不使用跨库分布式事务。</div>
+            `,
+          },
+        ],
+      },
+      {
+        id: "api",
+        path: "frontend/src/lib/agentApi.ts",
+        title: "前端 API 客户端",
+        role: "普通会话用 JSON；问数用 SSE。负责 HTTP 细节，不负责业务状态机。",
+        tags: [
+          { text: "fetch", kind: "ui" },
+          { text: "SSE 解析", kind: "" },
+        ],
+        answers: [
+          {
+            short: "App.tsx 的会话与问数流程",
+            html: `
+              <ul>
+                <li><code>listConversations</code> / <code>getConversation</code> / <code>createConversation</code> / <code>deleteConversation</code></li>
+                <li><code>streamQuery</code>：提交问题、消费 SSE</li>
+              </ul>
+              <p>真正改 UI 的是 <code>onEvent</code> 回调与调用方的 <code>setMessages</code>，本文件只搬运数据。</p>
+            `,
+          },
+          {
+            short: "conversationId、query/title、AbortSignal、onEvent",
+            html: `
+              <ul>
+                <li>会话接口：路径 ID 或 <code>title</code> JSON。</li>
+                <li><code>streamQuery(conversationId, query, { signal, onEvent })</code>。</li>
+                <li><code>signal</code>：页面点“停止”时中断 fetch。</li>
+                <li><code>onEvent</code>：每解析出一个完整 SSE 事件就回调。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "后端 /api/conversations…",
+            html: `
+              <ul>
+                <li>JSON：<code>requestJson</code> → GET/POST/PATCH/DELETE。</li>
+                <li>SSE：<code>POST …/query</code>，Accept <code>text/event-stream</code>，按 <code>\\n\\n</code> 切事件。</li>
+                <li>解析函数 <code>parseSseChunk</code> 合并多行 data 后 <code>JSON.parse</code>。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "不直接改存储；驱动前端回调",
+            html: `
+              <ul>
+                <li><strong>前端状态</strong>：间接——通过返回值和 <code>onEvent</code> 让 App 更新 messages。</li>
+                <li><strong>MySQL / Redis / LangGraph</strong>：都不直接改，只发 HTTP。</li>
+              </ul>
+              <div class="callout">网络分块 ≠ SSE 事件边界：buffer 保留未形成双换行的尾部，下一 chunk 继续拼接。</div>
+            `,
+          },
+          {
+            short: "抛 Error；流式中断由 App.catch 兜底",
+            html: `
+              <ul>
+                <li><code>requestJson</code>：优先读 FastAPI <code>detail</code>，否则报 HTTP 状态码。</li>
+                <li><code>streamQuery</code>：fetch 失败、无 body、JSON 解析失败 → 抛出或转成 <code>error</code> 事件。</li>
+                <li>用户取消：<code>AbortError</code> 由 App 判断并显示“已停止本次查询”。</li>
+              </ul>
+            `,
+          },
+        ],
+      },
+      {
+        id: "app",
+        path: "frontend/src/App.tsx · restoreMessages / selectConversation",
+        title: "页面状态与历史恢复",
+        role: "把 MySQL 详情映射成 ChatMessage[]；刷新/切换/跨标签页同步的前端真值入口。",
+        tags: [
+          { text: "React state", kind: "ui" },
+          { text: "恢复 UI", kind: "" },
+        ],
+        answers: [
+          {
+            short: "页面交互 + 流结束后的回写 + 跨标签页同步",
+            html: `
+              <ul>
+                <li><code>selectConversation</code>：用户点左侧历史（<code>ConversationList onSelect</code>）。</li>
+                <li><code>restoreMessages</code> 还被三处复用：
+                  <ul>
+                    <li>切换会话后</li>
+                    <li><code>streamQuery</code> 的 <code>finally</code> 再拉详情</li>
+                    <li>BroadcastChannel 收到会话变更通知时</li>
+                  </ul>
+                </li>
+              </ul>
+            `,
+          },
+          {
+            short: "conversationId 或 ConversationDetail",
+            html: `
+              <ul>
+                <li><code>selectConversation(conversationId)</code>：先 <code>getConversation</code>。</li>
+                <li><code>restoreMessages(conversation: ConversationDetail)</code>：消费 API 返回的 <code>messages[]</code>。</li>
+                <li>映射字段：<code>id/role/content/createdAt/status/steps/result/error/sql/resolvedQuery</code>。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "agentApi.getConversation（以及 Stream 本地状态）",
+            html: `
+              <ul>
+                <li><code>selectConversation</code> → <code>getConversation</code> → <code>restoreMessages</code> → <code>setMessages</code>。</li>
+                <li>流结束后 <code>finally</code> 再拉一次 MySQL，用服务端记录覆盖本地 SSE 临时状态。</li>
+                <li>不调用 Graph；短期记忆仍由后端按 conversation_id 管理。</li>
+              </ul>
+            `,
+          },
+          {
+            short: "只修改前端 React 状态",
+            html: `
+              <ul>
+                <li><strong>前端</strong>：<code>messages</code>、<code>activeConversationId</code>、<code>draft</code>、<code>historyLoading</code> / <code>historyError</code>。</li>
+                <li><strong>MySQL / Redis / LangGraph</strong>：本函数只读 API 响应，不写存储。</li>
+              </ul>
+              <div class="callout">服务端记录是刷新后的事实来源，会覆盖流式阶段使用的本地临时消息 ID 和状态。</div>
+            `,
+          },
+          {
+            short: "selectConversation 吞掉并显示 historyError",
+            html: `
+              <ul>
+                <li>切换会话失败：catch 后写 <code>historyError</code>，不改当前 messages。</li>
+                <li>Broadcast / finally 中的 <code>getConversation</code> 失败：<code>catch(() =&gt; undefined)</code>，保留本地已渲染消息。</li>
+                <li>流式中断：App 的 catch 把 assistant 更新为 error/已停止；最终仍以 MySQL 回读为准。</li>
+              </ul>
+              <div class="callout forest">分流原则：显式用户操作失败要提示；后台静默同步失败不能把当前聊天清空。</div>
+            `,
+          },
+        ],
+      },
+    ];
+
+    const state = {
+      index: 0,
+      openQ: {}, // fileId -> Set of question indices
+      checked: {}, // "fileId:qIdx" -> bool
+    };
+
+    const $ = (sel) => document.querySelector(sel);
+    const chainEl = $("#chain");
+    const cardsEl = $("#cards");
+    const progressText = $("#progress-text");
+    const btnPrev = $("#btn-prev");
+    const btnNext = $("#btn-next");
+
+    function shortName(path) {
+      const parts = path.split(/[\\/]/);
+      return parts[parts.length - 1].replace(/\.(py|ts|tsx)$/, "");
+    }
+
+    function renderChain() {
+      chainEl.innerHTML = "";
+      FILES.forEach((file, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chain-btn" + (i === state.index ? " active" : "") + (i < state.index ? " done" : "");
+        btn.textContent = `${i + 1}. ${shortName(file.path)}`;
+        btn.addEventListener("click", () => go(i));
+        chainEl.appendChild(btn);
+      });
+      progressText.textContent = `${state.index + 1} / ${FILES.length}`;
+    }
+
+    function renderCards() {
+      cardsEl.innerHTML = "";
+      FILES.forEach((file, fi) => {
+        if (fi !== state.index) return;
+
+        const card = document.createElement("article");
+        card.className = "file-card";
+        card.id = `file-${file.id}`;
+
+        const tags = file.tags
+          .map((t) => `<span class="tag ${t.kind}">${t.text}</span>`)
+          .join("");
+
+        const items = file.answers.map((ans, qi) => {
+          const key = `${file.id}:${qi}`;
+          const open = Boolean(state.openQ[key]);
+          const done = Boolean(state.checked[key]);
+          return `
+            <div class="q-item ${open ? "open" : ""}" data-q="${qi}">
+              <button class="q-btn" type="button" data-toggle="${qi}">
+                <span class="q-num">${done ? "✓" : qi + 1}</span>
+                <span class="q-text">${QUESTIONS[qi]}</span>
+                <svg class="q-chevron" viewBox="0 0 18 18" aria-hidden="true">
+                  <path d="M6 4l6 5-6 5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              </button>
+              <div class="q-answer">
+                <p><strong>${ans.short}</strong></p>
+                ${ans.html}
+                <label class="check-row">
+                  <input type="checkbox" data-check="${qi}" ${done ? "checked" : ""} />
+                  <span>我已能回答这一问</span>
+                </label>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        card.innerHTML = `
+          <header class="file-head">
+            <code class="file-path">${file.path}</code>
+            <h2 class="file-title">${file.title}</h2>
+            <p class="file-role">${file.role}</p>
+            <div class="tag-row">${tags}</div>
+          </header>
+          <div class="q-list">
+            ${items}
+            <p class="hint">提示：五问都能答上来，就可以进入下一轮细节阅读；不必第一遍抠语法。</p>
+          </div>
+        `;
+        cardsEl.appendChild(card);
+      });
+
+      btnPrev.disabled = state.index === 0;
+      btnNext.disabled = state.index === FILES.length - 1;
+      btnNext.textContent = state.index === FILES.length - 1 ? "已是最后一文件" : "下一文件";
+    }
+
+    function go(i) {
+      state.index = Math.max(0, Math.min(FILES.length - 1, i));
+      renderChain();
+      renderCards();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    cardsEl.addEventListener("click", (e) => {
+      const toggle = e.target.closest("[data-toggle]");
+      if (!toggle) return;
+      const qi = Number(toggle.getAttribute("data-toggle"));
+      const fileId = FILES[state.index].id;
+      const key = `${fileId}:${qi}`;
+      state.openQ[key] = !state.openQ[key];
+      renderCards();
+    });
+
+    cardsEl.addEventListener("change", (e) => {
+      const check = e.target.closest("[data-check]");
+      if (!check) return;
+      const qi = Number(check.getAttribute("data-check"));
+      const fileId = FILES[state.index].id;
+      state.checked[`${fileId}:${qi}`] = check.checked;
+      renderCards();
+    });
+
+    btnPrev.addEventListener("click", () => go(state.index - 1));
+    btnNext.addEventListener("click", () => go(state.index + 1));
+
+    // 默认展开第一问，降低上手成本
+    state.openQ[`${FILES[0].id}:0`] = true;
+
+    renderChain();
+    renderCards();
+  </script>
+</body>
+</html>

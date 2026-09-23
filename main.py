@@ -11,6 +11,7 @@ import uuid
 from fastapi import FastAPI, Request
 
 from app.api.lifespan import lifespan
+from app.api.routers.conversation_router import conversation_router
 from app.api.routers.query_router import query_router
 from app.core.context import request_id_ctx_var
 
@@ -19,13 +20,18 @@ app = FastAPI(lifespan=lifespan)
 
 # 把查询路由注册进应用；没有挂载时，/docs 和真实 HTTP 请求都访问不到该接口
 app.include_router(query_router)
+app.include_router(conversation_router)
 
 
 @app.middleware("http")
 async def add_request_id(request: Request, call_next):
-    # 请求被处理之前
+    """为一次 HTTP 请求设置日志关联 ID，并由 ContextVar 传播到异步调用链。
+
+    ContextVar 能让并发请求各自读取自己的 request_id，无需把该字段逐层传入
+    Repository 和 Graph 节点；它只用于可观测性，不参与会话或 thread 隔离。
+    """
+
     request_id = uuid.uuid4()
     request_id_ctx_var.set(request_id)
     response = await call_next(request)
-    # 请求被处理之后
     return response

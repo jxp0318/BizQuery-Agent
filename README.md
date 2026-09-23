@@ -28,6 +28,8 @@
 - **LangGraph 编排**：组织关键词抽取、并行召回、候选过滤、SQL 生成、校验和执行节点。
 - **NL2SQL 链路**：基于表结构、指标口径、日期和数据库方言生成 SQL，并通过 MySQL `EXPLAIN` 检查可执行性。
 - **实时进度展示**：FastAPI 通过 SSE 推送节点状态和最终结果，React 前端展示执行流程。
+- **历史会话与续聊**：会话、消息、SQL、结果和执行步骤持久化到 Meta MySQL，支持刷新后恢复并基于最近上下文继续追问。
+- **LangGraph 短期记忆**：Redis Checkpointer 按会话保存精简消息窗口、滚动摘要和最近 SQL 摘要，过期后可从 MySQL 历史懒恢复。
 
 ## 系统架构
 
@@ -49,7 +51,9 @@
 ### 2. 在线问数工作流
 
 ```text
-自然语言问题
+当前问题 + Redis Checkpoint 短期记忆
+    ↓
+独立问题改写
     ↓
 关键词抽取
     ↓
@@ -76,6 +80,7 @@
 | Embedding | TEI / BAAI/bge-large-zh-v1.5 | 字段、指标和查询文本向量化 |
 | 向量检索 | Qdrant | 字段与指标语义召回 |
 | 全文检索 | Elasticsearch / IK | 字段真实值检索 |
+| 短期记忆 | Redis 8 / LangGraph Checkpointer | 线程级状态、消息窗口、摘要与重启恢复 |
 | 数据存储 | MySQL / SQLAlchemy | 教学数仓、结构化元数据和 SQL 执行 |
 | API | FastAPI / SSE | 查询接口与节点级进度推送 |
 | 前端 | React / TypeScript / Vite / Tailwind CSS | 问数交互、流程状态和结果表格 |
@@ -125,7 +130,7 @@ pnpm --dir frontend install
 LLM_API_KEY=your_api_key_here
 ```
 
-默认配置连接本机 MySQL、Qdrant、Elasticsearch 和 Embedding 服务，可在 `.env` 与 `conf/app_config.yaml` 中调整。
+默认配置连接本机 MySQL、Redis、Qdrant、Elasticsearch 和 Embedding 服务，可在 `.env` 与 `conf/app_config.yaml` 中调整。
 
 ### 4. 准备 Embedding 模型
 
@@ -167,7 +172,20 @@ python start.py
 ## API 示例
 
 ```http
-POST /api/query
+POST /api/conversations
+Content-Type: application/json
+```
+
+```json
+{
+  "title": "2025 年第一季度各大区 GMV"
+}
+```
+
+创建会话后，在指定会话中发起查询：
+
+```http
+POST /api/conversations/{conversation_id}/query
 Content-Type: application/json
 Accept: text/event-stream
 ```
@@ -180,13 +198,29 @@ Accept: text/event-stream
 
 SSE 事件分为：
 
+- `turn`：本轮持久化消息与会话标识。
 - `progress`：节点运行状态。
+- `resolved_query`：结合历史上下文改写后的独立问题。
+- `sql`：当前生成或修正后的 SQL。
 - `result`：最终结构化查询结果。
 - `error`：工作流异常信息。
 
+历史会话管理接口：
+
+- `GET /api/conversations`：获取历史会话列表。
+- `GET /api/conversations/{conversation_id}`：恢复会话消息、结果和执行步骤。
+- `PATCH /api/conversations/{conversation_id}`：重命名会话。
+- `DELETE /api/conversations/{conversation_id}`：删除会话。
+
+原有的 `POST /api/query` 仍然保留兼容，并会自动创建一个新会话。
+
 ## 当前边界
 
-- 当前为单轮问数流程，尚未加入多轮会话记忆。
+- 多轮续聊使用 Redis-backed LangGraph Checkpointer；Redis 仅保存可重建的短期运行状态，完整历史、SQL 和查询结果仍以 Meta MySQL 为准。
+- 当前滚动摘要采用确定性文本压缩，不额外调用一次大模型；它不是跨会话用户画像或 LangGraph Store 长期记忆。
+- 同会话串行控制当前面向单应用进程；多实例部署需要引入分布式锁或数据库租约。
 - SQL 校验基于 MySQL `EXPLAIN`，不等同于完整 SQL 安全审计。
 - 演示数仓规模较小，尚未提供生产环境压测数据。
 - 项目暂未建立系统化 NL2SQL 评测集。
+
+短期记忆的架构取舍与面试说明见 [LangGraph 短期记忆实现说明](docs/langgraph-short-term-memory.md)，后续改进顺序与完成状态见 [改进路线图](docs/improvement-roadmap.md)。

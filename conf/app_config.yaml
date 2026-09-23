@@ -38,6 +38,18 @@ es:
   port: 9200
   index_name: value_index
 
+redis:
+  url: ${oc.env:REDIS_URL,redis://localhost:6379/0}
+  checkpoint_ttl_minutes: ${oc.env:REDIS_CHECKPOINT_TTL_MINUTES,10080}
+  refresh_on_read: true
+  connect_timeout_seconds: 5
+  operation_timeout_seconds: 10
+  startup_retries: 5
+  retry_delay_seconds: 1
+  recent_message_limit: 12
+  hydration_message_limit: 50
+  summary_max_chars: 2400
+
 llm:
   model_name: deepseek-v4-flash
   api_key: ${oc.env:LLM_API_KEY}
