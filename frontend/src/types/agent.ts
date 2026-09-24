@@ -8,7 +8,7 @@ export type ProgressStatus = "running" | "success" | "error";
 export type ProgressEvent = {
   /** SSE 判别字段，用于 AgentEvent 联合类型的分支收窄。 */
   type: "progress";
-  /** 面向用户展示的流程步骤名称，例如“生成 SQL”。 */
+  /** 面向用户展示的流程步骤名称，例如「生成SQL」。 */
   step: string;
   /** 当前步骤的最新状态；同名步骤事件会在前端覆盖合并。 */
   status: ProgressStatus;
@@ -21,17 +21,26 @@ export type ResultEvent = {
   data: unknown;
 };
 
+/** 结果超过 max_rows 被截断时的提示事件（P3）。 */
+export type TruncatedEvent = {
+  type: "truncated";
+  message: string;
+  max_rows: number;
+};
+
 /** 流已经开始后发生异常时由后端发送的错误事件。 */
 export type ErrorEvent = {
   type: "error";
   /** 可直接展示给当前会话用户的错误说明。 */
   message: string;
+  /** 稳定原因码（P3），与后端 sql_errors 对齐；便于前端映射与排查。 */
+  code?: string;
 };
 
 /** SQL 生成或校正完成后发送的事件。 */
 export type SqlEvent = { type: "sql"; sql: string };
 
-/** 上下文问题改写完成后发送的独立问题事件。 */
+/** 上下文问题改写完成后的独立问题事件。 */
 export type ResolvedQueryEvent = { type: "resolved_query"; query: string };
 
 /** MySQL 成功创建本轮 user/assistant 两条消息后首先发送的关联事件。 */
@@ -49,6 +58,7 @@ export type TurnEvent = {
 export type AgentEvent =
   | ProgressEvent
   | ResultEvent
+  | TruncatedEvent
   | ErrorEvent
   | SqlEvent
   | ResolvedQueryEvent
@@ -73,54 +83,16 @@ export type ChatMessage = {
   content: string;
   /** 前端统一使用的毫秒时间戳。 */
   createdAt: number;
-  /** 仅 assistant 消息需要的执行状态。 */
+  /** 该 assistant 消息的执行状态。 */
   status?: "streaming" | "done" | "error" | "cancelled";
   /** 从 progress 事件逐步合并得到的执行轨迹。 */
   steps?: StepState[];
   /** 本轮完整查询结果，只在当前流或 MySQL 历史恢复后存在。 */
   result?: unknown;
-  /** 后端返回的失败或取消原因。 */
-  error?: string;
-  /** 本轮最终执行 SQL。 */
-  sql?: string;
-  /** 结合短期记忆补全后的独立问题。 */
-  resolvedQuery?: string;
-};
-
-/** 左侧历史列表使用的轻量会话信息，不包含完整 messages。 */
-export type ConversationSummary = {
-  /** MySQL 会话主键，也是继续问数时携带的 conversationId。 */
-  id: string;
-  /** 历史列表展示标题。 */
-  title: string;
-  /** 后端返回的 ISO 创建时间。 */
-  createdAt: string;
-  /** 后端返回的 ISO 最近更新时间，用于列表排序和展示。 */
-  updatedAt: string;
-  /** user 与 assistant 消息总数。 */
-  messageCount: number;
-};
-
-/** 从 MySQL 历史接口恢复的一条完整持久化消息。 */
-export type PersistedMessage = {
-  id: string;
-  /** 用于确认该消息属于当前请求的会话。 */
-  conversationId: string;
-  role: "user" | "assistant";
-  content: string;
-  /** 数据库保存的最终或中间执行状态。 */
-  status: "streaming" | "done" | "error" | "cancelled";
-  resolvedQuery?: string | null;
+  /** 结果是否因超过 max_rows 被截断（P3）。 */
+  truncated?: boolean;
+  /** 生成或校正后的 SQL 文本，便于结果区展示与复制。 */
   sql?: string | null;
-  /** 完整结果由 MySQL 提供；Redis 只保存行数摘要。 */
-  result?: unknown;
-  steps: StepState[];
-  error?: string | null;
-  /** ISO 时间字符串，进入 ChatMessage 时转换为毫秒时间戳。 */
-  createdAt: string;
-};
-
-/** 打开某个历史会话时返回的摘要与完整消息集合。 */
-export type ConversationDetail = ConversationSummary & {
-  messages: PersistedMessage[];
+  /** 上下文补全后的独立问题。 */
+  resolvedQuery?: string | null;
 };

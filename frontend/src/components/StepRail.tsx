@@ -1,6 +1,12 @@
 /**
  * 智能体执行流程图组件
  * 按 LangGraph 节点拓扑展示各步骤状态
+ *
+ * P3 后链路为：
+ *   generate_sql → sql_guard → validate_sql → run_sql
+ *   失败进入 correct_sql，修完回到 sql_guard；校验最多 3 轮后 reject_sql
+ *
+ * 布局约定：分支文字与连线保持 ≥12px 间距，避免箭头压字。
  */
 import { Check, Circle, LoaderCircle, X } from "lucide-react";
 import { cn } from "../lib/format";
@@ -26,12 +32,15 @@ const nodes: FlowNode[] = [
   { step: "过滤表信息", x: 530, y: 410 },
   { step: "添加额外上下文", x: 410, y: 514, w: 176 },
   { step: "生成SQL", x: 410, y: 618 },
-  { step: "校验SQL", x: 410, y: 722 },
-  { step: "校正SQL", x: 670, y: 722 },
-  { step: "执行SQL", x: 410, y: 816 },
+  { step: "安全检查SQL", x: 410, y: 712, w: 168 },
+  { step: "校验SQL", x: 410, y: 828 },
+  { step: "校正SQL", x: 680, y: 770, w: 148 },
+  { step: "放弃修正SQL", x: 680, y: 944, w: 156 },
+  { step: "执行SQL", x: 410, y: 944 },
 ];
 
 const connectors = [
+  // 主干：召回与生成
   "M410 60 L410 106",
   "M410 152 L410 176 L150 176 L150 198",
   "M410 152 L410 198",
@@ -44,15 +53,29 @@ const connectors = [
   "M290 450 L290 478 L410 478 L410 508",
   "M530 450 L530 478 L410 478 L410 508",
   "M410 554 L410 612",
-  "M410 658 L410 716",
-  "M410 762 L410 810",
-  "M488 742 L586 742",
-  "M670 762 L670 788 L410 788 L410 810",
+  // 生成 → 安全检查
+  "M410 658 L410 706",
+  // 安全检查 → 校验（无误）：主干竖线，文字在左侧
+  "M410 752 L410 822",
+  // 校验 → 执行（无误）
+  "M410 868 L410 938",
+  // 安全检查「有误」→ 校正：先右出，文字在横线上方空隙
+  "M494 732 L600 732 L600 790 L656 790",
+  // 校验「有误」→ 校正：文字在横线下方空隙
+  "M488 848 L600 848 L600 790 L656 790",
+  // 校正 → 回到安全检查（修完重检）：走右上外侧，文字在横线上方
+  "M754 770 L790 770 L790 688 L488 688 L488 706",
+  // 轮次用尽 → 放弃修正
+  "M680 830 L680 938",
 ];
 
 const branchLabels = [
-  { text: "有误", x: 530, y: 734 },
-  { text: "无误", x: 366, y: 796 },
+  { text: "有误", x: 520, y: 718 },
+  { text: "无误", x: 352, y: 800 },
+  { text: "有误", x: 520, y: 876 },
+  { text: "无误", x: 352, y: 916 },
+  { text: "修完重检", x: 548, y: 676 },
+  { text: "轮次用尽", x: 704, y: 888 },
 ];
 
 function getStatusMap(steps: StepState[]) {
@@ -129,10 +152,10 @@ export function StepRail({ steps = [] }: { steps?: StepState[] }) {
       </div>
 
       <div className="overflow-x-auto">
-        <div className="relative mx-auto h-[872px] w-[820px]">
+        <div className="relative mx-auto h-[1000px] w-[820px]">
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full"
-            viewBox="0 0 820 872"
+            viewBox="0 0 820 1000"
             fill="none"
             aria-hidden="true"
           >
@@ -159,12 +182,15 @@ export function StepRail({ steps = [] }: { steps?: StepState[] }) {
             ))}
             {branchLabels.map((label) => (
               <text
-                key={label.text}
+                key={`${label.text}-${label.x}-${label.y}`}
                 x={label.x}
                 y={label.y}
-                fill="rgba(32,32,29,0.62)"
+                fill="rgba(32,32,29,0.72)"
                 fontSize="13"
                 fontWeight="600"
+                paintOrder="stroke"
+                stroke="rgba(255,255,255,0.9)"
+                strokeWidth="3"
               >
                 {label.text}
               </text>

@@ -125,6 +125,22 @@ class RedisConfig:
     hydration_message_limit: int
     # 较早对话摘要的最大字符数，防止短期记忆无限增长。
     summary_max_chars: int
+    # Thread 删除失败后的后台重试间隔秒数；删除语义以 MySQL 为准，重试只清理可重建状态。
+    delete_retry_interval_seconds: float
+    # 单个 Thread 后台删除的最大尝试次数，耗尽后保留诊断日志并停止该条重试。
+    delete_retry_max_attempts: int
+
+
+@dataclass
+class SqlExecConfig:
+    """SQL 执行层资源保护（P3）。"""
+
+    # 单次查询最多返回的业务行数；超出截断并标记 truncated。
+    max_rows: int
+    # 单条查询最长执行秒数，超时由 DB/应用侧终止。
+    query_timeout_seconds: float
+    # 全局同时执行的查询数上限，保护数仓不被并发打满。
+    max_concurrent_queries: int
 
 
 @dataclass
@@ -157,6 +173,7 @@ class AppConfig:
     es: ESConfig
     # P2 LangGraph 短期记忆配置。
     redis: RedisConfig
+    sql_exec: SqlExecConfig
     # SQL 生成、改写和过滤使用的大模型配置。
     llm: LLMConfig
 

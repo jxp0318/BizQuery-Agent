@@ -107,5 +107,9 @@ class DataAgentState(TypedDict):
     # 当前候选 SQL；生成节点写入，校验失败时由修正节点覆盖。
     sql: str
 
-    # SQL 校验错误；None 表示进入执行分支，非空表示先进入修正节点。
-    error: str
+    # SQL 校验/安全错误；None 表示可进入执行，非空表示进入修正或放弃。
+    error: str | None
+    # 稳定原因码，见 app.agent.sql_errors；供路由、用户文案与日志。
+    error_code: str | None
+    # 已进入 correct_sql 的次数；0=尚未修正。校验最多 3 轮即该值最多到 2。
+    sql_correction_count: int

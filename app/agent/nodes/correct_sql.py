@@ -72,7 +72,11 @@ async def correct_sql(state: DataAgentState, runtime: Runtime[DataAgentContext])
         logger.info(f"校正后的SQL：{result}")
         writer({"type": "sql", "sql": result})
         writer({"type": "progress", "step": step, "status": "success"})
-        return {"sql": result}
+        # 每进入一次修正节点计一次；条件边据此限制「校验最多 3 轮」。
+        return {
+            "sql": result.strip(),
+            "sql_correction_count": state.get("sql_correction_count", 0) + 1,
+        }
     except Exception as e:
         logger.error(f"{step} failed: {e}")
         writer({"type": "progress", "step": step, "status": "error"})

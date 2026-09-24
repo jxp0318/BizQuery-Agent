@@ -156,8 +156,11 @@ class QueryService:
         更新不会交错；不同会话使用不同锁，可以并行执行。
         """
 
+        # 记录会话锁等待起点，用于观测同会话排队是否成为体验瓶颈。
+        lock_wait_started_at = time.perf_counter()
         lock = await conversation_lock_manager.get_lock(conversation_id)
-        if lock.locked():
+        lock_contended = lock.locked()
+        if lock_contended:
             yield _sse(
                 {
                     "type": "progress",
@@ -169,6 +172,11 @@ class QueryService:
         # 锁必须覆盖 MySQL start_turn、Graph 和最终落库，而不是只保护某一次写入，
         # 否则同会话的两个请求仍可能读取同一个旧 Checkpoint 并互相覆盖。
         async with lock:
+            logger.info(
+                f"conversation_lock_acquired conversation_id={conversation_id} "
+                f"wait_ms={(time.perf_counter() - lock_wait_started_at) * 1000:.1f} "
+                f"contended={lock_contended}"
+            )
             # 这些变量是“一轮请求执行账本”：SSE 事件到达时逐步填充，最后整体写回
             # MySQL。即使中途异常，也能用已经收集到的信息更新 assistant 占位消息。
             assistant_message_id: str | None = None
@@ -263,6 +271,8 @@ class QueryService:
                         result_data = _json_safe(chunk.get("data"))
                     yield _sse(chunk)
                 graph_completed = True
+                # 图结束后采集 State 体积与快照加载耗时，监控短期记忆是否膨胀。
+                await redis_checkpoint_manager.capture_state_metrics(conversation_id)
 
                 assistant_content, _ = summarize_result(result_data)
                 # Redis 主图已经完成后，再把完整结果提交到 MySQL 事实历史。
@@ -299,12 +309,6 @@ class QueryService:
                     )
                 if graph_completed:
                     # 图已经保存而 MySQL 最终写入失败时，删除可重建的 Redis Thread，
-                    # 下一轮从 MySQL 重新水合，避免短期状态领先于事实历史。
-                    try:
-                        await redis_checkpoint_manager.delete_thread(conversation_id)
-                    except Exception as cleanup_error:
-                        logger.error(
-                            f"checkpoint_cleanup_failed thread_id={conversation_id}: "
-                            f"{cleanup_error}"
-                        )
+                    # 下一轮从 MySQL 重新水合；删除失败进入后台幂等重试，不再只打日志。
+                    await redis_checkpoint_manager.delete_thread_safely(conversation_id)
                 yield _sse({"type": "error", "message": str(error)})

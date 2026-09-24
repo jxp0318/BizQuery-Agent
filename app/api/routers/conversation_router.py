@@ -17,7 +17,6 @@ from app.api.schemas.conversation_schema import (
     ConversationUpdateSchema,
 )
 from app.clients.redis_checkpoint_manager import redis_checkpoint_manager
-from app.core.log import logger
 from app.repositories.mysql.meta.conversation_repository import ConversationRepository
 
 conversation_router = APIRouter(prefix="/api/conversations", tags=["conversations"])
@@ -111,11 +110,7 @@ async def delete_conversation(
 
     if not await repository.delete(conversation_id):
         raise HTTPException(status_code=404, detail="会话不存在或已被删除。")
-    try:
-        await redis_checkpoint_manager.delete_thread(conversation_id)
-    except Exception as error:
-        # MySQL 是产品历史事实来源，Redis Thread 可重建；清理失败不能撤销用户删除。
-        logger.error(
-            f"checkpoint_delete_failed thread_id={conversation_id}: {error}"
-        )
+    # MySQL 删除成功即用户删除语义成立；Redis Thread 清理失败会进入后台幂等重试，
+    # 不回滚历史删除，避免可重建缓存阻塞产品删除路径。
+    await redis_checkpoint_manager.delete_thread_safely(conversation_id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

@@ -16,11 +16,13 @@ db_meta:
   password: ${oc.env:MYSQL_PASSWORD,shopkeeper_dev}
   database: ${oc.env:MYSQL_META_DATABASE,meta}
 
+# 数仓查询默认可改为只读账号；未配置 MYSQL_DW_USER 时仍用初始 shopkeeper（与 meta 相同）。
+# 创建 shopkeeper_ro 后设 MYSQL_DW_USER=shopkeeper_ro，不影响 MYSQL_USER/meta 写入账号。
 db_dw:
   host: ${oc.env:MYSQL_HOST,localhost}
   port: ${oc.env:MYSQL_PORT,3306}
-  user: ${oc.env:MYSQL_USER,shopkeeper}
-  password: ${oc.env:MYSQL_PASSWORD,shopkeeper_dev}
+  user: ${oc.env:MYSQL_DW_USER,shopkeeper}
+  password: ${oc.env:MYSQL_DW_PASSWORD,shopkeeper_dev}
   database: ${oc.env:MYSQL_DW_DATABASE,dw}
 
 qdrant:
@@ -49,6 +51,13 @@ redis:
   recent_message_limit: 12
   hydration_message_limit: 50
   summary_max_chars: 2400
+  delete_retry_interval_seconds: 5
+  delete_retry_max_attempts: 8
+
+sql_exec:
+  max_rows: 1000
+  query_timeout_seconds: 30
+  max_concurrent_queries: 4
 
 llm:
   model_name: deepseek-v4-flash

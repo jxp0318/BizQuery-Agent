@@ -270,6 +270,15 @@ export default function App() {
             };
           }
 
+          if (event.type === "truncated") {
+            return {
+              ...message,
+              truncated: true,
+              content: message.content
+                ? `${message.content}\n${event.message}`
+                : event.message,
+            };
+          }
           if (event.type === "result") {
             return {
               ...message,

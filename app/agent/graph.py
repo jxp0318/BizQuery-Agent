@@ -4,7 +4,11 @@
 使用 LangGraph 把问数智能体的各个节点串成一条可观测的执行链路
 当前链路已经落地关键词抽取和多路召回，字段和指标走 Qdrant 向量检索，字段取值走 ES 全文检索
 整体流程先抽取用户问题关键词，再并行召回字段 字段取值和指标信息，
-随后合并召回结果 过滤候选表和指标 补充额外上下文，最后生成 校验 修正并执行 SQL
+随后合并召回结果 过滤候选表和指标 补充额外上下文，最后生成 安全检查 校验 修正并执行 SQL
+
+P3 修正循环（已确认）：
+  generate_sql / correct_sql → sql_guard → validate_sql → run_sql
+  任一检查失败且 sql_correction_count < 2 时进入 correct_sql；否则 reject_sql
 """
 
 import asyncio
@@ -23,8 +27,10 @@ from app.agent.nodes.merge_retrieved_info import merge_retrieved_info
 from app.agent.nodes.recall_column import recall_column
 from app.agent.nodes.recall_metric import recall_metric
 from app.agent.nodes.recall_value import recall_value
+from app.agent.nodes.reject_sql import reject_sql
 from app.agent.nodes.resolve_query import resolve_query
 from app.agent.nodes.run_sql import run_sql
+from app.agent.nodes.sql_guard import sql_guard
 from app.agent.nodes.validate_sql import validate_sql
 from app.agent.state import DataAgentState
 from app.clients.embedding_client_manager import embedding_client_manager
@@ -54,8 +60,11 @@ graph_builder.add_node("filter_metric", filter_metric)
 graph_builder.add_node("filter_table", filter_table)
 graph_builder.add_node("add_extra_context", add_extra_context)
 graph_builder.add_node("generate_sql", generate_sql)
+# sql_guard：纯本地 AST 安全闸，失败进修正循环，不直达执行
+graph_builder.add_node("sql_guard", sql_guard)
 graph_builder.add_node("validate_sql", validate_sql)
 graph_builder.add_node("correct_sql", correct_sql)
+graph_builder.add_node("reject_sql", reject_sql)
 graph_builder.add_node("run_sql", run_sql)
 
 # 从用户问题开始，先抽取关键词作为后续检索的基础
@@ -80,15 +89,55 @@ graph_builder.add_edge("merge_retrieved_info", "filter_metric")
 graph_builder.add_edge("filter_table", "add_extra_context")
 graph_builder.add_edge("filter_metric", "add_extra_context")
 graph_builder.add_edge("add_extra_context", "generate_sql")
-graph_builder.add_edge("generate_sql", "validate_sql")
 
-# SQL 校验通过就直接执行，校验失败则先进入修正节点
+# 生成/修正后先过安全闸；修正后必须重新 guard，禁止 correct → run 直达
+graph_builder.add_edge("generate_sql", "sql_guard")
+graph_builder.add_edge("correct_sql", "sql_guard")
+
+
+def _can_correct(state) -> str:
+    """失败时决定继续修正还是放弃（校验最多 3 轮 → correct_sql 最多 2 次）。"""
+
+    if state.get("sql_correction_count", 0) >= 2:
+        return "reject_sql"
+    return "correct_sql"
+
+
+def _route_after_guard(state):
+    """安全检查路由：通过则 EXPLAIN；失败进修正或放弃。"""
+
+    if state.get("error") is None:
+        return "validate_sql"
+    return _can_correct(state)
+
+
+def _route_after_validate(state):
+    """EXPLAIN 路由：通过才执行；失败进修正或放弃。"""
+
+    if state.get("error") is None:
+        return "run_sql"
+    return _can_correct(state)
+
+
+graph_builder.add_conditional_edges(
+    source="sql_guard",
+    path=_route_after_guard,
+    path_map={
+        "validate_sql": "validate_sql",
+        "correct_sql": "correct_sql",
+        "reject_sql": "reject_sql",
+    },
+)
 graph_builder.add_conditional_edges(
     source="validate_sql",
-    path=lambda state: "run_sql" if state["error"] is None else "correct_sql",
-    path_map={"run_sql": "run_sql", "correct_sql": "correct_sql"},
+    path=_route_after_validate,
+    path_map={
+        "run_sql": "run_sql",
+        "correct_sql": "correct_sql",
+        "reject_sql": "reject_sql",
+    },
 )
-graph_builder.add_edge("correct_sql", "run_sql")
+graph_builder.add_edge("reject_sql", END)
 graph_builder.add_edge("run_sql", END)
 
 # 这一层只负责单次 NL2SQL 执行，不直接接 Checkpointer。外层会话图会把它当作
@@ -97,8 +146,6 @@ data_graph = graph_builder.compile()
 
 # 保留旧名称，避免本地调试脚本和已有导入一次性失效。
 graph = data_graph
-
-# print(graph.get_graph().draw_mermaid())
 
 if __name__ == "__main__":
 

@@ -48,7 +48,55 @@ class DWMySQLRepository:
         sql = f"explain {sql}"
         await self.session.execute(text(sql))
 
-    async def run(self, sql: str) -> list[dict]:
-        """执行最终 SQL，并把 SQLAlchemy 行对象转换成前端更易消费的字典列表"""
+    async def run(
+        self,
+        sql: str,
+        *,
+        max_rows: int = 1000,
+        timeout_seconds: float | None = None,
+    ) -> dict:
+        """受控执行最终 SQL：超时 + 行数截断，不改写原始 SQL。
+
+        Args:
+            sql: 已通过 sql_guard 与 EXPLAIN 的候选查询。
+            max_rows: 最多返回的业务行数；超出截断并标记 truncated。
+            timeout_seconds: 优先写入会话 MAX_EXECUTION_TIME，由 MySQL 侧超时。
+
+        Returns:
+            {"rows": list[dict], "row_count": int, "truncated": bool}
+
+        实现说明:
+            不用 SELECT * FROM (...) LIMIT 外包，避免改写 CTE/排序等语义；
+            在游标上 fetchmany(max_rows+1) 多取一行用于判断是否截断。
+        """
+
+        if timeout_seconds:
+            # MySQL 8 的 MAX_EXECUTION_TIME 单位是毫秒，仅对 SELECT 生效。
+            await self.session.execute(
+                text("SET SESSION MAX_EXECUTION_TIME = :ms"),
+                {"ms": int(timeout_seconds * 1000)},
+            )
         result = await self.session.execute(text(sql))
-        return [dict(row) for row in result.mappings().fetchall()]
+        chunk = result.mappings().fetchmany(max_rows + 1)
+        truncated = len(chunk) > max_rows
+        rows = [dict(row) for row in chunk[:max_rows]]
+        return {"rows": rows, "row_count": len(rows), "truncated": truncated}
+
+    async def connection_id(self) -> int:
+        """读取当前连接 CONNECTION_ID，供取消时 KILL。"""
+
+        result = await self.session.execute(text("SELECT CONNECTION_ID()"))
+        return int(result.scalar())
+
+    async def kill_connection(self, connection_id: int) -> bool:
+        """尽力终止指定连接；失败返回 False，由调用方记日志。
+
+        使用独立 execute：KILL 需要足够权限；开发环境可用同账号。
+        生产应改用只读账号 + 管理账号执行 KILL（P8）。
+        """
+
+        try:
+            await self.session.execute(text(f"KILL {int(connection_id)}"))
+            return True
+        except Exception:
+            return False

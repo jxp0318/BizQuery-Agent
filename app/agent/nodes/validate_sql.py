@@ -32,12 +32,12 @@ async def validate_sql(state: DataAgentState, runtime: Runtime[DataAgentContext]
             await dw_mysql_repository.validate(sql)
             writer({"type": "progress", "step": step, "status": "success"})
             logger.info("SQL语法正确")
-            return {"error": None}
+            return {"error": None, "error_code": None}
         except Exception as e:
             # 不抛出异常中断图执行，而是把错误写入状态，供条件分支进入 correct_sql
             logger.info(f"SQL语法错误：{str(e)}")
             writer({"type": "progress", "step": step, "status": "success"})
-            return {"error": str(e)}
+            return {"error": str(e), "error_code": "invalid_sql"}
 
     except Exception as e:
         logger.error(f"{step} failed: {e}")
