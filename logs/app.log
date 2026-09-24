@@ -913,3 +913,538 @@ ORDER BY GMV DESC;
 2026-09-24 10:34:02.653 | INFO     | request_id - 7e508be3-2296-408c-aefd-2487ae971863 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=2.8
 2026-09-24 10:34:02.655 | INFO     | request_id - 7e508be3-2296-408c-aefd-2487ae971863 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=5.8
 2026-09-24 10:34:02.662 | INFO     | request_id - 7e508be3-2296-408c-aefd-2487ae971863 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa state_bytes=1902 snapshot_load_ms=7.1
+2026-09-24 10:39:07.665 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:init:148 - Redis LangGraph Checkpointer 初始化完成
+2026-09-24 10:39:22.800 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=ed046df7-efe6-40db-b38b-152ef5d0acaa wait_ms=0.0 contended=False
+2026-09-24 10:39:22.847 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa load_ms=27.5
+2026-09-24 10:39:22.879 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=17.8
+2026-09-24 10:39:22.891 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=24.4
+2026-09-24 10:39:22.893 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=13.1
+2026-09-24 10:39:22.894 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=30.9
+2026-09-24 10:39:22.896 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=4.6
+2026-09-24 10:39:22.898 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=29.3
+2026-09-24 10:39:27.386 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.resolve_query:resolve_query:55 - 上下文问题改写：帮我删除华中的数据 -> 统计 2021 年第一季度除华中大区外各大区的 GMV，并按 GMV 从高到低排序。
+2026-09-24 10:39:28.056 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['统计', '第一季度', '大区', '排序', '统计 2021 年第一季度除华中大区外各大区的 GMV，并按 GMV 从高到低排序。', 'GMV', '华中']
+2026-09-24 10:39:28.069 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=680.6
+2026-09-24 10:39:28.071 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=683.9
+2026-09-24 10:39:28.082 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=11.9
+2026-09-24 10:39:28.083 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=24.6
+2026-09-24 10:39:35.065 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：['GMV', 'AOV']
+2026-09-24 10:39:35.071 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=5.4
+2026-09-24 10:39:37.113 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=3.3
+2026-09-24 10:39:52.042 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：['dim_region.region_name.华中']
+2026-09-24 10:39:52.053 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=10.1
+2026-09-24 10:39:52.064 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_region', 'dim_date', 'dim_product']
+2026-09-24 10:39:52.064 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', 'AOV']
+2026-09-24 10:39:52.090 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=25.1
+2026-09-24 10:39:52.094 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=50.3
+2026-09-24 10:39:52.142 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=47.9
+2026-09-24 10:39:52.883 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-24 10:39:52.888 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=3.9
+2026-09-24 10:40:05.598 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order', 'dim_region']
+2026-09-24 10:40:05.609 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=10.6
+2026-09-24 10:40:05.621 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-24 10:40:05.621 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-24', 'weekday': 'Thursday', 'quarter': 'Q3'}
+2026-09-24 10:40:05.635 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=12.9
+2026-09-24 10:40:05.645 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=46.0
+2026-09-24 10:40:05.693 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=47.2
+2026-09-24 10:40:09.465 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT r.region_name AS 大区, SUM(o.order_amount) AS GMV
+FROM fact_order o
+JOIN dim_region r ON o.region_id = r.region_id
+WHERE o.date_id BETWEEN 20210101 AND 20210331
+  AND r.region_name <> '华中'
+GROUP BY r.region_name
+ORDER BY GMV DESC;
+2026-09-24 10:40:09.573 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=107.5
+2026-09-24 10:40:09.575 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=107.7
+2026-09-24 10:40:09.579 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-24 10:40:09.580 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=9.6
+2026-09-24 10:40:09.587 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=0 truncated=False connection_id=27
+2026-09-24 10:40:09.588 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=7.3
+2026-09-24 10:40:09.592 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=3.9
+2026-09-24 10:40:09.625 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=49.9
+2026-09-24 10:40:09.672 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=46.8
+2026-09-24 10:40:09.724 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=51.1
+2026-09-24 10:40:09.876 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=138.0
+2026-09-24 10:40:09.877 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa save_ms=152.8
+2026-09-24 10:40:09.918 | INFO     | request_id - ca114cd6-edd3-4657-ac23-8f97269aa97c | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa state_bytes=2655 snapshot_load_ms=40.6
+2026-09-24 10:41:03.354 | INFO     | request_id - 0e72ca21-8a8c-496c-9201-209590e321b3 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=ed046df7-efe6-40db-b38b-152ef5d0acaa
+2026-09-24 10:41:08.070 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=e4d3d466-912d-4257-99f4-8284cc90a371 wait_ms=0.0 contended=False
+2026-09-24 10:41:08.087 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 load_ms=0.6
+2026-09-24 10:41:08.099 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 messages=0
+2026-09-24 10:41:08.108 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=7.4
+2026-09-24 10:41:08.116 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['商品', '华东地区', '第一季度', '最高', '查询', '查询华东地区 2025 年第一季度销售额最高的前 5 个商品', '销售额']
+2026-09-24 10:41:08.118 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=12.5
+2026-09-24 10:41:08.131 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=21.7
+2026-09-24 10:41:08.135 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=29.2
+2026-09-24 10:41:08.136 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=17.1
+2026-09-24 10:41:08.137 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=35.3
+2026-09-24 10:41:08.150 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=13.5
+2026-09-24 10:41:08.153 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=42.4
+2026-09-24 10:41:08.157 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=6.4
+2026-09-24 10:41:08.158 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=36.7
+2026-09-24 10:41:15.150 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：['GMV', 'AOV']
+2026-09-24 10:41:15.156 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=5.3
+2026-09-24 10:41:15.544 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=47.1
+2026-09-24 10:41:16.922 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：['dim_region.region_name.华东']
+2026-09-24 10:41:16.930 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=6.2
+2026-09-24 10:41:16.937 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['dim_product', 'dim_region', 'fact_order', 'dim_date']
+2026-09-24 10:41:16.938 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', 'AOV']
+2026-09-24 10:41:16.969 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=44.7
+2026-09-24 10:41:16.987 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=49.1
+2026-09-24 10:41:17.018 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=48.6
+2026-09-24 10:41:17.880 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-24 10:41:17.885 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=4.5
+2026-09-24 10:41:21.290 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['dim_product', 'dim_region', 'fact_order', 'dim_date']
+2026-09-24 10:41:21.300 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-24 10:41:21.300 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-24', 'weekday': 'Thursday', 'quarter': 'Q3'}
+2026-09-24 10:41:21.312 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=21.7
+2026-09-24 10:41:21.320 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=19.0
+2026-09-24 10:41:21.337 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=45.6
+2026-09-24 10:41:21.385 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=47.4
+2026-09-24 10:41:27.018 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT p.product_name AS `商品名称`, SUM(o.order_amount) AS `销售额`
+FROM fact_order o
+JOIN dim_product p ON o.product_id = p.product_id
+JOIN dim_region r ON o.region_id = r.region_id
+WHERE r.region_name = '华东'
+  AND o.date_id BETWEEN 20250101 AND 20250331
+GROUP BY p.product_id, p.product_name
+ORDER BY `销售额` DESC
+LIMIT 5;
+2026-09-24 10:41:27.032 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=12.7
+2026-09-24 10:41:27.035 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=6.9
+2026-09-24 10:41:27.065 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=45.2
+2026-09-24 10:41:27.078 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-24 10:41:27.086 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=6.4
+2026-09-24 10:41:27.093 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=5 truncated=False connection_id=27
+2026-09-24 10:41:27.099 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=4.5
+2026-09-24 10:41:27.113 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=47.7
+2026-09-24 10:41:27.161 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=48.3
+2026-09-24 10:41:27.208 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=46.4
+2026-09-24 10:41:27.213 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=3.4
+2026-09-24 10:41:27.215 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 save_ms=6.7
+2026-09-24 10:41:27.222 | INFO     | request_id - 64edcb2b-1991-4234-81a3-6dc8cdadcf93 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=e4d3d466-912d-4257-99f4-8284cc90a371 state_bytes=1582 snapshot_load_ms=6.6
+2026-09-24 10:42:41.220 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 wait_ms=0.0 contended=False
+2026-09-24 10:42:41.239 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 load_ms=1.4
+2026-09-24 10:42:41.245 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 messages=0
+2026-09-24 10:42:41.255 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=8.1
+2026-09-24 10:42:41.259 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['删除', '销售额', 'pro', 'iphone', '删除2025年iphone 15 pro的销售额']
+2026-09-24 10:42:41.260 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=8.4
+2026-09-24 10:42:41.268 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=12.4
+2026-09-24 10:42:41.273 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=12.5
+2026-09-24 10:42:41.275 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=26.8
+2026-09-24 10:42:41.275 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=22.6
+2026-09-24 10:42:41.280 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=22.9
+2026-09-24 10:42:41.285 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=22.0
+2026-09-24 10:42:41.286 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=11.9
+2026-09-24 10:42:41.294 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=7.1
+2026-09-24 10:42:46.605 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：['dim_product.product_name.iPhone 15 Pro', 'dim_product.product_name.Mate 60 Pro', 'dim_product.product_name.戴森 V15 吸尘器']
+2026-09-24 10:42:46.610 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=4.6
+2026-09-24 10:42:47.075 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：['GMV', 'AOV']
+2026-09-24 10:42:47.079 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=3.1
+2026-09-24 10:42:49.552 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=7.5
+2026-09-24 10:42:49.559 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['dim_product', 'fact_order', 'dim_date']
+2026-09-24 10:42:49.559 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', 'AOV']
+2026-09-24 10:42:49.579 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=19.8
+2026-09-24 10:42:49.594 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=47.7
+2026-09-24 10:42:49.643 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=48.7
+2026-09-24 10:43:02.246 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：[]
+2026-09-24 10:43:02.251 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=4.2
+2026-09-24 10:43:03.687 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['dim_product', 'fact_order']
+2026-09-24 10:43:03.692 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-24 10:43:03.693 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-24', 'weekday': 'Thursday', 'quarter': 'Q3'}
+2026-09-24 10:43:03.698 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=10.3
+2026-09-24 10:43:03.703 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=9.7
+2026-09-24 10:43:03.736 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=47.6
+2026-09-24 10:43:03.786 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=49.4
+2026-09-24 10:43:09.565 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(f.order_amount) AS 销售额 FROM fact_order AS f JOIN dim_product AS p ON f.product_id = p.product_id WHERE p.product_name = 'iPhone 15 Pro' AND f.date_id BETWEEN 20250101 AND 20251231;
+2026-09-24 10:43:09.573 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=7.6
+2026-09-24 10:43:09.574 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-24 10:43:09.577 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=7.3
+2026-09-24 10:43:09.580 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=4.8
+2026-09-24 10:43:09.580 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=27
+2026-09-24 10:43:09.584 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=2.8
+2026-09-24 10:43:09.613 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=47.3
+2026-09-24 10:43:09.660 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=46.7
+2026-09-24 10:43:09.705 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=44.4
+2026-09-24 10:43:09.753 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=47.7
+2026-09-24 10:43:09.756 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=1.8
+2026-09-24 10:43:09.758 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 save_ms=4.3
+2026-09-24 10:43:09.762 | INFO     | request_id - 6a09f8d8-a22c-48d1-8e33-1a2b44c742d5 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=505b87e1-2a88-4002-bc75-bb29fa56dba9 state_bytes=1136 snapshot_load_ms=4.5
+2026-09-24 10:45:01.932 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-24 10:45:01.955 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-24 10:45:01.970 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-24 10:45:01.997 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 10:45:01.997 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-24 10:45:01.997 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-24 10:45:02.064 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.9
+2026-09-24 10:45:02.064 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-24 10:45:02.064 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 10:45:02.064 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-24 10:45:02.117 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.3
+2026-09-24 10:45:02.130 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 10:45:02.130 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:45:02.130 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-24 10:45:02.184 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-24 10:45:02.184 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-24 10:45:02.184 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:45:02.184 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 10:45:02.184 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:45:02.184 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-24 10:45:02.237 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-24 10:45:02.249 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-24 10:45:02.249 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-24 10:45:02.250 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-24 10:45:02.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-24 10:45:02.318 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-24 10:45:02.342 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-24 10:45:02.342 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-24 10:45:02.397 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-24 10:45:02.398 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=77.6 contended=True
+2026-09-24 10:45:02.398 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-24 10:45:02.451 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-24 10:45:02.594 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-24 10:46:23.440 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-24 10:46:23.472 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-24 10:46:23.505 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-24 10:46:23.593 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 10:46:23.594 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-24 10:46:23.594 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-24 10:46:23.880 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=3.0
+2026-09-24 10:46:23.881 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.3
+2026-09-24 10:46:23.881 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 10:46:23.885 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=3.7
+2026-09-24 10:46:24.103 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.6
+2026-09-24 10:46:24.136 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 10:46:24.137 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:46:24.137 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-24 10:46:24.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.5
+2026-09-24 10:46:24.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-24 10:46:24.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:46:24.304 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 10:46:24.305 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:46:24.305 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-24 10:46:24.456 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.7
+2026-09-24 10:46:24.489 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-24 10:46:24.489 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-24 10:46:24.490 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-24 10:46:24.693 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.6
+2026-09-24 10:46:24.765 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.1 contended=False
+2026-09-24 10:46:24.816 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-24 10:46:24.816 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-24 10:46:25.022 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.5
+2026-09-24 10:46:25.024 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=247.6 contended=True
+2026-09-24 10:46:25.024 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-24 10:46:25.172 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.9
+2026-09-24 10:46:25.199 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-24 10:46:25.342 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-24 10:46:25.692 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-24 10:46:55.445 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-24 10:46:55.459 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-24 10:46:55.476 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-24 10:46:55.521 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 10:46:55.521 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-24 10:46:55.521 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-24 10:46:55.600 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.5
+2026-09-24 10:46:55.600 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-24 10:46:55.600 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 10:46:55.600 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-24 10:46:55.671 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.7
+2026-09-24 10:46:55.687 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 10:46:55.688 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:46:55.688 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-24 10:46:55.753 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.4
+2026-09-24 10:46:55.753 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-24 10:46:55.753 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:46:55.754 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 10:46:55.754 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 10:46:55.754 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-24 10:46:55.821 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.5
+2026-09-24 10:46:55.837 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-24 10:46:55.838 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-24 10:46:55.838 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-24 10:46:55.918 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.6
+2026-09-24 10:46:55.938 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-24 10:46:55.969 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-24 10:46:55.969 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-24 10:46:56.044 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-24 10:46:56.045 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=104.0 contended=True
+2026-09-24 10:46:56.045 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-24 10:46:56.112 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.4
+2026-09-24 10:46:56.124 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-24 10:46:56.193 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-24 10:46:56.378 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-24 10:47:31.092 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:init:148 - Redis LangGraph Checkpointer 初始化完成
+2026-09-24 10:48:29.407 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 wait_ms=0.0 contended=False
+2026-09-24 10:48:29.441 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 load_ms=3.7
+2026-09-24 10:48:29.450 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.services.query_service:query:226 - checkpoint_hydrated thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 messages=0
+2026-09-24 10:48:29.481 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=25.1
+2026-09-24 10:48:29.492 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.7
+2026-09-24 10:48:30.047 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['??2025?????????GMV', 'GMV']
+2026-09-24 10:48:30.052 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=565.5
+2026-09-24 10:48:30.064 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=568.8
+2026-09-24 10:48:30.076 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=22.2
+2026-09-24 10:48:30.078 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=607.4
+2026-09-24 10:48:30.080 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=592.5
+2026-09-24 10:48:30.081 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.3
+2026-09-24 10:48:30.084 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=34.3
+2026-09-24 10:48:30.085 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.6
+2026-09-24 10:48:32.422 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：[]
+2026-09-24 10:48:32.427 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.1
+2026-09-24 10:48:36.454 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：['GMV', 'AOV']
+2026-09-24 10:48:36.463 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=6.2
+2026-09-24 10:49:09.360 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=11.3
+2026-09-24 10:49:09.362 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=14.0
+2026-09-24 10:49:09.369 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['dim_date', 'fact_order']
+2026-09-24 10:49:09.369 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', 'AOV']
+2026-09-24 10:49:09.389 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=17.1
+2026-09-24 10:49:09.394 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=23.4
+2026-09-24 10:49:10.458 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-24 10:49:10.464 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.3
+2026-09-24 10:49:21.034 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['dim_date', 'fact_order']
+2026-09-24 10:49:21.043 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=6.7
+2026-09-24 10:49:21.044 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.4
+2026-09-24 10:49:21.061 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-24 10:49:21.062 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-24', 'weekday': 'Thursday', 'quarter': 'Q3'}
+2026-09-24 10:49:21.074 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.4
+2026-09-24 10:49:21.077 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=13.3
+2026-09-24 10:49:24.320 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT d.month AS 月份, SUM(o.order_amount) AS GMV
+FROM fact_order o
+JOIN dim_date d ON o.date_id = d.date_id
+WHERE d.date_id BETWEEN 20250101 AND 20251231
+GROUP BY d.month
+ORDER BY d.month;
+2026-09-24 10:49:24.347 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=26.0
+2026-09-24 10:49:24.349 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=28.3
+2026-09-24 10:49:24.353 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.7
+2026-09-24 10:49:24.355 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.1
+2026-09-24 10:49:24.404 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-24 10:49:24.410 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.8
+2026-09-24 10:49:24.412 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=6.9
+2026-09-24 10:49:24.413 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=3 truncated=False connection_id=29
+2026-09-24 10:49:24.416 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.0
+2026-09-24 10:49:24.417 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=2.9
+2026-09-24 10:49:24.421 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=2.8
+2026-09-24 10:49:24.424 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=7.1
+2026-09-24 10:49:24.432 | INFO     | request_id - abbae1fa-0815-4e1e-9600-0bfdcd9d029f | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 state_bytes=1059 snapshot_load_ms=7.1
+2026-09-24 10:49:39.578 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 wait_ms=0.0 contended=False
+2026-09-24 10:49:39.611 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 load_ms=10.8
+2026-09-24 10:49:39.627 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=7.5
+2026-09-24 10:49:39.635 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=12.6
+2026-09-24 10:49:39.640 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=19.6
+2026-09-24 10:49:39.641 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=12.6
+2026-09-24 10:49:39.647 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=10.2
+2026-09-24 10:49:39.649 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=25.2
+2026-09-24 10:49:57.146 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.resolve_query:resolve_query:55 - 上下文问题改写：??? DELETE FROM fact_order ????? -> 如何从 fact_order 表中删除数据？
+2026-09-24 10:49:57.150 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['order', '表中', '如何从 fact_order 表中删除数据？', 'fact', '删除', '数据']
+2026-09-24 10:49:57.156 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.2
+2026-09-24 10:49:57.160 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=12.6
+2026-09-24 10:49:57.163 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.9
+2026-09-24 10:49:57.164 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=12.6
+2026-09-24 10:49:59.604 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：[]
+2026-09-24 10:49:59.618 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=12.4
+2026-09-24 10:50:00.230 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.2
+2026-09-24 10:50:03.090 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：[]
+2026-09-24 10:50:03.096 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.2
+2026-09-24 10:50:03.097 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.8
+2026-09-24 10:50:03.099 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_product']
+2026-09-24 10:50:03.099 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：[]
+2026-09-24 10:50:03.108 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.2
+2026-09-24 10:50:03.110 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=10.5
+2026-09-24 10:50:03.720 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：[]
+2026-09-24 10:50:03.724 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.6
+2026-09-24 10:50:15.109 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：[]
+2026-09-24 10:50:15.114 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-24 10:50:15.114 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-24', 'weekday': 'Thursday', 'quarter': 'Q3'}
+2026-09-24 10:50:15.115 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.3
+2026-09-24 10:50:15.119 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.7
+2026-09-24 10:50:15.124 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=7.0
+2026-09-24 10:50:15.125 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.4
+2026-09-24 10:50:21.774 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT '无法生成删除 fact_order 的 SQL：仅允许只读查询，且当前未提供 fact_order 表结构。' AS error_message;
+2026-09-24 10:50:21.782 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=6.8
+2026-09-24 10:50:21.784 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.2
+2026-09-24 10:50:21.786 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-24 10:50:21.790 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=11.2
+2026-09-24 10:50:21.791 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=7.7
+2026-09-24 10:50:21.796 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=29
+2026-09-24 10:50:21.797 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.4
+2026-09-24 10:50:21.800 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=11.5
+2026-09-24 10:50:21.802 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.6
+2026-09-24 10:50:21.803 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.2
+2026-09-24 10:50:21.807 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=2.1
+2026-09-24 10:50:21.809 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.3
+2026-09-24 10:50:21.814 | INFO     | request_id - 3e74c5f4-fe1f-42e2-8007-dfe57bb7e5be | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 state_bytes=1544 snapshot_load_ms=5.0
+2026-09-24 10:51:09.858 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 wait_ms=0.0 contended=False
+2026-09-24 10:51:09.877 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 load_ms=6.2
+2026-09-24 10:51:09.887 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.4
+2026-09-24 10:51:09.891 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=6.2
+2026-09-24 10:51:09.893 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.8
+2026-09-24 10:51:09.894 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=10.9
+2026-09-24 10:51:09.895 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.7
+2026-09-24 10:51:09.895 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.9
+2026-09-24 10:51:29.903 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.resolve_query:resolve_query:55 - 上下文问题改写：?????? -> 查看 fact_order 表的表结构。
+2026-09-24 10:51:29.905 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['order', '查看', '结构', '查看 fact_order 表的表结构。', 'fact']
+2026-09-24 10:51:29.911 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=7.2
+2026-09-24 10:51:29.912 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.8
+2026-09-24 10:51:29.918 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=6.2
+2026-09-24 10:51:29.919 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=12.3
+2026-09-24 10:51:31.204 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：[]
+2026-09-24 10:51:31.209 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.3
+2026-09-24 10:51:31.618 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：[]
+2026-09-24 10:51:31.622 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.2
+2026-09-24 10:51:48.697 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.6
+2026-09-24 10:51:48.697 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.9
+2026-09-24 10:51:48.705 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_product', 'dim_customer', 'dim_region']
+2026-09-24 10:51:48.705 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：[]
+2026-09-24 10:51:48.720 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=13.6
+2026-09-24 10:51:48.722 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=16.5
+2026-09-24 10:51:49.204 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：[]
+2026-09-24 10:51:49.207 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=2.6
+2026-09-24 10:51:50.537 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-24 10:51:50.542 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-24 10:51:50.542 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-24', 'weekday': 'Thursday', 'quarter': 'Q3'}
+2026-09-24 10:51:50.543 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.7
+2026-09-24 10:51:50.547 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.7
+2026-09-24 10:51:50.551 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.6
+2026-09-24 10:51:50.552 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.3
+2026-09-24 10:51:53.443 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：DESC fact_order;
+2026-09-24 10:51:53.445 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Describe
+2026-09-24 10:51:53.459 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=15.4
+2026-09-24 10:51:53.461 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=17.2
+2026-09-24 10:51:53.464 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=9.4
+2026-09-24 10:51:53.464 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.5
+2026-09-24 10:51:56.991 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.correct_sql:correct_sql:72 - 校正后的SQL：SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `Null`, COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'fact_order' ORDER BY ORDINAL_POSITION;
+2026-09-24 10:51:56.993 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=table_not_allowed detail=禁止访问系统库 information_schema
+2026-09-24 10:51:57.001 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.8
+2026-09-24 10:51:57.004 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=12.5
+2026-09-24 10:51:57.006 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=10.0
+2026-09-24 10:51:57.006 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.1
+2026-09-24 10:52:02.316 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.correct_sql:correct_sql:72 - 校正后的SQL：SHOW COLUMNS FROM fact_order;
+2026-09-24 10:52:02.318 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Show
+2026-09-24 10:52:02.321 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=[unsafe_statement] 仅允许 SELECT / WITH…SELECT，检测到 Show
+2026-09-24 10:52:02.322 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=5.0
+2026-09-24 10:52:02.325 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.9
+2026-09-24 10:52:02.326 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.7
+2026-09-24 10:52:02.328 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.1
+2026-09-24 10:52:02.329 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=8.4
+2026-09-24 10:52:02.330 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=3.1
+2026-09-24 10:52:02.333 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=2.3
+2026-09-24 10:52:02.335 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 save_ms=4.4
+2026-09-24 10:52:02.340 | INFO     | request_id - ec570d8a-a6c9-4f32-a256-8e0200e9130a | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=e55db4f5-13d1-4b56-a4a8-c96dea685ea9 state_bytes=1760 snapshot_load_ms=5.1
+2026-09-24 11:01:23.500 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-24 11:01:23.524 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-24 11:01:23.539 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-24 11:01:23.567 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 11:01:23.567 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-24 11:01:23.567 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-24 11:01:23.637 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.9
+2026-09-24 11:01:23.637 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-24 11:01:23.637 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 11:01:23.637 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-24 11:01:23.692 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.5
+2026-09-24 11:01:23.705 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 11:01:23.705 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 11:01:23.705 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-24 11:01:23.762 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-24 11:01:23.762 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-24 11:01:23.762 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 11:01:23.762 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 11:01:23.762 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 11:01:23.762 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-24 11:01:23.819 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-24 11:01:23.831 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-24 11:01:23.831 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-24 11:01:23.832 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-24 11:01:23.890 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-24 11:01:23.903 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-24 11:01:23.943 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-24 11:01:23.943 | INFO     | request_id - 1 | app.services.query_service:query:226 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-24 11:01:23.996 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-24 11:01:23.997 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=91.5 contended=True
+2026-09-24 11:01:23.997 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-24 11:01:24.051 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-24 11:01:24.060 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-24 11:01:24.119 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-24 11:01:24.267 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-24 11:01:58.665 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-24 11:01:58.688 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-24 11:01:58.702 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-24 11:01:58.729 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 11:01:58.729 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-24 11:01:58.729 | INFO     | request_id - 1 | app.services.query_service:query:228 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-24 11:01:58.788 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.4
+2026-09-24 11:01:58.788 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-24 11:01:58.788 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-24 11:01:58.788 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-24 11:01:58.843 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.3
+2026-09-24 11:01:58.856 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 11:01:58.857 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 11:01:58.857 | INFO     | request_id - 1 | app.services.query_service:query:228 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-24 11:01:58.910 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-24 11:01:58.910 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-24 11:01:58.910 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 11:01:58.910 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-24 11:01:58.911 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-24 11:01:58.911 | INFO     | request_id - 1 | app.services.query_service:query:228 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-24 11:01:58.966 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-24 11:01:58.978 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-24 11:01:58.978 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-24 11:01:58.978 | INFO     | request_id - 1 | app.services.query_service:query:228 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-24 11:01:59.032 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-24 11:01:59.046 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-24 11:01:59.070 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-24 11:01:59.071 | INFO     | request_id - 1 | app.services.query_service:query:228 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-24 11:01:59.125 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-24 11:01:59.126 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conv-lock wait_ms=77.7 contended=True
+2026-09-24 11:01:59.126 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-24 11:01:59.182 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-24 11:01:59.192 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-24 11:01:59.248 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-24 11:01:59.392 | INFO     | request_id - 1 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-24 11:13:34.002 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:init:148 - Redis LangGraph Checkpointer 初始化完成
+2026-09-24 11:14:08.633 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.services.query_service:query:175 - conversation_lock_acquired conversation_id=970af014-4da7-4bbd-83a8-5d8994afa470 wait_ms=0.0 contended=False
+2026-09-24 11:14:08.671 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 load_ms=5.5
+2026-09-24 11:14:08.687 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.services.query_service:query:228 - checkpoint_hydrated thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 messages=0
+2026-09-24 11:14:08.745 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=49.5
+2026-09-24 11:14:09.573 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['拆分', '省份', '再按省份拆分']
+2026-09-24 11:14:09.591 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=846.5
+2026-09-24 11:14:09.611 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=903.8
+2026-09-24 11:14:09.612 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=859.4
+2026-09-24 11:14:09.613 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=860.2
+2026-09-24 11:14:09.614 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=37.6
+2026-09-24 11:14:09.614 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=858.7
+2026-09-24 11:14:09.617 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=4.6
+2026-09-24 11:14:09.620 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=3.1
+2026-09-24 11:14:09.625 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=4.4
+2026-09-24 11:14:20.393 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：['dim_region.province.广东省', 'dim_region.province.浙江省', 'dim_region.province.湖北省', 'dim_region.province.四川省']
+2026-09-24 11:14:20.398 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=4.3
+2026-09-24 11:14:31.810 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：[]
+2026-09-24 11:14:31.816 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=5.5
+2026-09-24 11:14:35.153 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=7.3
+2026-09-24 11:14:35.170 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['dim_region', 'dim_date', 'fact_order', 'dim_product']
+2026-09-24 11:14:35.170 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：[]
+2026-09-24 11:14:35.204 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=57.1
+2026-09-24 11:14:35.207 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=35.8
+2026-09-24 11:14:35.252 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=47.7
+2026-09-24 11:14:36.257 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：[]
+2026-09-24 11:14:36.263 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=5.3
+2026-09-24 11:14:42.547 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['dim_region', 'fact_order']
+2026-09-24 11:14:42.555 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=7.8
+2026-09-24 11:14:42.577 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-24 11:14:42.577 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-24', 'weekday': 'Thursday', 'quarter': 'Q3'}
+2026-09-24 11:14:42.586 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=8.4
+2026-09-24 11:14:42.593 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=45.2
+2026-09-24 11:14:42.644 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=50.7
+2026-09-24 11:14:48.382 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT d.province AS 省份, COUNT(*) AS 订单数 FROM fact_order f JOIN dim_region d ON f.region_id = d.region_id GROUP BY d.province;
+2026-09-24 11:14:48.412 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=30.1
+2026-09-24 11:14:48.415 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=6.4
+2026-09-24 11:14:48.422 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-24 11:14:48.428 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=44.8
+2026-09-24 11:14:48.429 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=6.3
+2026-09-24 11:14:48.434 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=6 truncated=False connection_id=33
+2026-09-24 11:14:48.437 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=2.7
+2026-09-24 11:14:48.473 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=44.5
+2026-09-24 11:14:48.521 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=47.5
+2026-09-24 11:14:48.566 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=44.9
+2026-09-24 11:14:48.571 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_with_metrics:77 - checkpoint_save thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=4.1
+2026-09-24 11:14:48.574 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:aput_writes_with_metrics:91 - checkpoint_save_writes thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 save_ms=7.9
+2026-09-24 11:14:48.590 | INFO     | request_id - 4e7d8b2b-14c3-4ff7-b445-8dfb27b2fd91 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=970af014-4da7-4bbd-83a8-5d8994afa470 state_bytes=932 snapshot_load_ms=14.7

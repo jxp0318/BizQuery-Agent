@@ -47,11 +47,13 @@ async def sql_guard(
         logger.info(
             f"sql_guard_rejected code={result.code} detail={result.detail}"
         )
+        # 步骤状态表示「检查结果」而非「是否跑过」：未通过必须标 error，
+        # 避免流程图在进入修正循环时仍显示绿勾误导用户。
         writer(
             {
                 "type": "progress",
                 "step": step,
-                "status": "success",
+                "status": "error",
             }
         )
         # error 供 correct_sql 改写；error_code 供路由与用户文案映射。

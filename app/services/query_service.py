@@ -184,6 +184,8 @@ class QueryService:
             resolved_query: str | None = None
             generated_sql: str | None = None
             result_data: Any = None
+            # 子图 reject/error 事件里的用户可读说明；非空且无结果时消息应落库为失败。
+            stream_error_message: str | None = None
             # 仅表示外层 LangGraph 是否已正常结束，用来判断 Redis 是否可能领先于
             # 尚未成功提交的 MySQL 事实历史。
             graph_completed = False
@@ -269,6 +271,8 @@ class QueryService:
                         generated_sql = chunk.get("sql")
                     elif chunk.get("type") == "result":
                         result_data = _json_safe(chunk.get("data"))
+                    elif chunk.get("type") == "error":
+                        stream_error_message = chunk.get("message") or "查询未成功"
                     yield _sse(chunk)
                 graph_completed = True
                 # 图结束后采集 State 体积与快照加载耗时，监控短期记忆是否膨胀。
@@ -277,14 +281,24 @@ class QueryService:
                 assistant_content, _ = summarize_result(result_data)
                 # Redis 主图已经完成后，再把完整结果提交到 MySQL 事实历史。
                 # 若这里失败，异常分支会删除已领先的 Redis Thread，下轮重新水合。
-                await self.conversation_repository.finish_turn(
-                    assistant_message.id,
-                    content=assistant_content,
-                    resolved_query=resolved_query,
-                    sql=generated_sql,
-                    result=result_data,
-                    steps=steps,
-                )
+                # reject_sql 等路径只发 error 事件、不抛异常：必须落库为失败，
+                # 避免「放弃修正」在历史里显示为 status=done 的成功消息。
+                if stream_error_message and result_data is None:
+                    await self.conversation_repository.fail_turn(
+                        assistant_message.id,
+                        content=stream_error_message,
+                        error=stream_error_message,
+                        steps=steps,
+                    )
+                else:
+                    await self.conversation_repository.finish_turn(
+                        assistant_message.id,
+                        content=assistant_content,
+                        resolved_query=resolved_query,
+                        sql=generated_sql,
+                        result=result_data,
+                        steps=steps,
+                    )
             except asyncio.CancelledError:
                 # 浏览器主动中止流时保留明确的 cancelled 历史，但必须继续抛出
                 # CancelledError，让 ASGI 栈真正停止后续协程，而不是误报普通错误。
