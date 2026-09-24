@@ -89,26 +89,26 @@ tables:
     columns:
       - name: date_id
         role: primary_key
-        description: 日期唯一标识，格式 yyyyMMdd。
-        alias: [日期ID, 日期]
+        description: 日期唯一标识，格式 yyyyMMdd；用于时间范围过滤和同比对比。
+        alias: [日期ID, 日期, 时间]
         sync: false
 
       - name: year
         role: dimension
-        description: 年份。
-        alias: [年, 年份]
+        description: 年份；支持同比、去年同期、全年汇总等时间对比。
+        alias: [年, 年份, 同比年, 去年]
         sync: false
 
       - name: quarter
         role: dimension
-        description: 季度。
-        alias: [季度]
+        description: 季度（Q1～Q4）。
+        alias: [季度, Q]
         sync: true
 
       - name: month
         role: dimension
-        description: 月份。
-        alias: [月, 月份]
+        description: 月份；用于按月趋势、环比、同比对比。
+        alias: [月, 月份, 月份趋势]
         sync: false
 
       - name: day
@@ -163,14 +163,36 @@ tables:
         alias: [销售额, 订单金额, 收入]
         sync: false
 
+      - name: order_status
+        role: dimension
+        description: 订单状态；已支付为有效销售，已退款/已取消不应计入净销售分析。
+        alias: [订单状态, 状态, 是否退款, 退款状态]
+        sync: true
+
 metrics:
   - name: GMV
-    description: 全称Gross Merchandise Value，表示所有订单的成交金额总和。
+    description: 全称 Gross Merchandise Value，全部订单成交金额总和（毛额）。不过滤 order_status，不剔除退款与取消。仅当用户明确要求排除退款、净销售或只统计已支付时才使用净GMV。
     relevant_columns:
       - fact_order.order_amount
-    alias: [成交总额, 订单总额]
+    alias: [成交总额, 订单总额, 销售额, 总销售额]
+
   - name: AOV
-    description: 全称Average Order Value，表示所有订单的成交金额平均值。
+    description: 全称 Average Order Value，全部订单的平均订单金额（毛额口径，不筛选 order_status）。
     relevant_columns:
       - fact_order.order_amount
-    alias: [平均单价, 平均订单金额]
+      - fact_order.order_id
+    alias: [平均单价, 平均订单金额, 客单价]
+
+  - name: 净GMV
+    description: 排除退款和取消订单后的销售额，仅统计 order_status=已支付。
+    relevant_columns:
+      - fact_order.order_amount
+      - fact_order.order_status
+    alias: [净销售, 净销售额, 有效GMV, 排除退款GMV]
+
+  - name: 退款率
+    description: 退款订单占全部订单的比例；退款订单对应 order_status=已退款。
+    relevant_columns:
+      - fact_order.order_id
+      - fact_order.order_status
+    alias: [退款占比, 退货率]

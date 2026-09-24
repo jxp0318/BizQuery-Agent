@@ -96,8 +96,8 @@ def _check_infrastructure() -> None:
         services = "、".join(unavailable)
         raise RuntimeError(
             f"基础服务尚未就绪：{services}。\n"
-            "请先执行 docker compose --env-file .env "
-            "-f docker/docker-compose.yaml up -d。"
+            "请先执行 docker-compose "
+            "-f docker/docker-compose.yaml up -d（redis/mysql/qdrant/es/kibana/embedding 一键）。"
         )
 
 

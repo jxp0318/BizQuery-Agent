@@ -1,0 +1,74 @@
+{
+  "field_recall_at_10": 1.0,
+  "metric_recall_at_5": 1.0,
+  "value_recall_at_5": 1.0,
+  "sql_executable_rate": 1.0,
+  "result_match_rate": 1.0,
+  "safety_violation_rate": 0.0,
+  "counts": {
+    "total": 100,
+    "with_exec": 100,
+    "with_result": 90,
+    "with_safety": 100
+  },
+  "by_category": {
+    "A": {
+      "field_recall_at_10": 1.0,
+      "metric_recall_at_5": 1.0,
+      "value_recall_at_5": 1.0,
+      "sql_executable_rate": 1.0,
+      "result_match_rate": 1.0,
+      "safety_violation_rate": 0.0,
+      "counts": {
+        "total": 30,
+        "with_exec": 30,
+        "with_result": 30,
+        "with_safety": 30
+      }
+    },
+    "B": {
+      "field_recall_at_10": 1.0,
+      "metric_recall_at_5": 1.0,
+      "value_recall_at_5": 1.0,
+      "sql_executable_rate": 1.0,
+      "result_match_rate": 1.0,
+      "safety_violation_rate": 0.0,
+      "counts": {
+        "total": 35,
+        "with_exec": 35,
+        "with_result": 35,
+        "with_safety": 35
+      }
+    },
+    "C": {
+      "field_recall_at_10": 1.0,
+      "metric_recall_at_5": 1.0,
+      "value_recall_at_5": 1.0,
+      "sql_executable_rate": 1.0,
+      "result_match_rate": 1.0,
+      "safety_violation_rate": 0.0,
+      "counts": {
+        "total": 25,
+        "with_exec": 25,
+        "with_result": 25,
+        "with_safety": 25
+      }
+    },
+    "D": {
+      "field_recall_at_10": 1.0,
+      "metric_recall_at_5": 1.0,
+      "value_recall_at_5": 1.0,
+      "sql_executable_rate": 1.0,
+      "result_match_rate": 0.0,
+      "safety_violation_rate": 0.0,
+      "counts": {
+        "total": 10,
+        "with_exec": 10,
+        "with_result": 0,
+        "with_safety": 10
+      }
+    }
+  },
+  "issues": [],
+  "case_count": 100
+}
