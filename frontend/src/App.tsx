@@ -67,15 +67,22 @@ function restoreMessages(conversation: ConversationDetail): ChatMessage[] {
    */
   return conversation.messages.map((message) => ({
     id: message.id,
-    role: message.role,
+    role: message.role === "user" ? ("user" as const) : ("assistant" as const),
     content: message.content,
     createdAt: new Date(message.createdAt).getTime(),
-    status: message.role === "assistant" ? message.status : undefined,
+    status:
+      message.role === "assistant"
+        ? (message.status as ChatMessage["status"])
+        : undefined,
     steps: message.steps ?? [],
     result: message.result ?? undefined,
     error: message.error ?? undefined,
     sql: message.sql ?? undefined,
     resolvedQuery: message.resolvedQuery ?? undefined,
+    explain:
+      (message as { metrics?: { explain?: ChatMessage["explain"] } }).metrics?.explain ??
+      undefined,
+    metrics: (message as { metrics?: ChatMessage["metrics"] }).metrics ?? undefined,
   }));
 }
 
@@ -267,6 +274,7 @@ export default function App() {
               ...message,
               content: event.status === "running" ? `正在执行：${event.step}` : message.content,
               steps: upsertStep(message.steps, event),
+              requestId: event.requestId ?? message.requestId,
             };
           }
 
@@ -296,16 +304,57 @@ export default function App() {
             return { ...message, resolvedQuery: event.query };
           }
 
-          // turn 事件提供后端消息 ID；当前 UI 继续使用临时 ID 保持渲染稳定，
-          // 流结束后的 MySQL 回刷会一次性替换成服务端真值。
-          if (event.type === "turn") return message;
+          // P5.2：heartbeat 仅保活，不改写正文。
+          if (event.type === "heartbeat") {
+            return event.requestId
+              ? { ...message, requestId: event.requestId }
+              : message;
+          }
 
-          return {
-            ...message,
-            status: "error",
-            content: "这次查询没有成功。",
-            error: event.message,
-          };
+          // P5.1/P5.3：metrics 落到消息上，供「本次查询说明」面板渲染耗时。
+          if (event.type === "metrics") {
+            return {
+              ...message,
+              requestId: event.requestId ?? event.request_id ?? message.requestId,
+              metrics: {
+                request_id: event.request_id,
+                total_ms: event.total_ms,
+                llm_ms: event.llm_ms,
+                tokens_in: event.tokens_in,
+                tokens_out: event.tokens_out,
+                nodes: event.nodes,
+                explain: event.explain ?? message.explain ?? undefined,
+              },
+            };
+          }
+
+          // P5.3：explain 提前到达时先缓存，metrics 事件会再带上 explain。
+          if (event.type === "explain") {
+            return {
+              ...message,
+              explain: event.data,
+            };
+          }
+
+          // turn 事件提供后端消息 ID；当前 UI 继续使用临时 ID 保持渲染稳定，
+          // 流结束后的 MySQL 回刷会一次性替换成服务端真值。同时记录 requestId。
+          if (event.type === "turn") {
+            return event.requestId
+              ? { ...message, requestId: event.requestId }
+              : message;
+          }
+
+          if (event.type === "error") {
+            return {
+              ...message,
+              status: "error",
+              content: "这次查询没有成功。",
+              error: event.message,
+              requestId: event.requestId ?? message.requestId,
+            };
+          }
+
+          return message;
         }),
       );
     };

@@ -1,0 +1,190 @@
+{
+  "mode": "e2e",
+  "scope": "A_basic first 10 (A-001..A-010)",
+  "note": "B 方案（扩词限 6 词 + 仅 JSON）后重跑；直连 data_graph，未走 HTTP SSE",
+  "counts": {
+    "total": 10,
+    "matched": 10
+  },
+  "result_match_rate": 1.0,
+  "sql_executable_rate": 1.0,
+  "latency_p50_ms": 13726.9,
+  "latency_avg_ms": 15694.1,
+  "latency_max_ms": 27227.4,
+  "tokens_in_avg": 4890.2,
+  "tokens_out_avg": 3624.9,
+  "tokens_in_sum": 48902,
+  "tokens_out_sum": 36249,
+  "details": [
+    {
+      "id": "A-001",
+      "question": "统计全部订单的GMV",
+      "wall_ms": 9383.6,
+      "tokens_in": 4475,
+      "tokens_out": 2037,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(order_amount) AS GMV FROM fact_order;",
+      "result": "[{'GMV': 19227028.94431019}]",
+      "gold": "{'GMV': 19227028.94431019}",
+      "expands": {
+        "recall_column": 1,
+        "recall_metric": 6,
+        "recall_value": 1
+      }
+    },
+    {
+      "id": "A-002",
+      "question": "一共有多少笔订单？",
+      "wall_ms": 5264.6,
+      "tokens_in": 4612,
+      "tokens_out": 1211,
+      "match": true,
+      "error": null,
+      "sql": "SELECT COUNT(order_id) AS 订单总数 FROM fact_order;",
+      "result": "[{'订单总数': 6987}]",
+      "gold": "{'订单数': 6987}",
+      "expands": {
+        "recall_column": 1,
+        "recall_metric": 5,
+        "recall_value": 1
+      }
+    },
+    {
+      "id": "A-003",
+      "question": "平均每笔订单金额是多少？",
+      "wall_ms": 27227.4,
+      "tokens_in": 4636,
+      "tokens_out": 5933,
+      "match": true,
+      "error": null,
+      "sql": "SELECT AVG(order_amount) AS AOV FROM fact_order;",
+      "result": "[{'AOV': 2751.828960113094}]",
+      "gold": "{'AOV': 2751.828960113094}",
+      "expands": {
+        "recall_column": 2,
+        "recall_metric": 6,
+        "recall_value": 0
+      }
+    },
+    {
+      "id": "A-004",
+      "question": "销量合计是多少？",
+      "wall_ms": 13099.9,
+      "tokens_in": 4341,
+      "tokens_out": 3030,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(order_quantity) AS 销量合计 FROM fact_order;",
+      "result": "[{'销量合计': Decimal('12778')}]",
+      "gold": "{'销量': 12778.0}",
+      "expands": {
+        "recall_column": 1,
+        "recall_metric": 6,
+        "recall_value": 2
+      }
+    },
+    {
+      "id": "A-005",
+      "question": "2024年GMV是多少？",
+      "wall_ms": 13726.9,
+      "tokens_in": 4713,
+      "tokens_out": 3125,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(order_amount) AS GMV FROM fact_order WHERE date_id BETWEEN 20240101 AND 20241231;",
+      "result": "[{'GMV': 9158585.727545261}]",
+      "gold": "{'GMV': 9158585.727545261}",
+      "expands": {
+        "recall_column": 2,
+        "recall_metric": 5,
+        "recall_value": 2
+      }
+    },
+    {
+      "id": "A-006",
+      "question": "2025年GMV是多少？",
+      "wall_ms": 13246.8,
+      "tokens_in": 4931,
+      "tokens_out": 3066,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(order_amount) AS GMV FROM fact_order WHERE date_id BETWEEN 20250101 AND 20251231;",
+      "result": "[{'GMV': 10068443.216764927}]",
+      "gold": "{'GMV': 10068443.216764927}",
+      "expands": {
+        "recall_column": 2,
+        "recall_metric": 5,
+        "recall_value": 3
+      }
+    },
+    {
+      "id": "A-007",
+      "question": "2024年Q1的销售额是多少？",
+      "wall_ms": 14666.1,
+      "tokens_in": 4988,
+      "tokens_out": 3406,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(order_amount) AS 销售额 FROM fact_order WHERE date_id BETWEEN 20240101 AND 20240331;",
+      "result": "[{'销售额': 2006574.9638271332}]",
+      "gold": "{'销售额': 2006574.9638271332}",
+      "expands": {
+        "recall_column": 2,
+        "recall_metric": 5,
+        "recall_value": 6
+      }
+    },
+    {
+      "id": "A-008",
+      "question": "2024年Q2的销售额是多少？",
+      "wall_ms": 24816.2,
+      "tokens_in": 5201,
+      "tokens_out": 5921,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(f.order_amount) AS 销售额 FROM fact_order f JOIN dim_date d ON f.date_id = d.date_id WHERE d.date_id BETWEEN 20240401 AND 20240630   AND d.quarter = 'Q2",
+      "result": "[{'销售额': 2336139.171528816}]",
+      "gold": "{'销售额': 2336139.171528816}",
+      "expands": {
+        "recall_column": 2,
+        "recall_metric": 6,
+        "recall_value": 6
+      }
+    },
+    {
+      "id": "A-009",
+      "question": "2024年Q3的销售额是多少？",
+      "wall_ms": 12465.8,
+      "tokens_in": 5586,
+      "tokens_out": 2999,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(f.order_amount) AS 销售额 FROM fact_order f JOIN dim_date d ON f.date_id = d.date_id WHERE d.date_id BETWEEN 20240701 AND 20240930;",
+      "result": "[{'销售额': 2206724.991871834}]",
+      "gold": "{'销售额': 2206724.991871834}",
+      "expands": {
+        "recall_column": 2,
+        "recall_metric": 5,
+        "recall_value": 6
+      }
+    },
+    {
+      "id": "A-010",
+      "question": "2024年Q4的销售额是多少？",
+      "wall_ms": 23044.1,
+      "tokens_in": 5419,
+      "tokens_out": 5521,
+      "match": true,
+      "error": null,
+      "sql": "SELECT SUM(f.order_amount) AS 销售额 FROM fact_order f JOIN dim_date d ON f.date_id = d.date_id WHERE d.quarter = 'Q4'   AND f.date_id BETWEEN 20241001 AND 2024123",
+      "result": "[{'销售额': 2609146.600317478}]",
+      "gold": "{'销售额': 2609146.600317478}",
+      "expands": {
+        "recall_column": 2,
+        "recall_metric": 5,
+        "recall_value": 6
+      }
+    }
+  ]
+}

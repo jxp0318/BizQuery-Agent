@@ -37,12 +37,12 @@ async def reject_sql(
         f"sql_correction_exhausted code={code} previous_error={previous[:200]}"
     )
     writer({"type": "progress", "step": step, "status": "error"})
+    # P5.4：SSE 只给用户短句 + code；previous 明细仅进上方日志，避免泄露驱动报错
     writer(
         {
             "type": "error",
             "code": code,
             "message": USER_MESSAGES[code],
-            "detail": previous[:500] if previous else "校验未通过",
         }
     )
     return {"error": USER_MESSAGES[code], "error_code": code}

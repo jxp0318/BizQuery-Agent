@@ -14,8 +14,12 @@ from app.agent.context import DataAgentContext
 from app.agent.llm import llm
 from app.agent.state import DataAgentState
 from app.core.log import logger
+from app.core.metrics import note_current_node_extra
 from app.entities.column_info import ColumnInfo
 from app.prompt.prompt_loader import load_prompt
+
+# 与 prompts 中「最多 N 个」保持一致的硬上限
+MAX_EXPANDED_KEYWORDS = 6
 
 
 async def recall_column(state: DataAgentState, runtime: Runtime[DataAgentContext]):
@@ -44,6 +48,20 @@ async def recall_column(state: DataAgentState, runtime: Runtime[DataAgentContext
         chain = prompt | llm | output_parser
 
         result = await chain.ainvoke({"query": query})
+
+        # P5.4/P6 前置观测：记录本次 LLM 扩词条数与内容，判断是否过量扩展
+        expanded = list(result) if isinstance(result, list) else []
+        # B：硬上限兜底，防止模型不听 prompt 仍堆满近义词
+        if len(expanded) > MAX_EXPANDED_KEYWORDS:
+            logger.warning(
+                f"{step} 扩词超限裁剪 {len(expanded)} -> {MAX_EXPANDED_KEYWORDS}"
+            )
+            expanded = expanded[:MAX_EXPANDED_KEYWORDS]
+        logger.info(
+            f"{step} expanded_keywords n={len(expanded)} items={expanded}"
+        )
+        note_current_node_extra("expanded_keyword_count", len(expanded))
+        note_current_node_extra("expanded_keywords", expanded[:20])
 
         # 原始关键词和 LLM 扩展词一起参与召回；set 去重，避免重复请求同一关键词
         keywords = set(keywords + result)

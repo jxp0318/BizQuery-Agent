@@ -236,7 +236,13 @@ class RedisFailureTests(unittest.IsolatedAsyncioTestCase):
 
         self.assertIsNotNone(repository.failed)
         self.assertEqual(repository.failed["message_id"], "assistant-1")
-        self.assertEqual(repository.failed["error"], "Redis unavailable")
+        # P5.4：诊断字段只保留脱敏 code/detail，不再写入原始驱动文案
+        self.assertNotIn("Redis unavailable", repository.failed.get("error") or "")
+        self.assertNotIn("Redis unavailable", repository.failed.get("content") or "")
+        self.assertTrue(
+            (repository.failed.get("error") or "").startswith("["),
+            repository.failed.get("error"),
+        )
         self.assertIn('"type": "error"', events[-1])
 
 

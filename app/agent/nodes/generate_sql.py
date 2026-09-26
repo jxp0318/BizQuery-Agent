@@ -62,6 +62,42 @@ async def generate_sql(state: DataAgentState, runtime: Runtime[DataAgentContext]
         )
         logger.info(f"生成的SQL：{result}")
         writer({"type": "sql", "sql": result})
+        # P5.3：把「本次用了哪些表/指标口径/时间与库环境」一并推给前端，
+        # 避免用户只能看到结果数字、不知道依据什么口径算出来的。
+        writer(
+            {
+                "type": "explain",
+                "data": {
+                    "query": query,
+                    "tables": [
+                        {
+                            "name": table.get("name"),
+                            "role": table.get("role"),
+                            "description": table.get("description"),
+                            "columns": [
+                                {
+                                    "name": column.get("name"),
+                                    "description": column.get("description"),
+                                    "examples": (column.get("examples") or [])[:5],
+                                }
+                                for column in (table.get("columns") or [])
+                            ],
+                        }
+                        for table in table_infos
+                    ],
+                    "metrics": [
+                        {
+                            "name": metric.get("name"),
+                            "description": metric.get("description"),
+                            "relevant_columns": metric.get("relevant_columns") or [],
+                        }
+                        for metric in metric_infos
+                    ],
+                    "date_info": date_info,
+                    "db_info": db_info,
+                },
+            }
+        )
         writer({"type": "progress", "step": step, "status": "success"})
         return {"sql": result}
 

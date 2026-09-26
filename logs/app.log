@@ -10617,3 +10617,556 @@ GROUP BY dc.member_level;
 2026-09-26 21:47:26.480 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
 2026-09-26 21:47:26.538 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
 2026-09-26 21:47:26.666 | INFO     | request_id - 1 | app.services.query_service:query:177 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 21:57:39.730 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-26 21:57:39.747 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-26 21:57:39.764 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-26 21:57:39.809 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 21:57:39.810 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-26 21:57:39.810 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-26 21:57:39.907 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 97.1, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 21:57:39.908 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=1.0
+2026-09-26 21:57:39.908 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 21:57:39.908 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 21:57:39.909 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-26 21:57:39.976 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 67.8, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 21:57:39.977 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.4
+2026-09-26 21:57:39.993 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 21:57:39.993 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 21:57:39.993 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-26 21:57:40.063 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 70.0, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 21:57:40.064 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-26 21:57:40.064 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-26 21:57:40.064 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 21:57:40.064 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 21:57:40.064 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 21:57:40.064 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-26 21:57:40.131 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 67.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 21:57:40.132 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-26 21:57:40.148 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.1 contended=False
+2026-09-26 21:57:40.148 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-26 21:57:40.149 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-26 21:57:40.218 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 69.2, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 21:57:40.218 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-26 21:57:40.237 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-26 21:57:40.272 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-26 21:57:40.272 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-26 21:57:40.345 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 108.1, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 21:57:40.345 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-26 21:57:40.346 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-lock wait_ms=106.7 contended=True
+2026-09-26 21:57:40.346 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-26 21:57:40.418 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 71.7, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 21:57:40.418 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-26 21:57:40.432 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-26 21:57:40.530 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-26 21:57:40.694 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 22:01:21.243 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-26 22:01:21.263 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-26 22:01:21.278 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-26 22:01:21.310 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:01:21.310 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-26 22:01:21.310 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-26 22:01:21.379 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 68.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:01:21.379 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.3
+2026-09-26 22:01:21.379 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 22:01:21.380 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:01:21.380 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-26 22:01:21.443 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 63.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:01:21.444 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.4
+2026-09-26 22:01:21.459 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:01:21.459 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:01:21.459 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-26 22:01:21.522 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 63.7, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:01:21.523 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-26 22:01:21.523 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-26 22:01:21.523 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:01:21.523 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:01:21.523 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:01:21.523 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-26 22:01:21.584 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 60.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:01:21.584 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-26 22:01:21.599 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-26 22:01:21.600 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-26 22:01:21.600 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-26 22:01:21.664 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 64.7, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:01:21.665 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-26 22:01:21.680 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-26 22:01:21.714 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-26 22:01:21.714 | INFO     | request_id - 1 | app.services.query_service:query:260 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-26 22:01:21.778 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 97.2, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:01:21.778 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-26 22:01:21.779 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-lock wait_ms=95.6 contended=True
+2026-09-26 22:01:21.779 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-26 22:01:21.841 | INFO     | request_id - 1 | app.services.query_service:query:365 - run_metrics {'request_id': '1', 'total_ms': 61.9, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:01:21.841 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-26 22:01:21.873 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-26 22:01:21.962 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-26 22:01:22.114 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 22:07:53.324 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-26 22:07:53.343 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-26 22:07:53.359 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-26 22:07:53.404 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:07:53.405 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-26 22:07:53.405 | INFO     | request_id - 1 | app.services.query_service:query:262 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-26 22:07:53.470 | INFO     | request_id - 1 | app.services.query_service:query:371 - run_metrics {'request_id': '1', 'total_ms': 65.5, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:07:53.471 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.3
+2026-09-26 22:07:53.471 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 22:07:53.471 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:07:53.471 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-26 22:07:53.532 | INFO     | request_id - 1 | app.services.query_service:query:371 - run_metrics {'request_id': '1', 'total_ms': 60.7, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:07:53.532 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.3
+2026-09-26 22:07:53.547 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:07:53.547 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:07:53.547 | INFO     | request_id - 1 | app.services.query_service:query:262 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-26 22:07:53.616 | INFO     | request_id - 1 | app.services.query_service:query:371 - run_metrics {'request_id': '1', 'total_ms': 69.2, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:07:53.617 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-26 22:07:53.617 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-26 22:07:53.617 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:07:53.617 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:07:53.617 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:07:53.617 | INFO     | request_id - 1 | app.services.query_service:query:262 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-26 22:07:53.676 | INFO     | request_id - 1 | app.services.query_service:query:371 - run_metrics {'request_id': '1', 'total_ms': 59.3, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:07:53.677 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-26 22:07:53.691 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-26 22:07:53.691 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-26 22:07:53.691 | INFO     | request_id - 1 | app.services.query_service:query:262 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-26 22:07:53.753 | INFO     | request_id - 1 | app.services.query_service:query:371 - run_metrics {'request_id': '1', 'total_ms': 61.4, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:07:53.753 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-26 22:07:53.769 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-26 22:07:53.808 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-26 22:07:53.809 | INFO     | request_id - 1 | app.services.query_service:query:262 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-26 22:07:53.870 | INFO     | request_id - 1 | app.services.query_service:query:371 - run_metrics {'request_id': '1', 'total_ms': 99.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:07:53.870 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-26 22:07:53.871 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conv-lock wait_ms=98.3 contended=True
+2026-09-26 22:07:53.871 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-26 22:07:53.933 | INFO     | request_id - 1 | app.services.query_service:query:371 - run_metrics {'request_id': '1', 'total_ms': 62.0, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:07:53.933 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-26 22:07:53.946 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-26 22:07:54.012 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-26 22:07:54.160 | INFO     | request_id - 1 | app.services.query_service:query:198 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 22:14:36.707 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-26 22:14:36.729 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-26 22:14:36.745 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-26 22:14:36.777 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:14:36.777 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-26 22:14:36.777 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-26 22:14:36.854 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 77.0, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:14:36.855 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.4
+2026-09-26 22:14:36.855 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 22:14:36.855 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:14:36.855 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-26 22:14:36.920 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 65.4, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:14:36.921 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.3
+2026-09-26 22:14:36.936 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:14:36.936 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:14:36.936 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-26 22:14:37.000 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 64.2, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:14:37.001 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-26 22:14:37.001 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-26 22:14:37.001 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:14:37.001 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:14:37.001 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:14:37.001 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-26 22:14:37.063 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 61.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:14:37.063 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-26 22:14:37.080 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-26 22:14:37.081 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-26 22:14:37.081 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-26 22:14:37.141 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 60.0, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:14:37.141 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-26 22:14:37.157 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-26 22:14:37.195 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-26 22:14:37.195 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-26 22:14:37.260 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 102.2, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:14:37.261 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.5
+2026-09-26 22:14:37.261 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=101.8 contended=True
+2026-09-26 22:14:37.262 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-26 22:14:37.326 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 64.0, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:14:37.326 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-26 22:14:37.338 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-26 22:14:37.407 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-26 22:14:37.567 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 22:14:37.568 | ERROR    | request_id - 1 | app.services.query_service:query:425 - query_failed request_id=1 code=internal_error detail=internal_error: ConnectionError error=ConnectionError('Redis unavailable')
+2026-09-26 22:15:27.990 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-26 22:15:28.009 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-26 22:15:28.026 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-26 22:15:28.072 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:15:28.072 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-26 22:15:28.072 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-26 22:15:28.141 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 68.8, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:15:28.142 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.5
+2026-09-26 22:15:28.142 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 22:15:28.142 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:15:28.142 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-26 22:15:28.201 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 59.1, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:15:28.202 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.3
+2026-09-26 22:15:28.216 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:15:28.216 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:15:28.217 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-26 22:15:28.277 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 60.4, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:15:28.277 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-26 22:15:28.277 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-26 22:15:28.277 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:15:28.278 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:15:28.278 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:15:28.278 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-26 22:15:28.340 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 62.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:15:28.341 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-26 22:15:28.355 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-26 22:15:28.356 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-26 22:15:28.356 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-26 22:15:28.419 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 63.5, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:15:28.419 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-26 22:15:28.436 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-26 22:15:28.474 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-26 22:15:28.474 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-26 22:15:28.568 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 131.7, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:15:28.569 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.5
+2026-09-26 22:15:28.570 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=131.1 contended=True
+2026-09-26 22:15:28.571 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.2
+2026-09-26 22:15:28.675 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 104.1, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:15:28.675 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.4
+2026-09-26 22:15:28.690 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-26 22:15:28.764 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-26 22:15:28.922 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 22:15:28.922 | ERROR    | request_id - 1 | app.services.query_service:query:425 - query_failed request_id=1 code=dependency_error detail=dependency_error: ConnectionError error=ConnectionError('Redis unavailable')
+2026-09-26 22:18:07.964 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['销售额', '会员', '按会员等级统计销售额', '统计']
+2026-09-26 22:18:16.801 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:65 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:18:33.953 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:63 - 检索到字段取值：[]
+2026-09-26 22:18:34.024 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['dim_customer', 'dim_region', 'fact_order']
+2026-09-26 22:18:34.024 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:18:35.657 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:18:47.600 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['dim_customer', 'fact_order']
+2026-09-26 22:18:47.623 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:18:47.623 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:18:49.258 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT c.member_level AS 会员等级, SUM(o.order_amount) AS 销售额
+FROM fact_order o
+JOIN dim_customer c ON o.customer_id = c.customer_id
+GROUP BY c.member_level;
+2026-09-26 22:18:49.281 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:18:49.306 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=5 truncated=False connection_id=13
+2026-09-26 22:25:47.024 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-26 22:25:47.045 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-26 22:25:47.060 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-26 22:25:47.088 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:25:47.088 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-26 22:25:47.088 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-26 22:25:47.165 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 76.9, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:25:47.166 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.5
+2026-09-26 22:25:47.166 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 22:25:47.166 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:25:47.166 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.0
+2026-09-26 22:25:47.228 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 61.7, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:25:47.228 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.3
+2026-09-26 22:25:47.243 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:25:47.243 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:25:47.243 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-26 22:25:47.304 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 60.7, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:25:47.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-26 22:25:47.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-26 22:25:47.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:25:47.304 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:25:47.304 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:25:47.304 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-26 22:25:47.364 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 59.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:25:47.364 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-26 22:25:47.391 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-26 22:25:47.391 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-26 22:25:47.391 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-26 22:25:47.453 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 61.5, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:25:47.453 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-26 22:25:47.470 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-26 22:25:47.498 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-26 22:25:47.498 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-26 22:25:47.563 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 92.5, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:25:47.563 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-26 22:25:47.564 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=91.5 contended=True
+2026-09-26 22:25:47.564 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-26 22:25:47.623 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 59.6, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:25:47.624 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-26 22:25:47.636 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-26 22:25:47.706 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-26 22:25:47.852 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 22:25:47.852 | ERROR    | request_id - 1 | app.services.query_service:query:425 - query_failed request_id=1 code=dependency_error detail=dependency_error: ConnectionError error=ConnectionError('Redis unavailable')
+2026-09-26 22:26:03.198 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['统计', '销售额', '会员', '按会员等级统计销售额']
+2026-09-26 22:26:05.339 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:51 - 召回字段信息 expanded_keywords n=2 items=['会员等级', '销售额']
+2026-09-26 22:26:06.773 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:51 - 召回指标信息 expanded_keywords n=9 items=['销售额', '销售金额', '销售收入', '销售总额', '营业额', '成交额', '成交金额', '交易额', 'GMV']
+2026-09-26 22:26:07.654 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:74 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:26:34.708 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:51 - 召回字段取值 expanded_keywords n=1 items=['会员等级']
+2026-09-26 22:26:34.752 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:72 - 检索到字段取值：[]
+2026-09-26 22:26:34.790 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_customer', 'dim_region']
+2026-09-26 22:26:34.790 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:26:35.799 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:26:36.989 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order', 'dim_customer']
+2026-09-26 22:26:37.002 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:26:37.002 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:26:38.399 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT dc.member_level AS 会员等级, SUM(fo.order_amount) AS 销售额
+FROM fact_order fo
+JOIN dim_customer dc ON fo.customer_id = dc.customer_id
+GROUP BY dc.member_level;
+2026-09-26 22:26:38.423 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:26:38.435 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=5 truncated=False connection_id=15
+2026-09-26 22:31:35.603 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['销售额', '按会员等级统计销售额', '会员', '统计']
+2026-09-26 22:31:37.372 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['会员等级', '销售额']
+2026-09-26 22:31:38.753 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=5 items=['销售额', '销售金额', '销售总额', '成交额', '交易额']
+2026-09-26 22:31:39.323 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:31:49.532 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=1 items=['会员等级']
+2026-09-26 22:31:49.563 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：[]
+2026-09-26 22:31:49.595 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_customer', 'dim_region']
+2026-09-26 22:31:49.595 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:31:50.853 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:31:58.157 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order', 'dim_customer']
+2026-09-26 22:31:58.173 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:31:58.173 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:32:00.284 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT c.member_level AS 会员等级, SUM(o.order_amount) AS 销售额
+FROM fact_order o
+JOIN dim_customer c ON o.customer_id = c.customer_id
+GROUP BY c.member_level;
+2026-09-26 22:32:00.307 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:32:00.317 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=5 truncated=False connection_id=17
+2026-09-26 22:32:00.321 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['统计 2025 年第一季度各大区的 GMV，并按 GMV 从高到低排序', '统计', '排序', '第一季度', '大区', 'GMV']
+2026-09-26 22:32:02.113 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=4 items=['GMV', '成交额', '交易额', '商品交易总额']
+2026-09-26 22:32:02.822 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:32:09.541 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=5 items=['2025年第一季度', '2025Q1', '第一季度', 'Q1', '大区']
+2026-09-26 22:32:09.656 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：['dim_date.quarter.Q1', 'dim_date.quarter.Q2', 'dim_date.quarter.Q3', 'dim_date.quarter.Q4']
+2026-09-26 22:32:11.365 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=3 items=['大区', '订单日期', 'GMV']
+2026-09-26 22:32:11.935 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_date', 'dim_product', 'dim_region']
+2026-09-26 22:32:11.935 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:32:12.729 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:32:33.102 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order', 'dim_region']
+2026-09-26 22:32:33.104 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:32:33.104 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:32:35.309 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT r.region_name AS 大区, SUM(f.order_amount) AS GMV
+FROM fact_order f
+JOIN dim_region r ON f.region_id = r.region_id
+WHERE f.date_id >= 20250101 AND f.date_id < 20250401
+GROUP BY r.region_name
+ORDER BY GMV DESC;
+2026-09-26 22:32:35.437 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:32:35.458 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=7 truncated=False connection_id=17
+2026-09-26 22:32:35.460 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['支付', '华东地区已支付的GMV', '华东地区', 'GMV']
+2026-09-26 22:32:37.827 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=6 items=['已支付GMV', '支付GMV', 'GMV', '成交额', '交易额', '支付金额']
+2026-09-26 22:32:38.055 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=3 items=['地区', '支付状态', 'GMV']
+2026-09-26 22:32:38.786 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:32:38.881 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=3 items=['华东地区', '华东', '已支付']
+2026-09-26 22:32:38.916 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：['dim_region.region_name.华东', 'fact_order.order_status.已支付', 'fact_order.order_status.已取消']
+2026-09-26 22:32:38.924 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['dim_region', 'fact_order']
+2026-09-26 22:32:38.924 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:32:40.233 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['净GMV']
+2026-09-26 22:32:40.956 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['dim_region', 'fact_order']
+2026-09-26 22:32:40.958 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:32:40.958 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:32:43.549 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(o.order_amount) AS 已支付GMV
+FROM fact_order o
+JOIN dim_region r ON o.region_id = r.region_id
+WHERE r.region_name = '华东'
+  AND o.order_status = '已支付';
+2026-09-26 22:32:43.572 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:32:43.581 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=17
+2026-09-26 22:33:05.117 | ERROR    | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread_safely:246 - checkpoint_delete_failed thread_id=conv-delete-retry queued_for_retry=true: redis flaky
+2026-09-26 22:33:05.138 | WARNING  | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:286 - checkpoint_delete_retry_failed thread_id=conv-delete-retry attempts=1: redis flaky
+2026-09-26 22:33:05.153 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:_run_delete_retries:273 - checkpoint_delete_retry_success thread_id=conv-delete-retry attempts=2
+2026-09-26 22:33:05.182 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:33:05.182 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hit load_ms=0.0
+2026-09-26 22:33:05.182 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hit messages=0
+2026-09-26 22:33:05.244 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 62.1, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:33:05.246 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=548 snapshot_load_ms=0.5
+2026-09-26 22:33:05.246 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 22:33:05.246 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hit wait_ms=0.0 contended=False
+2026-09-26 22:33:05.247 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-hit load_ms=0.1
+2026-09-26 22:33:05.303 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 56.0, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:33:05.303 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hit state_bytes=838 snapshot_load_ms=0.3
+2026-09-26 22:33:05.316 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:33:05.316 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:33:05.316 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=0
+2026-09-26 22:33:05.372 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 55.9, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:33:05.373 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=608 snapshot_load_ms=0.3
+2026-09-26 22:33:05.373 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:delete_thread:222 - checkpoint_deleted thread_id=conv-hydrate
+2026-09-26 22:33:05.373 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:33:05.373 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-hydrate wait_ms=0.0 contended=False
+2026-09-26 22:33:05.373 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-hydrate load_ms=0.0
+2026-09-26 22:33:05.373 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-hydrate messages=4
+2026-09-26 22:33:05.433 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 60.4, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:33:05.434 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-hydrate state_bytes=1079 snapshot_load_ms=0.4
+2026-09-26 22:33:05.449 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-new wait_ms=0.0 contended=False
+2026-09-26 22:33:05.449 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-new load_ms=0.0
+2026-09-26 22:33:05.449 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-new messages=0
+2026-09-26 22:33:05.510 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 61.2, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:33:05.511 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-new state_bytes=560 snapshot_load_ms=0.3
+2026-09-26 22:33:05.526 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=0.0 contended=False
+2026-09-26 22:33:05.557 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_miss thread_id=conv-lock load_ms=0.0
+2026-09-26 22:33:05.558 | INFO     | request_id - 1 | app.services.query_service:query:263 - checkpoint_hydrated thread_id=conv-lock messages=0
+2026-09-26 22:33:05.614 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 87.4, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:33:05.614 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=504 snapshot_load_ms=0.3
+2026-09-26 22:33:05.615 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conv-lock wait_ms=86.1 contended=True
+2026-09-26 22:33:05.615 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:has_checkpoint:176 - checkpoint_hit thread_id=conv-lock load_ms=0.1
+2026-09-26 22:33:05.670 | INFO     | request_id - 1 | app.services.query_service:query:372 - run_metrics {'request_id': '1', 'total_ms': 55.1, 'llm_ms': 0, 'tokens_in': 0, 'tokens_out': 0, 'nodes': []}
+2026-09-26 22:33:05.671 | INFO     | request_id - 1 | app.clients.redis_checkpoint_manager:capture_state_metrics:202 - checkpoint_state_metrics thread_id=conv-lock state_bytes=768 snapshot_load_ms=0.3
+2026-09-26 22:33:05.681 | INFO     | request_id - 1 | app.agent.nodes.reject_sql:reject_sql:36 - sql_correction_exhausted code=correction_exhausted previous_error=still bad
+2026-09-26 22:33:05.763 | INFO     | request_id - 1 | app.agent.nodes.sql_guard:sql_guard:47 - sql_guard_rejected code=unsafe_statement detail=仅允许 SELECT / WITH…SELECT，检测到 Delete
+2026-09-26 22:33:05.892 | INFO     | request_id - 1 | app.services.query_service:query:199 - conversation_lock_acquired conversation_id=conversation-1 wait_ms=0.0 contended=False
+2026-09-26 22:33:05.892 | ERROR    | request_id - 1 | app.services.query_service:query:425 - query_failed request_id=1 code=dependency_error detail=dependency_error: ConnectionError error=ConnectionError('Redis unavailable')
+2026-09-26 22:35:59.402 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['统计', '订单', 'GMV', '全部', '统计全部订单的GMV']
+2026-09-26 22:36:01.153 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=1 items=['订单金额']
+2026-09-26 22:36:01.513 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=6 items=['GMV', '成交额', '交易额', '商品交易总额', '订单成交额', '订单GMV']
+2026-09-26 22:36:02.394 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', 'AOV', '净GMV']
+2026-09-26 22:36:05.592 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=1 items=['订单']
+2026-09-26 22:36:05.619 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：[]
+2026-09-26 22:36:05.645 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order']
+2026-09-26 22:36:05.645 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', 'AOV', '净GMV']
+2026-09-26 22:36:06.995 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:36:07.103 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-26 22:36:07.118 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:36:07.118 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:36:08.327 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(order_amount) AS GMV FROM fact_order;
+2026-09-26 22:36:08.358 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:36:08.364 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:36:08.367 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['一共有多少笔订单？', '订单']
+2026-09-26 22:36:10.048 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=1 items=['订单编号']
+2026-09-26 22:36:10.150 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=1 items=['订单']
+2026-09-26 22:36:10.168 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：[]
+2026-09-26 22:36:10.234 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=5 items=['订单量', '订单数', '订单数量', '订单总数', '订单笔数']
+2026-09-26 22:36:10.752 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', 'AOV', '净GMV', '退款率']
+2026-09-26 22:36:10.760 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_region']
+2026-09-26 22:36:10.760 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', 'AOV', '净GMV', '退款率']
+2026-09-26 22:36:12.138 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-26 22:36:12.372 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：[]
+2026-09-26 22:36:12.375 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:36:12.375 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:36:13.591 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT COUNT(order_id) AS 订单总数 FROM fact_order;
+2026-09-26 22:36:13.602 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:36:13.629 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:36:13.632 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['平均每笔订单金额是多少？', '平均', '订单', '金额']
+2026-09-26 22:36:15.295 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=6 items=['平均订单金额', '订单均价', '平均每单金额', '订单平均金额', '每笔订单平均金额', '客单价']
+2026-09-26 22:36:15.995 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['AOV', 'GMV']
+2026-09-26 22:36:16.250 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['订单金额', '订单编号']
+2026-09-26 22:36:24.174 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=0 items=[]
+2026-09-26 22:36:24.190 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：[]
+2026-09-26 22:36:24.196 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_region']
+2026-09-26 22:36:24.197 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['AOV', 'GMV']
+2026-09-26 22:36:25.326 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['AOV']
+2026-09-26 22:36:38.434 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-26 22:36:38.437 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:36:38.437 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:36:40.842 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT AVG(order_amount) AS AOV FROM fact_order;
+2026-09-26 22:36:40.850 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:36:40.856 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:36:40.859 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['销量', '合计', '销量合计是多少？']
+2026-09-26 22:36:42.981 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=1 items=['销量']
+2026-09-26 22:36:43.704 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=6 items=['销量', '销售量', '销售数量', '销量合计', '总销量', '销售总量']
+2026-09-26 22:36:44.247 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:36:44.470 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=2 items=['合计', '总计']
+2026-09-26 22:36:44.491 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：[]
+2026-09-26 22:36:44.501 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order']
+2026-09-26 22:36:44.502 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:36:46.048 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-26 22:36:52.835 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：[]
+2026-09-26 22:36:52.839 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:36:52.839 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:36:53.943 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(order_quantity) AS 销量合计 FROM fact_order;
+2026-09-26 22:36:53.950 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:36:53.956 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:36:53.961 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['GMV', '2024年GMV是多少？']
+2026-09-26 22:36:56.287 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=5 items=['GMV', '成交额', '交易额', '商品交易总额', '总成交额']
+2026-09-26 22:36:56.670 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:36:56.781 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=2 items=['2024年', '2024']
+2026-09-26 22:36:56.797 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：[]
+2026-09-26 22:36:58.799 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['GMV', '交易日期']
+2026-09-26 22:36:59.013 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_date']
+2026-09-26 22:36:59.013 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:36:59.811 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:37:05.730 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-26 22:37:05.732 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:37:05.732 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:37:07.668 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(order_amount) AS GMV
+FROM fact_order
+WHERE date_id BETWEEN 20240101 AND 20241231;
+2026-09-26 22:37:07.677 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:37:07.684 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:37:07.687 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['GMV', '2025年GMV是多少？']
+2026-09-26 22:37:09.387 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=5 items=['GMV', '成交额', '交易额', '商品交易总额', '成交总额']
+2026-09-26 22:37:09.787 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:37:10.501 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['GMV', '统计日期']
+2026-09-26 22:37:11.189 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=3 items=['2025年', '2025', '2025年度']
+2026-09-26 22:37:11.207 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：[]
+2026-09-26 22:37:11.215 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['dim_date', 'fact_order']
+2026-09-26 22:37:11.215 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:37:12.336 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:37:19.737 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-26 22:37:19.741 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:37:19.741 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:37:20.920 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(order_amount) AS GMV
+FROM fact_order
+WHERE date_id BETWEEN 20250101 AND 20251231;
+2026-09-26 22:37:20.926 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:37:20.931 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:37:20.934 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['销售额', 'Q1', '2024年Q1的销售额是多少？']
+2026-09-26 22:37:22.899 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['销售日期', '销售额']
+2026-09-26 22:37:23.378 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=5 items=['销售额', '销售金额', '销售收入', '营业额', '销售总额']
+2026-09-26 22:37:23.811 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:37:26.440 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=6 items=['2024年Q1', '2024Q1', '2024年第一季度', '2024年一季度', 'Q1', '第一季度']
+2026-09-26 22:37:26.483 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：['dim_date.quarter.Q1', 'dim_date.quarter.Q2', 'dim_date.quarter.Q3', 'dim_date.quarter.Q4']
+2026-09-26 22:37:26.492 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_date']
+2026-09-26 22:37:26.493 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:37:27.812 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:37:34.003 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order']
+2026-09-26 22:37:34.006 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:37:34.006 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:37:35.583 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(order_amount) AS 销售额 FROM fact_order WHERE date_id BETWEEN 20240101 AND 20240331;
+2026-09-26 22:37:35.591 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:37:35.597 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:37:35.606 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['销售额', 'Q2', '2024年Q2的销售额是多少？']
+2026-09-26 22:37:38.051 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=6 items=['销售额', '销售金额', '销售收入', '销售总额', '营业额', '销售流水']
+2026-09-26 22:37:38.580 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:37:39.824 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['销售日期', '销售额']
+2026-09-26 22:37:42.567 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=6 items=['2024年Q2', '2024Q2', 'Q2', '第二季度', '二季度', '2024年']
+2026-09-26 22:37:42.611 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：['dim_date.quarter.Q2', 'dim_date.quarter.Q1', 'dim_date.quarter.Q3', 'dim_date.quarter.Q4']
+2026-09-26 22:37:42.622 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_date']
+2026-09-26 22:37:42.622 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:37:43.836 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:37:54.284 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order', 'dim_date']
+2026-09-26 22:37:54.286 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:37:54.287 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:38:00.372 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(f.order_amount) AS 销售额
+FROM fact_order f
+JOIN dim_date d ON f.date_id = d.date_id
+WHERE d.date_id BETWEEN 20240401 AND 20240630
+  AND d.quarter = 'Q2';
+2026-09-26 22:38:00.405 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:38:00.414 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:38:00.417 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['销售额', '2024年Q3的销售额是多少？', 'Q3']
+2026-09-26 22:38:02.636 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=5 items=['销售额', '销售金额', '销售收入', '销售总额', '营业额']
+2026-09-26 22:38:02.910 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=6 items=['2024年Q3', '2024Q3', '2024年第三季度', 'Q3', '第三季度', '2024']
+2026-09-26 22:38:02.975 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：['dim_date.quarter.Q3', 'dim_date.quarter.Q1', 'dim_date.quarter.Q2', 'dim_date.quarter.Q4', 'dim_product.brand.三星', 'dim_product.brand.三只松鼠', 'dim_product.product_name.三星手机数码商品02', 'dim_product.product_name.三星手机数码商品07', 'dim_product.product_name.三星手机数码商品12', 'dim_product.product_name.三只松鼠休闲零食商品03', 'dim_product.product_name.三只松鼠休闲零食商品07']
+2026-09-26 22:38:03.079 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:38:04.028 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['销售额', '销售日期']
+2026-09-26 22:38:04.307 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_date', 'dim_product']
+2026-09-26 22:38:04.307 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:38:05.614 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:38:10.118 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order', 'dim_date']
+2026-09-26 22:38:10.120 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:38:10.120 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:38:12.865 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(f.order_amount) AS 销售额
+FROM fact_order f
+JOIN dim_date d ON f.date_id = d.date_id
+WHERE d.date_id BETWEEN 20240701 AND 20240930;
+2026-09-26 22:38:12.872 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:38:12.880 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19
+2026-09-26 22:38:12.883 | INFO     | request_id - 1 | app.agent.nodes.extract_keywords:extract_keywords:50 - 抽取关键词成功: ['Q4', '销售额', '2024年Q4的销售额是多少？']
+2026-09-26 22:38:15.470 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:60 - 召回指标信息 expanded_keywords n=5 items=['销售额', '销售金额', '销售总额', '销售收入', '营业额']
+2026-09-26 22:38:15.938 | INFO     | request_id - 1 | app.agent.nodes.recall_metric:recall_metric:83 - 检索到指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:38:16.215 | INFO     | request_id - 1 | app.agent.nodes.recall_column:recall_column:60 - 召回字段信息 expanded_keywords n=2 items=['销售金额', '销售日期']
+2026-09-26 22:38:20.393 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:60 - 召回字段取值 expanded_keywords n=6 items=['2024年Q4', '2024Q4', '2024年第四季度', 'Q4', '第四季度', '2024年']
+2026-09-26 22:38:20.443 | INFO     | request_id - 1 | app.agent.nodes.recall_value:recall_value:81 - 检索到字段取值：['dim_date.quarter.Q4', 'dim_date.quarter.Q1', 'dim_date.quarter.Q2', 'dim_date.quarter.Q3', 'dim_region.province.四川省']
+2026-09-26 22:38:20.456 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:143 - 合并后的表信息：['fact_order', 'dim_date', 'dim_region']
+2026-09-26 22:38:20.456 | INFO     | request_id - 1 | app.agent.nodes.merge_retrieved_info:merge_retrieved_info:146 - 合并后的指标信息：['GMV', '净GMV', 'AOV']
+2026-09-26 22:38:22.199 | INFO     | request_id - 1 | app.agent.nodes.filter_metric:filter_metric:54 - 过滤后的指标信息：['GMV']
+2026-09-26 22:38:32.996 | INFO     | request_id - 1 | app.agent.nodes.filter_table:filter_table:60 - 过滤后的表信息：['fact_order', 'dim_date']
+2026-09-26 22:38:32.998 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:36 - 数据库信息：{'dialect': 'mysql', 'version': '8.0.46'}
+2026-09-26 22:38:32.998 | INFO     | request_id - 1 | app.agent.nodes.add_extra_context:add_extra_context:37 - 日期信息：{'date': '2026-09-26', 'weekday': 'Saturday', 'quarter': 'Q3'}
+2026-09-26 22:38:35.914 | INFO     | request_id - 1 | app.agent.nodes.generate_sql:generate_sql:63 - 生成的SQL：SELECT SUM(f.order_amount) AS 销售额
+FROM fact_order f
+JOIN dim_date d ON f.date_id = d.date_id
+WHERE d.quarter = 'Q4'
+  AND f.date_id BETWEEN 20241001 AND 20241231;
+2026-09-26 22:38:35.919 | INFO     | request_id - 1 | app.agent.nodes.validate_sql:validate_sql:34 - SQL语法正确
+2026-09-26 22:38:35.924 | INFO     | request_id - 1 | app.agent.nodes.run_sql:run_sql:80 - sql_exec_ok rows=1 truncated=False connection_id=19

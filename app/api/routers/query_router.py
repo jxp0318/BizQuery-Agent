@@ -13,7 +13,21 @@ from starlette.responses import StreamingResponse
 
 from app.api.dependencies import get_query_service
 from app.api.schemas.query_schema import QuerySchema
+from app.core.context import request_id_ctx_var
 from app.services.query_service import QueryService
+
+
+def _sse_response(generator) -> StreamingResponse:
+    """SSE 响应统一带上 X-Request-Id，便于与日志、消息 metrics 对齐。"""
+
+    return StreamingResponse(
+        generator,
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Request-Id": str(request_id_ctx_var.get()),
+        },
+    )
 
 # 当前模块只维护查询相关接口，避免后续所有 API 都挤在 main.py 中
 query_router = APIRouter()
@@ -32,10 +46,7 @@ async def query_handler(
 
     conversation_id = await query_service.create_conversation(query.query)
 
-    return StreamingResponse(
-        query_service.query(conversation_id, query.query),
-        media_type="text/event-stream",
-    )
+    return _sse_response(query_service.query(conversation_id, query.query))
 
 
 @query_router.post("/api/conversations/{conversation_id}/query")
@@ -60,7 +71,4 @@ async def conversation_query_handler(
     if not await query_service.conversation_exists(conversation_id):
         raise HTTPException(status_code=404, detail="会话不存在或已被删除。")
 
-    return StreamingResponse(
-        query_service.query(conversation_id, query.query),
-        media_type="text/event-stream",
-    )
+    return _sse_response(query_service.query(conversation_id, query.query))

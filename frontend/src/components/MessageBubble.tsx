@@ -3,6 +3,7 @@
  * 组合展示用户问题、智能体回复、执行流程和结果表格
  */
 import { Bot, Copy, UserRound } from "lucide-react";
+import { QueryExplainPanel } from "./QueryExplainPanel";
 import { ResultTable } from "./ResultTable";
 import { StepRail } from "./StepRail";
 import { cn, formatTime, toClipboardText } from "../lib/format";
@@ -51,11 +52,17 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
           {message.error && (
             <div className="mt-3 border border-tomato/30 bg-tomato/10 px-3 py-2 text-sm text-tomato">
               {message.error}
+              {message.requestId && (
+                <div className="mt-1 text-[11px] text-tomato/70">
+                  request_id: {message.requestId}
+                </div>
+              )}
             </div>
           )}
 
           {!isUser && <StepRail steps={message.steps} />}
           {!isUser && message.result !== undefined && <ResultTable data={message.result} />}
+          {!isUser && message.status !== "streaming" && <QueryExplainPanel message={message} />}
 
           <div
             className={cn(

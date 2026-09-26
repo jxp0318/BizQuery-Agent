@@ -46,9 +46,11 @@ class NodeMetric:
     llm_calls: int = 0
     tokens_in: int = 0
     tokens_out: int = 0
+    # 节点级自定义计数（如 expanded_keyword_count），便于回答「扩了几个词」
+    extra: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload = {
             "node": self.node,
             "node_ms": round(self.node_ms, 1),
             "llm_ms": round(self.llm_ms, 1),
@@ -56,6 +58,9 @@ class NodeMetric:
             "tokens_in": self.tokens_in,
             "tokens_out": self.tokens_out,
         }
+        if self.extra:
+            payload.update(self.extra)
+        return payload
 
 
 @dataclass
@@ -150,6 +155,17 @@ def current_run_metrics() -> RunMetrics | None:
     """读取当前协程绑定的指标累加器；无则返回 None。"""
 
     return _run_metrics_ctx.get()
+
+
+def note_current_node_extra(key: str, value: Any) -> None:
+    """把节点自定义计数写入当前节点指标（如扩词数量）。
+
+    无 RunMetrics 或不在节点内时为空操作，保证本地调试不受影响。
+    """
+
+    node = _current_node_ctx.get()
+    if node is not None:
+        node.extra[key] = value
 
 
 def set_run_metrics(metrics: RunMetrics | None):

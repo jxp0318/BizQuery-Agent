@@ -14,6 +14,7 @@ from app.agent.conversation_state import ConversationAgentState
 from app.clients.redis_checkpoint_manager import redis_checkpoint_manager
 from app.conf.app_config import app_config
 from app.core.context import request_id_ctx_var
+from app.core.error_sanitizer import sanitize_exception
 from app.core.log import logger
 from app.core.metrics import RunMetrics, set_run_metrics
 from app.repositories.es.value_es_repository import ValueESRepository
@@ -35,6 +36,27 @@ def _json_safe(value: Any) -> Any:
     """把 Decimal、日期等查询结果转换为 MySQL JSON 与前端均可处理的值。"""
 
     return json.loads(json.dumps(value, ensure_ascii=False, default=str))
+
+
+# P5.2：长 LLM 等待超过该秒数则补发 heartbeat，降低代理/网关空闲超时风险
+SSE_HEARTBEAT_SECONDS = 15.0
+
+
+def _enrich_sse(
+    event: dict[str, Any],
+    *,
+    request_id: str,
+    started_at: float,
+) -> dict[str, Any]:
+    """给 SSE 事件统一补 request_id 与 elapsed_ms，供前端展示与排障。"""
+
+    enriched = dict(event)
+    enriched.setdefault("requestId", request_id)
+    if enriched.get("type") != "heartbeat":
+        enriched["elapsedMs"] = int((time.perf_counter() - started_at) * 1000)
+    else:
+        enriched["elapsedMs"] = int((time.perf_counter() - started_at) * 1000)
+    return enriched
 
 
 class QueryService:
@@ -186,13 +208,17 @@ class QueryService:
             resolved_query: str | None = None
             generated_sql: str | None = None
             result_data: Any = None
+            # P5.3：结果解释上下文（表/指标口径/日期），与 metrics 一起供前端面板使用
+            explain_data: dict[str, Any] | None = None
             # 子图 reject/error 事件里的用户可读说明；非空且无结果时消息应落库为失败。
             stream_error_message: str | None = None
             # 仅表示外层 LangGraph 是否已正常结束，用来判断 Redis 是否可能领先于
             # 尚未成功提交的 MySQL 事实历史。
             graph_completed = False
             # P5.1：本轮指标账本；失败路径也写入已采集部分，便于事后定位。
-            run_metrics = RunMetrics(request_id=str(request_id_ctx_var.get()))
+            request_id = str(request_id_ctx_var.get())
+            turn_started_at = time.perf_counter()
+            run_metrics = RunMetrics(request_id=request_id)
             set_run_metrics(run_metrics)
 
             try:
@@ -206,12 +232,16 @@ class QueryService:
                 )
                 assistant_message_id = assistant_message.id
                 yield _sse(
-                    {
-                        "type": "turn",
-                        "conversationId": conversation_id,
-                        "userMessageId": user_message.id,
-                        "assistantMessageId": assistant_message.id,
-                    }
+                    _enrich_sse(
+                        {
+                            "type": "turn",
+                            "conversationId": conversation_id,
+                            "userMessageId": user_message.id,
+                            "assistantMessageId": assistant_message.id,
+                        },
+                        request_id=request_id,
+                        started_at=turn_started_at,
+                    )
                 )
 
                 # hit 表示由 LangGraph 自动恢复 Redis State；miss 才从 MySQL 构造
@@ -260,30 +290,93 @@ class QueryService:
                     dw_mysql_repository=self.dw_mysql_repository,
                 )
 
-                async for chunk in redis_checkpoint_manager.graph.astream(
-                    input=state,
-                    config=redis_checkpoint_manager.thread_config(conversation_id),
-                    context=context,
-                    stream_mode="custom",
-                ):
-                    # SSE 一边转发给浏览器，一边提取需要写入 MySQL 的执行证据；
-                    # 这样刷新历史会话后仍能恢复步骤、独立问题、SQL 和完整结果。
-                    if chunk.get("type") == "progress":
-                        steps = self._upsert_step(steps, chunk)
-                    elif chunk.get("type") == "resolved_query":
-                        resolved_query = chunk.get("query")
-                    elif chunk.get("type") == "sql":
-                        generated_sql = chunk.get("sql")
-                    elif chunk.get("type") == "result":
-                        result_data = _json_safe(chunk.get("data"))
-                    elif chunk.get("type") == "error":
-                        stream_error_message = chunk.get("message") or "查询未成功"
-                    yield _sse(chunk)
+                # P5.2：图执行与 SSE 心跳并行。LLM 单次可能十余秒无事件，
+                # 直接挂在 astream 上会让代理误判空闲连接；超时则补 heartbeat。
+                graph_events: asyncio.Queue = asyncio.Queue()
+                graph_done = object()
+                graph_error: list[BaseException] = []
+
+                async def _pump_graph():
+                    try:
+                        async for chunk in redis_checkpoint_manager.graph.astream(
+                            input=state,
+                            config=redis_checkpoint_manager.thread_config(
+                                conversation_id
+                            ),
+                            context=context,
+                            stream_mode="custom",
+                        ):
+                            await graph_events.put(chunk)
+                    except BaseException as exc:  # noqa: BLE001 - 原样转抛给外层
+                        graph_error.append(exc)
+                    finally:
+                        await graph_events.put(graph_done)
+
+                pump_task = asyncio.create_task(_pump_graph())
+                try:
+                    while True:
+                        try:
+                            item = await asyncio.wait_for(
+                                graph_events.get(),
+                                timeout=SSE_HEARTBEAT_SECONDS,
+                            )
+                        except asyncio.TimeoutError:
+                            yield _sse(
+                                _enrich_sse(
+                                    {"type": "heartbeat"},
+                                    request_id=request_id,
+                                    started_at=turn_started_at,
+                                )
+                            )
+                            continue
+                        if item is graph_done:
+                            break
+                        chunk = item
+                        # SSE 一边转发给浏览器，一边提取写入 MySQL 的执行证据；
+                        # 这样刷新历史会话后仍能恢复步骤、独立问题、SQL 和完整结果。
+                        if chunk.get("type") == "progress":
+                            steps = self._upsert_step(steps, chunk)
+                        elif chunk.get("type") == "resolved_query":
+                            resolved_query = chunk.get("query")
+                        elif chunk.get("type") == "sql":
+                            generated_sql = chunk.get("sql")
+                        elif chunk.get("type") == "result":
+                            result_data = _json_safe(chunk.get("data"))
+                        elif chunk.get("type") == "explain":
+                            explain_data = chunk.get("data") or None
+                        elif chunk.get("type") == "error":
+                            stream_error_message = (
+                                chunk.get("message") or "查询未成功"
+                            )
+                        yield _sse(
+                            _enrich_sse(
+                                chunk,
+                                request_id=request_id,
+                                started_at=turn_started_at,
+                            )
+                        )
+                finally:
+                    if not pump_task.done():
+                        pump_task.cancel()
+                        try:
+                            await pump_task
+                        except (asyncio.CancelledError, Exception):
+                            pass
+                if graph_error:
+                    raise graph_error[0]
                 graph_completed = True
                 # P5.1：先推指标事件，再写 MySQL，避免落库失败丢观测数据。
                 metrics_payload = run_metrics.to_dict()
+                if explain_data is not None:
+                    metrics_payload["explain"] = explain_data
                 logger.info(f"run_metrics {metrics_payload}")
-                yield _sse({"type": "metrics", **metrics_payload})
+                yield _sse(
+                    _enrich_sse(
+                        {"type": "metrics", **metrics_payload},
+                        request_id=request_id,
+                        started_at=turn_started_at,
+                    )
+                )
                 # 图结束后采集 State 体积与快照加载耗时，监控短期记忆是否膨胀。
                 await redis_checkpoint_manager.capture_state_metrics(conversation_id)
 
@@ -293,6 +386,7 @@ class QueryService:
                 # reject_sql 等路径只发 error 事件、不抛异常：必须落库为失败，
                 # 避免「放弃修正」在历史里显示为 status=done 的成功消息。
                 if stream_error_message and result_data is None:
+                    # 子图 error 事件已使用 USER_MESSAGES；诊断字段与展示字段一致即可
                     await self.conversation_repository.fail_turn(
                         assistant_message.id,
                         content=stream_error_message,
@@ -326,11 +420,18 @@ class QueryService:
             except Exception as error:
                 # StreamingResponse 一旦开始发送就不能再改 HTTP 状态码，因此异常既要
                 # 持久化到 MySQL，也要编码为 SSE error 事件通知当前页面。
+                # P5.4：用户只拿脱敏短句；完整异常仅进日志，避免泄露连接串/账号。
+                safe = sanitize_exception(error)
+                logger.error(
+                    f"query_failed request_id={request_id} code={safe.code} "
+                    f"detail={safe.detail} error={error!r}"
+                )
                 if assistant_message_id is not None:
                     await self.conversation_repository.fail_turn(
                         assistant_message_id,
-                        content="这次查询没有成功。",
-                        error=str(error),
+                        content=safe.for_user(),
+                        # 诊断字段保留 code 与安全 detail，不写原始驱动报错
+                        error=f"[{safe.code}] {safe.detail}",
                         steps=steps,
                         metrics=run_metrics.to_dict(),
                     )
@@ -338,7 +439,18 @@ class QueryService:
                     # 图已经保存而 MySQL 最终写入失败时，删除可重建的 Redis Thread，
                     # 下一轮从 MySQL 重新水合；删除失败进入后台幂等重试，不再只打日志。
                     await redis_checkpoint_manager.delete_thread_safely(conversation_id)
-                yield _sse({"type": "error", "message": str(error)})
+                yield _sse(
+                    _enrich_sse(
+                        {
+                            "type": "error",
+                            "message": safe.for_user(),
+                            "code": safe.code,
+                            "requestId": request_id,
+                        },
+                        request_id=request_id,
+                        started_at=turn_started_at,
+                    )
+                )
             finally:
                 # 解绑 ContextVar，避免同协程复用时串到下一轮。
                 set_run_metrics(None)

@@ -35,10 +35,12 @@ async def validate_sql(state: DataAgentState, runtime: Runtime[DataAgentContext]
             return {"error": None, "error_code": None}
         except Exception as e:
             # 不抛出异常中断图执行，而是把错误写入状态，供条件分支进入 correct_sql。
-            # EXPLAIN 失败时步骤标 error，与「有误」分支语义一致。
-            logger.info(f"SQL语法错误：{str(e)}")
+            # P5.4：完整 EXPLAIN 报错只进日志；state.error 用截断安全摘要，
+            # 既能指导 correct_sql 改写，又避免把驱动细节带到前端/持久化展示层。
+            logger.info(f"SQL语法错误：{e!r}")
             writer({"type": "progress", "step": step, "status": "error"})
-            return {"error": str(e), "error_code": "invalid_sql"}
+            short_detail = str(e).replace("\n", " ")[:200]
+            return {"error": f"[invalid_sql] {short_detail}", "error_code": "invalid_sql"}
 
     except Exception as e:
         logger.error(f"{step} failed: {e}")

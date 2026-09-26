@@ -88,6 +88,8 @@ class ConversationMessageSchema(APIModel):
     steps: list[dict[str, Any]] = Field(default_factory=list)
     # 失败或取消时的诊断信息；成功消息通常为 None。
     error: str | None = None
+    # P5.1/P5.3：分节点耗时、token 与结果解释，供历史页展示「本次查询说明」。
+    metrics: dict[str, Any] | None = None
     # 消息持久化时间；严格的会话顺序由数据库 position 保证。
     created_at: datetime
 
