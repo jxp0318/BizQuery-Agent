@@ -222,6 +222,6 @@ SSE 事件分为：
 - 同会话串行控制当前面向单应用进程；多实例部署需要引入分布式锁或数据库租约。
 - SQL 校验基于 MySQL `EXPLAIN`，不等同于完整 SQL 安全审计。
 - 演示数仓规模较小，尚未提供生产环境压测数据。
-- 项目暂未建立系统化 NL2SQL 评测集。
+- 已有本地 NL2SQL 评测集与基线（`evals/`，见改进路线图 P4）；CI 门禁与延迟/token 成本统计尚未接入。
 
 短期记忆的架构取舍与面试说明见 [LangGraph 短期记忆实现说明](docs/langgraph-short-term-memory.md)，后续改进顺序与完成状态见 [改进路线图](docs/improvement-roadmap.md)。

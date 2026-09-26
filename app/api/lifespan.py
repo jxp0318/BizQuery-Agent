@@ -51,6 +51,14 @@ async def lifespan(app: FastAPI):
         _ = (ConversationMySQL, ConversationMessageMySQL)
         async with meta_mysql_client_manager.engine.begin() as connection:
             await connection.run_sync(Base.metadata.create_all)
+            # create_all 不会给已存在的表加列；P5.1 metrics 字段做幂等补齐，
+            # 列已存在时忽略异常。缺失时仅影响指标落库，不阻断问数主流程。
+            try:
+                await connection.exec_driver_sql(
+                    "ALTER TABLE conversation_message ADD COLUMN metrics JSON NULL"
+                )
+            except Exception:
+                pass
 
         # yield 之前是启动逻辑，yield 之后是关闭逻辑；中间阶段由 FastAPI 处理请求。
         yield

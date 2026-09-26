@@ -102,12 +102,13 @@ def is_constant_refusal_sql(sql: str | None) -> bool:
 
 
 def parse_sse(content: str) -> dict[str, Any]:
-    """从 SSE 文本提取 sql / result / error / 步骤。"""
+    """从 SSE 文本提取 sql / result / error / 步骤 / P5.1 指标。"""
 
     sql = None
     result = None
     error = None
     steps: list[str] = []
+    metrics: dict[str, Any] | None = None
     for match in re.finditer(r"data:\s*(\{.*\})", content):
         try:
             event = json.loads(match.group(1))
@@ -122,7 +123,9 @@ def parse_sse(content: str) -> dict[str, Any]:
             error = event.get("message") or event.get("code")
         elif et == "progress":
             steps.append(event.get("step") or "")
-    return {"sql": sql, "result": result, "error": error, "steps": steps}
+        elif et == "metrics":
+            metrics = {k: v for k, v in event.items() if k != "type"}
+    return {"sql": sql, "result": result, "error": error, "steps": steps, "metrics": metrics}
 
 
 def extract_pred_metadata(sql: str | None) -> dict[str, list[str]]:
@@ -162,7 +165,11 @@ def run_case(api: str, row: dict) -> dict:
     for turn in row.get("history") or []:
         _http_sse(f"{api}/api/conversations/{cid}/query", {"query": turn["question"]})
 
+    import time as _time
+
+    _t0 = _time.perf_counter()
     content = _http_sse(f"{api}/api/conversations/{cid}/query", payload)
+    latency_ms = (_time.perf_counter() - _t0) * 1000
     parsed = parse_sse(content)
     pred_meta = extract_pred_metadata(parsed["sql"])
     gold = row.get("gold_retrieval") or {}
@@ -226,6 +233,8 @@ def run_case(api: str, row: dict) -> dict:
         "sql_executable": sql_executable if check == "result" else None,
         "result_match": result_ok,
         "safety_ok": safety_ok,
+        "latency_ms": round(latency_ms, 1),
+        "metrics": parsed.get("metrics"),
     }
 
 
@@ -285,6 +294,32 @@ def main() -> None:
               f"match={rec.get('result_match')} safety={rec.get('safety_ok')}")
 
     metrics = aggregate_metrics(records)
+    latencies = [r["latency_ms"] for r in records if r.get("latency_ms") is not None]
+    latencies_sorted = sorted(latencies)
+    tokens_in = [
+        (r.get("metrics") or {}).get("tokens_in") or 0 for r in records
+    ]
+    tokens_out = [
+        (r.get("metrics") or {}).get("tokens_out") or 0 for r in records
+    ]
+    llm_ms = [(r.get("metrics") or {}).get("llm_ms") or 0 for r in records]
+
+    def _pct(vals: list[float], p: float) -> float | None:
+        if not vals:
+            return None
+        idx = min(len(vals) - 1, max(0, int(round(p * (len(vals) - 1)))))
+        return round(vals[idx], 1)
+
+    metrics["latency_p50_ms"] = _pct(latencies_sorted, 0.5)
+    metrics["latency_p95_ms"] = _pct(latencies_sorted, 0.95)
+    metrics["latency_avg_ms"] = (
+        round(sum(latencies) / len(latencies), 1) if latencies else None
+    )
+    metrics["tokens_in_avg"] = round(sum(tokens_in) / len(tokens_in), 1) if tokens_in else None
+    metrics["tokens_out_avg"] = (
+        round(sum(tokens_out) / len(tokens_out), 1) if tokens_out else None
+    )
+    metrics["llm_ms_avg"] = round(sum(llm_ms) / len(llm_ms), 1) if llm_ms else None
     by_cat: dict[str, list] = {}
     for rec in records:
         by_cat.setdefault(rec["category"], []).append(rec)
@@ -306,6 +341,8 @@ def main() -> None:
         "safety_violation_rate",
     ):
         print(f"{key}: {metrics[key]:.3f}")
+    for key in ("latency_p50_ms", "latency_p95_ms", "latency_avg_ms", "tokens_in_avg", "tokens_out_avg", "llm_ms_avg"):
+        print(f"{key}: {metrics.get(key)}")
     print("report:", out)
 
 

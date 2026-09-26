@@ -1,12 +1,15 @@
 """
 电商问数 Agent 使用的大模型实例
 
-集中初始化一个 OpenAI 兼容的 Chat Model，供节点或本地测试直接复用
+集中初始化一个 OpenAI 兼容的 Chat Model，供节点或本地测试直接复用。
+同时注册 RunMetricsCallback：在问数请求内自动记录每次 LLM 的耗时与 token，
+不需要各节点改调用方式；无请求指标上下文时 callback 为空操作。
 """
 
 from langchain.chat_models import init_chat_model
 
 from app.conf.app_config import app_config
+from app.core.metrics import RunMetricsCallback
 
 # 统一从配置读取模型三件套，节点只复用 llm，不重复初始化模型连接
 llm = init_chat_model(
@@ -18,6 +21,9 @@ llm = init_chat_model(
     # 字段扩展、SQL 生成更看重稳定性，所以这里关闭随机发散
     temperature=0,
 )
+
+# P5.1：全局 LLM 埋点；归属到「当前正在执行的图节点」
+llm.callbacks = [RunMetricsCallback()]
 
 if __name__ == "__main__":
     # 本地快速验证 LLM 配置是否能正常调用

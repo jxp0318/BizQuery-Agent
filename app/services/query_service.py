@@ -13,7 +13,9 @@ from app.agent.conversation_graph import compact_messages, summarize_result
 from app.agent.conversation_state import ConversationAgentState
 from app.clients.redis_checkpoint_manager import redis_checkpoint_manager
 from app.conf.app_config import app_config
+from app.core.context import request_id_ctx_var
 from app.core.log import logger
+from app.core.metrics import RunMetrics, set_run_metrics
 from app.repositories.es.value_es_repository import ValueESRepository
 from app.repositories.mysql.dw.dw_mysql_repository import DWMySQLRepository
 from app.repositories.mysql.meta.conversation_repository import ConversationRepository
@@ -189,6 +191,9 @@ class QueryService:
             # 仅表示外层 LangGraph 是否已正常结束，用来判断 Redis 是否可能领先于
             # 尚未成功提交的 MySQL 事实历史。
             graph_completed = False
+            # P5.1：本轮指标账本；失败路径也写入已采集部分，便于事后定位。
+            run_metrics = RunMetrics(request_id=str(request_id_ctx_var.get()))
+            set_run_metrics(run_metrics)
 
             try:
                 # 先创建 MySQL Turn，再访问 Redis。这样 Redis 或模型失败时仍有稳定
@@ -275,6 +280,10 @@ class QueryService:
                         stream_error_message = chunk.get("message") or "查询未成功"
                     yield _sse(chunk)
                 graph_completed = True
+                # P5.1：先推指标事件，再写 MySQL，避免落库失败丢观测数据。
+                metrics_payload = run_metrics.to_dict()
+                logger.info(f"run_metrics {metrics_payload}")
+                yield _sse({"type": "metrics", **metrics_payload})
                 # 图结束后采集 State 体积与快照加载耗时，监控短期记忆是否膨胀。
                 await redis_checkpoint_manager.capture_state_metrics(conversation_id)
 
@@ -289,6 +298,7 @@ class QueryService:
                         content=stream_error_message,
                         error=stream_error_message,
                         steps=steps,
+                        metrics=run_metrics.to_dict(),
                     )
                 else:
                     await self.conversation_repository.finish_turn(
@@ -298,6 +308,7 @@ class QueryService:
                         sql=generated_sql,
                         result=result_data,
                         steps=steps,
+                        metrics=run_metrics.to_dict(),
                     )
             except asyncio.CancelledError:
                 # 浏览器主动中止流时保留明确的 cancelled 历史，但必须继续抛出
@@ -309,6 +320,7 @@ class QueryService:
                         error="查询被用户取消。",
                         steps=steps,
                         status="cancelled",
+                        metrics=run_metrics.to_dict(),
                     )
                 raise
             except Exception as error:
@@ -320,9 +332,13 @@ class QueryService:
                         content="这次查询没有成功。",
                         error=str(error),
                         steps=steps,
+                        metrics=run_metrics.to_dict(),
                     )
                 if graph_completed:
                     # 图已经保存而 MySQL 最终写入失败时，删除可重建的 Redis Thread，
                     # 下一轮从 MySQL 重新水合；删除失败进入后台幂等重试，不再只打日志。
                     await redis_checkpoint_manager.delete_thread_safely(conversation_id)
                 yield _sse({"type": "error", "message": str(error)})
+            finally:
+                # 解绑 ContextVar，避免同协程复用时串到下一轮。
+                set_run_metrics(None)

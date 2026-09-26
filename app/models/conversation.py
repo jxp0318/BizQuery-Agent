@@ -103,6 +103,9 @@ class ConversationMessageMySQL(Base):
     steps: Mapped[list[dict[str, Any]] | None] = mapped_column(JSON)
     # 本轮失败时保存可展示、可诊断的错误信息；成功消息保持为 NULL。
     error: Mapped[str | None] = mapped_column(Text)
+    # P5.1：分节点耗时与 token 用量，由 QueryService 在结束时写入；与 steps 分离，
+    # 避免前端执行轨迹列表被指标结构污染。仅审计/评测消费，不进 Redis。
+    metrics: Mapped[dict[str, Any] | None] = mapped_column(JSON)
     # 消息写入时间，用于审计；会话内的严格显示顺序仍以 position 为准。
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, default=datetime.now, server_default=func.now()

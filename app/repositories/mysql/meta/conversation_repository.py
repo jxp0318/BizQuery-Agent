@@ -169,6 +169,7 @@ class ConversationRepository:
         sql: str | None,
         result: Any,
         steps: list[dict[str, Any]],
+        metrics: dict[str, Any] | None = None,
     ) -> None:
         """把助手占位消息更新为成功结果。
 
@@ -179,6 +180,7 @@ class ConversationRepository:
             sql: 最终执行的 SQL。
             result: 返回给用户的完整结构化结果，仅保存在 MySQL。
             steps: 前端可恢复的 Agent 执行步骤。
+            metrics: P5.1 分节点耗时与 token，可空。
         """
 
         message = await self.session.get(ConversationMessageMySQL, message_id)
@@ -190,6 +192,7 @@ class ConversationRepository:
         message.sql = sql
         message.result = result
         message.steps = steps
+        message.metrics = metrics
         message.error = None
         conversation = await self.get(message.conversation_id)
         if conversation is not None:
@@ -204,6 +207,7 @@ class ConversationRepository:
         error: str,
         steps: list[dict[str, Any]],
         status: str = "error",
+        metrics: dict[str, Any] | None = None,
     ) -> None:
         """把助手占位消息更新为失败或取消状态。
 
@@ -216,6 +220,7 @@ class ConversationRepository:
             error: 用于诊断的内部错误文本。
             steps: 失败前已经完成或正在执行的步骤。
             status: `error` 或 `cancelled`。
+            metrics: P5.1 指标，失败时尽量保留已采集部分。
         """
 
         # 图节点可能在共享的 Meta Session 上触发数据库异常，先恢复事务状态，
@@ -228,6 +233,7 @@ class ConversationRepository:
         message.status = status
         message.error = error
         message.steps = steps
+        message.metrics = metrics
         conversation = await self.get(message.conversation_id)
         if conversation is not None:
             conversation.updated_at = datetime.now()
