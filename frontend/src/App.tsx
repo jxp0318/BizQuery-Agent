@@ -23,6 +23,7 @@ import {
   deleteConversation,
   getConversation,
   listConversations,
+  renameConversation,
   streamQuery,
 } from "./lib/agentApi";
 import { cn, summarizeResult } from "./lib/format";
@@ -228,6 +229,28 @@ export default function App() {
       setDeleteError(error instanceof Error ? error.message : String(error));
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const renameConversationItem = async (
+    conversation: ConversationSummary,
+    title: string,
+  ) => {
+    /** 调 PATCH 重命名并用后端返回的最新 summary 替换列表项，保持 updatedAt 等字段一致。 */
+    try {
+      const updated = await renameConversation(conversation.id, title);
+      setConversations((current) =>
+        current.map((item) => (item.id === updated.id ? updated : item)),
+      );
+      setHistoryError(null);
+      // 不带 deleted 标记的广播只让其他标签页刷新列表；5s 轮询仍是兜底。
+      if ("BroadcastChannel" in window) {
+        const channel = new BroadcastChannel(CONVERSATION_CHANNEL);
+        channel.postMessage({ conversationId: conversation.id });
+        channel.close();
+      }
+    } catch (error) {
+      setHistoryError(error instanceof Error ? error.message : String(error));
     }
   };
 
@@ -479,6 +502,9 @@ export default function App() {
               loading={historyLoading}
               onSelect={(conversationId) => void selectConversation(conversationId)}
               onDelete={requestDeleteConversation}
+              onRename={(conversation, title) =>
+                void renameConversationItem(conversation, title)
+              }
             />
             {historyError && (
               <div className="shrink-0 border border-tomato/25 bg-tomato/10 px-3 py-2 text-xs text-tomato">

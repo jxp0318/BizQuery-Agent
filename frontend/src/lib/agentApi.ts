@@ -63,6 +63,17 @@ export async function deleteConversation(conversationId: string) {
   }
 }
 
+export function renameConversation(conversationId: string, title: string) {
+  // 后端复用创建接口的标题清洗规则并返回最新 summary，前端直接用它替换列表项。
+  return requestJson<ConversationSummary>(
+    `/api/conversations/${encodeURIComponent(conversationId)}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ title }),
+    },
+  );
+}
+
 export async function streamQuery(
   conversationId: string,
   query: string,
