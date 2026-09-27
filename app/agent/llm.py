@@ -20,6 +20,9 @@ llm = init_chat_model(
     api_key=app_config.llm.api_key,
     # 字段扩展、SQL 生成更看重稳定性，所以这里关闭随机发散
     temperature=0,
+    # DeepSeek 思考模式默认开启，扩词/过滤等机械步骤会产生大量 reasoning token，
+    # 实测同一扩词调用开启后耗时约 3 倍（2.5s vs 0.8s），故全链路显式关闭。
+    extra_body={"thinking": {"type": "disabled"}},
 )
 
 # P5.1：全局 LLM 埋点；归属到「当前正在执行的图节点」

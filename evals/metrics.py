@@ -59,6 +59,9 @@ def result_match(gold_answer: Any, pred_answer: Any) -> bool:
     1. 键值行集合完全一致
     2. 仅数值集合一致（列名不同）
     3. 金标行的值是某预测行值的子集（预测多 select 年份等冗余列）
+    4. 金标单行多列 vs 预测按维度分组多行（同比/对比题的两种等价写法：
+       金标 {y2024, y2025} 拼一行，预测 GROUP BY 年份每年一行）：
+       金标所有值都能在预测各行值的并集中找到即视为形态等价
     """
 
     gold_rows = set(normalize_rows(gold_answer))
@@ -81,11 +84,19 @@ def result_match(gold_answer: Any, pred_answer: Any) -> bool:
         return True
 
     pred_value_sets = [row_values(row) for row in pred_rows]
-    for grow in gold_rows:
-        gv = row_values(grow)
-        if not any(gv.issubset(pv) or pv.issubset(gv) for pv in pred_value_sets):
-            return False
-    return True
+    rule3_ok = all(
+        any(gv.issubset(pv) or pv.issubset(gv) for pv in pred_value_sets)
+        for gv in (row_values(grow) for grow in gold_rows)
+    )
+    if rule3_ok:
+        return True
+
+    if len(gold_rows) == 1 and len(pred_value_sets) > 1:
+        gold_values = row_values(next(iter(gold_rows)))
+        pred_union: set = set().union(*pred_value_sets)
+        if gold_values and gold_values.issubset(pred_union):
+            return True
+    return False
 
 
 def aggregate_metrics(records: list[dict]) -> dict:
