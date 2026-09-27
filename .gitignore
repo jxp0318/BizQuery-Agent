@@ -24,3 +24,9 @@ Thumbs.db
 # Generated and temporary files
 tmp/
 docker/embedding/*
+
+# 本地运行产物与个人面试材料（公开仓库不入库）
+logs/
+evals/report/e2e-report.json
+docs/interview-qa.md
+tutorial.md

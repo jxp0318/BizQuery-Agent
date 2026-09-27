@@ -1,4 +1,3 @@
-*-**************************
 <div align="center">
 
 # 电商智能问数 Agent
@@ -13,7 +12,9 @@
 
 </div>
 
-![系统查询结果](docs/images/shopkeeper-agent-query-result.jpg)
+![问数执行流程](docs/images/shopkeeper-agent-query-process.png)
+
+![SQL 闭环与查询结果](docs/images/shopkeeper-agent-query-result.png)
 
 ## 项目介绍
 
@@ -24,17 +25,19 @@
 ## 核心能力
 
 - **元数据 RAG**：围绕数据库 Schema、业务指标和字段真实值构建检索上下文。
-- **三路并行召回**：字段与指标使用 Qdrant 向量检索，字段值使用 Elasticsearch 全文检索。
+- **三路并行召回**：字段与指标使用 Qdrant 向量检索，字段值使用 Elasticsearch 全文检索；批量向量化 + 并发检索。
 - **上下文组装**：按实体 ID 去重，并从 Meta MySQL 补齐指标依赖字段、主外键和值样例。
-- **LangGraph 编排**：组织关键词抽取、并行召回、候选过滤、SQL 生成、校验和执行节点。
-- **NL2SQL 链路**：基于表结构、指标口径、日期和数据库方言生成 SQL，并通过 MySQL `EXPLAIN` 检查可执行性。
-- **实时进度展示**：FastAPI 通过 SSE 推送节点状态和最终结果，React 前端展示执行流程。
-- **历史会话与续聊**：会话、消息、SQL、结果和执行步骤持久化到 Meta MySQL，支持刷新后恢复并基于最近上下文继续追问。
+- **LangGraph 编排**：会话主图 + NL2SQL 子图，组织问题改写、关键词抽取、并行召回、候选过滤、SQL 生成、安全校验和执行节点。
+- **NL2SQL 安全闭环**：SQL 生成后经 sqlglot AST 安全闸（语句类型/表白名单/危险函数黑名单）和 MySQL `EXPLAIN` 双重检查，失败自动修正最多 3 轮；执行层只读账号 + 行数截断 + 超时 + 并发限制；超范围问题走常量语句/显式拒答通道。
+- **实时进度展示**：FastAPI 通过 SSE 推送节点状态、结构化事件和心跳，React 前端展示执行流程与结果解释面板。
+- **历史会话与续聊**：会话、消息、SQL、结果和执行步骤持久化到 Meta MySQL，支持刷新恢复、重命名、删除，并基于最近上下文继续追问。
 - **LangGraph 短期记忆**：Redis Checkpointer 按会话保存精简消息窗口、滚动摘要和最近 SQL 摘要，过期后可从 MySQL 历史懒恢复。
+- **可观测性**：request_id 贯通日志/接口/前端；节点级耗时与 token 自动归因；错误按用户/模型/日志三份分离并脱敏。
+- **自动化评测**：100 题黄金评测集（基础/维度/进阶/安全四类），6 项指标 + latency/token 报告；当前基线 SQL 可执行率 100%、结果一致率 97.8%、安全违规 0、P50 3.4s。
 
 ## 系统架构
 
-![NL2SQL 系统架构](docs/images/nl2sql-architecture.jpg)
+![NL2SQL 系统架构](docs/assets/nl2sql-architecture-current.svg)
 
 项目包含两条核心链路：
 
@@ -67,9 +70,14 @@
                  ↓
           SQL 上下文构建
                  ↓
-           SQL 生成与 EXPLAIN
+            SQL 生成
                  ↓
-          查询执行与结果返回
+      sql_guard（sqlglot AST 安全闸）
+                 ↓
+      validate_sql（MySQL EXPLAIN）
+        ├─ 全部通过 ──────────→ 查询执行与结果返回
+        ├─ 失败且校验 < 3 轮 ─→ SQL 修正 → 回到 sql_guard
+        └─ 失败且达上限/超范围 → 明确拒答或错误结束
 ```
 
 ## 技术栈
@@ -78,6 +86,7 @@
 | --- | --- | --- |
 | 工作流 | LangGraph | 状态传递、并行节点、条件路由 |
 | 模型调用 | LangChain / OpenAI-compatible API | 查询扩展、候选过滤、SQL 生成与修正 |
+| SQL 安全 | sqlglot | EXPLAIN 前的 AST 语句类型/白名单/危险函数检查 |
 | Embedding | TEI / BAAI/bge-large-zh-v1.5 | 字段、指标和查询文本向量化 |
 | 向量检索 | Qdrant | 字段与指标语义召回 |
 | 全文检索 | Elasticsearch / IK | 字段真实值检索 |
@@ -94,6 +103,7 @@ shopkeeper-agent/
 │   ├── agent/          # LangGraph 图、State、Context 和节点
 │   ├── api/            # FastAPI 路由、依赖和生命周期
 │   ├── clients/        # 外部服务客户端管理
+│   ├── core/           # 日志、指标埋点、错误脱敏、请求上下文
 │   ├── entities/       # 业务实体
 │   ├── models/         # SQLAlchemy ORM 模型
 │   ├── repositories/   # MySQL、Qdrant、ES 数据访问层
@@ -101,8 +111,11 @@ shopkeeper-agent/
 │   └── services/       # 查询与元数据构建服务
 ├── conf/               # 应用和业务元数据配置
 ├── docker/             # 本地基础服务与演示数仓
+├── docs/               # 路线图、评测规范、面试问答等说明文档
+├── evals/              # 100 题评测集、指标计算与评测报告
 ├── frontend/           # React 问数界面
-├── prompts/            # 检索扩展、过滤和 SQL Prompt
+├── prompts/            # 问题改写、检索扩词、过滤、SQL 生成与修正 Prompt
+├── tests/              # 单元测试与 Redis+MySQL 集成测试
 ├── main.py             # FastAPI 入口
 └── start.py            # 前后端本地启动脚本
 ```
@@ -200,11 +213,15 @@ Accept: text/event-stream
 SSE 事件分为：
 
 - `turn`：本轮持久化消息与会话标识。
-- `progress`：节点运行状态。
+- `progress`：节点运行状态（含耗时 `elapsedMs`）。
 - `resolved_query`：结合历史上下文改写后的独立问题。
 - `sql`：当前生成或修正后的 SQL。
+- `explain`：本次生成使用的表、指标口径、日期和数据库环境。
 - `result`：最终结构化查询结果。
-- `error`：工作流异常信息。
+- `truncated`：结果超过行数上限的截断提示。
+- `metrics`：本轮总耗时、各节点耗时与 token 用量。
+- `error`：工作流异常，含原因码和面向用户的脱敏短句。
+- `heartbeat`：15 秒空闲心跳，防止代理超时断流。
 
 历史会话管理接口：
 
@@ -215,13 +232,22 @@ SSE 事件分为：
 
 原有的 `POST /api/query` 仍然保留兼容，并会自动创建一个新会话。
 
+评测命令：
+
+```bash
+uv run python -m evals.run_eval --stage e2e --api http://127.0.0.1:8000
+```
+
+报告输出到 `evals/report/`，指标口径与建集说明见 [评测规范](docs/p4-eval-spec.md)。
+
 ## 当前边界
 
 - 多轮续聊使用 Redis-backed LangGraph Checkpointer；Redis 仅保存可重建的短期运行状态，完整历史、SQL 和查询结果仍以 Meta MySQL 为准。
 - 当前滚动摘要采用确定性文本压缩，不额外调用一次大模型；它不是跨会话用户画像或 LangGraph Store 长期记忆。
-- 同会话串行控制当前面向单应用进程；多实例部署需要引入分布式锁或数据库租约。
-- SQL 校验基于 MySQL `EXPLAIN`，不等同于完整 SQL 安全审计。
-- 演示数仓规模较小，尚未提供生产环境压测数据。
-- 已有本地 NL2SQL 评测集与基线（`evals/`，见改进路线图 P4）；e2e 报告已输出 latency P50/P95 与 token 用量（P5.1）；评测基线为本地手动对比口径。
+- 单 FastAPI Worker 是明确的部署边界，同会话串行由进程内锁保证；多实例分布式并发方案已随工程化阶段取消，不在项目规划内。
+- SQL 安全为「AST 规则闸 + EXPLAIN + 只读账号 + 行数/超时/并发限制」的组合边界，不等同于完整 SQL 安全审计。
+- 演示数仓规模较小（约 7 千订单），未提供生产环境压测数据。
+- LLM 调用显式关闭思考模式（`extra_body.thinking=disabled`）：DeepSeek 默认开启会让机械步骤产生大量 reasoning token，关闭后 P50 由约 14s 降至 3.4s 且评测无回退。
+- 评测集、指标与基线在 `evals/`（见改进路线图 P4）；基线对比为本地手动口径，未接入 CI。
 
-短期记忆的架构取舍与面试说明见 [LangGraph 短期记忆实现说明](docs/langgraph-short-term-memory.md)，后续改进顺序与完成状态见 [改进路线图](docs/improvement-roadmap.md)。
+短期记忆的架构取舍见 [LangGraph 短期记忆实现说明](docs/langgraph-short-term-memory.md)，各阶段决策与完成状态见 [改进路线图](docs/improvement-roadmap.md)。
