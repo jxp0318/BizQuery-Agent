@@ -110,8 +110,12 @@ def _can_correct(state) -> str:
 
 
 def _route_after_guard(state):
-    """安全检查路由：通过则 EXPLAIN；失败进修正或放弃。"""
+    """安全检查路由：超范围拒答直接终止；通过则 EXPLAIN；失败进修正或放弃。"""
 
+    # out_of_scope 是「模型在拒答」而非「SQL 有问题」，修正不可能把它改对，
+    # 必须绕开修正循环直达 reject_sql（fail-closed 语义不变：同样绝不执行）。
+    if state.get("error_code") == "out_of_scope":
+        return "reject_sql"
     if state.get("error") is None:
         return "validate_sql"
     return _can_correct(state)

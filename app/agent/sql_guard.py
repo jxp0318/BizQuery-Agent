@@ -110,6 +110,60 @@ def _reject(code: str, detail: str) -> SqlCheckError:
     return SqlCheckError(code=code, detail=detail)
 
 
+# 覆盖读、写、DDL 各类语句起始关键字：只要模型在「写 SQL」（哪怕写的是
+# DELETE），就交给 check_sql 安全规则裁决并保留 P3「违规进修正循环」的语义；
+# 只有完全以自然语言开头的文本才可能被分类为拒答。
+_SQL_STATEMENT_STARTERS = (
+    "SELECT",
+    "WITH",
+    "(",
+    "DELETE",
+    "UPDATE",
+    "INSERT",
+    "DROP",
+    "ALTER",
+    "CREATE",
+    "TRUNCATE",
+    "REPLACE",
+    "GRANT",
+    "MERGE",
+    "SET",
+    "SHOW",
+    "DESC",
+    "EXPLAIN",
+    "CALL",
+)
+
+
+def looks_like_sql_attempt(sql: str) -> bool:
+    """判断候选文本是否为「一次 SQL 语句尝试」（不限读类语句）。
+
+    guard 拒绝时需要区分两类失败：「想写 SQL 但写坏/写危险了」（值得进
+    修正循环改写）与「输出的是自然语言拒答」（sqlglot 会把中文散文解析成
+    Column 等碎片，修正不可能把它改对，只会再烧一轮 LLM，应直接
+    out_of_scope 终止）。跳过行首注释后，首 token 属于任一语句关键字才算
+    SQL 尝试；空文本返回 False，调用方需保留「SQL 为空走修正」的旧语义。
+
+    Args:
+        sql: generate_sql / correct_sql 的原始输出文本。
+
+    Returns:
+        True 表示像一次 SQL 尝试（含危险语句）；False 表示更像自然语言拒答。
+    """
+
+    body = sql or ""
+    # 行首 `-- 注释` 或 `/* */` 后接 SELECT 是合法形态，先剥掉再判首 token。
+    while True:
+        stripped = body.lstrip()
+        if stripped.startswith("--"):
+            body = stripped.partition("\n")[2]
+            continue
+        if stripped.startswith("/*"):
+            body = stripped[2:].partition("*/")[2]
+            continue
+        return stripped.upper().startswith(_SQL_STATEMENT_STARTERS)
+
+
 def check_sql(sql: str) -> SqlCheckError | None:
     """对候选 SQL 做 AST 安全检查。
 

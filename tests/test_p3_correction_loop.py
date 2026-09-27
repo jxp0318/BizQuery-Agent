@@ -7,8 +7,13 @@ import unittest
 import app.agent.graph as graph_module
 from app.agent.nodes.reject_sql import reject_sql
 from app.agent.nodes.sql_guard import sql_guard
-from app.agent.sql_errors import CORRECTION_EXHAUSTED, UNSAFE_STATEMENT
-from app.agent.sql_guard import check_sql
+from app.agent.sql_errors import (
+    CORRECTION_EXHAUSTED,
+    OUT_OF_SCOPE,
+    PARSE_FAILED,
+    UNSAFE_STATEMENT,
+)
+from app.agent.sql_guard import check_sql, looks_like_sql_attempt
 from app.agent.state import DataAgentState
 
 
@@ -101,6 +106,66 @@ class CorrectionLoopTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0]["code"], CORRECTION_EXHAUSTED)
         self.assertIn("改写", errors[0]["message"])
+
+    async def test_sql_guard_classifies_prose_refusal(self):
+        """D-009 形态：模型输出中文拒答散文，应判 out_of_scope 而非 parse_failed。"""
+
+        writer = _Writer()
+        state = DataAgentState(
+            query="q",
+            original_query="q",
+            sql="抱歉，当前提供的可用数据表仅包含订单事实表，无法查询公司股价。",
+            sql_correction_count=0,
+        )
+        update = await sql_guard(state, _Runtime(writer))  # type: ignore[arg-type]
+        self.assertEqual(update["error_code"], OUT_OF_SCOPE)
+
+    async def test_sql_guard_empty_still_enters_correction(self):
+        """空 SQL 保留旧语义：视为生成缺陷进修正重试，不当拒答终止。"""
+
+        writer = _Writer()
+        state = DataAgentState(
+            query="q", original_query="q", sql="", sql_correction_count=0
+        )
+        update = await sql_guard(state, _Runtime(writer))  # type: ignore[arg-type]
+        self.assertEqual(update["error_code"], PARSE_FAILED)
+
+    def test_route_after_guard_out_of_scope_skips_correction(self):
+        """out_of_scope 即使修正轮次没用完也必须直达 reject_sql。"""
+
+        self.assertEqual(
+            graph_module._route_after_guard(
+                {"error": "x", "error_code": OUT_OF_SCOPE, "sql_correction_count": 0}
+            ),
+            "reject_sql",
+        )
+
+    async def test_reject_sql_out_of_scope_uses_model_reason(self):
+        writer = _Writer()
+        state = DataAgentState(
+            query="q",
+            original_query="q",
+            sql="当前数据仅包含电商经营数据，不包含股票行情信息",
+            error="refused",
+            error_code=OUT_OF_SCOPE,
+        )
+        await reject_sql(state, _Runtime(writer))  # type: ignore[arg-type]
+        errors = [c for c in writer.chunks if c.get("type") == "error"]
+        self.assertEqual(errors[0]["code"], OUT_OF_SCOPE)
+        self.assertIn("股票", errors[0]["message"])
+
+    def test_looks_like_sql_attempt_variants(self):
+        # 行首注释、小写、WITH、截断 SQL 都算 SQL 尝试（应留在修正循环）
+        self.assertTrue(looks_like_sql_attempt("-- 统计\nSELECT 1"))
+        self.assertTrue(looks_like_sql_attempt("select order_id from"))
+        self.assertTrue(looks_like_sql_attempt("WITH t AS (SELECT 1) SELECT * FROM t"))
+        self.assertTrue(looks_like_sql_attempt("(SELECT 1)"))
+        # 危险语句同样是「SQL 尝试」：交给 check_sql 判 unsafe_statement，
+        # 不能被散文分类抢走成 out_of_scope（P3 违规进修正的语义不变）
+        self.assertTrue(looks_like_sql_attempt("DELETE FROM fact_order"))
+        # 散文与空文本不算
+        self.assertFalse(looks_like_sql_attempt("抱歉，无法回答"))
+        self.assertFalse(looks_like_sql_attempt(""))
 
 
 if __name__ == "__main__":

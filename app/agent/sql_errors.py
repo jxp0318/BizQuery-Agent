@@ -14,6 +14,7 @@ FORBIDDEN_FUNCTION = "forbidden_function"
 TABLE_NOT_ALLOWED = "table_not_allowed"
 PARSE_FAILED = "parse_failed"
 INVALID_SQL = "invalid_sql"
+OUT_OF_SCOPE = "out_of_scope"
 CORRECTION_EXHAUSTED = "correction_exhausted"
 QUERY_TIMEOUT = "query_timeout"
 RESULT_TRUNCATED = "result_truncated"
@@ -27,6 +28,8 @@ USER_MESSAGES: dict[str, str] = {
     TABLE_NOT_ALLOWED: "涉及未授权的数据表，不在可分析范围内，请改写问题。",
     PARSE_FAILED: "生成的 SQL 不符合规范，请改写问题后重试。",
     INVALID_SQL: "生成的 SQL 无法在数据库执行，已尝试自动修正。",
+    # out_of_scope 优先展示模型自己的拒答解释，此短句仅作兜底。
+    OUT_OF_SCOPE: "该问题超出当前经营数据分析范围，请改问订单、销售等电商经营指标。",
     CORRECTION_EXHAUSTED: "连续修正仍未通过校验，请改写问题后重试。",
     QUERY_TIMEOUT: "查询超时，请缩小时间范围或减少分组维度。",
     RESULT_TRUNCATED: "结果较多，仅展示前 1000 行。",

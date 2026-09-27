@@ -11,8 +11,8 @@ from typing import Any
 from langgraph.runtime import Runtime
 
 from app.agent.context import DataAgentContext
-from app.agent.sql_errors import SqlCheckError
-from app.agent.sql_guard import check_sql
+from app.agent.sql_errors import OUT_OF_SCOPE, SqlCheckError
+from app.agent.sql_guard import check_sql, looks_like_sql_attempt
 from app.agent.state import DataAgentState
 from app.core.log import logger
 
@@ -38,6 +38,16 @@ async def sql_guard(
     writer({"type": "progress", "step": step, "status": "running"})
 
     sql = (state.get("sql") or "").strip()
+    # 非空但完全不像 SQL 尝试 → 模型在输出自然语言拒答。判为 out_of_scope
+    # 直接走拒答出口：它不是「写坏了的 SQL」，进修正循环只会再烧 LLM 轮次，
+    # 且修正 prompt 会诱导模型把拒答解释改写成勉强拼凑的查询。
+    if sql and not looks_like_sql_attempt(sql):
+        logger.info(f"sql_guard_out_of_scope text={sql[:120]}")
+        writer({"type": "progress", "step": step, "status": "error"})
+        return {
+            "error": f"[{OUT_OF_SCOPE}] 模型未产出 SQL 尝试，判定为超范围拒答",
+            "error_code": OUT_OF_SCOPE,
+        }
     try:
         result: SqlCheckError | None = check_sql(sql)
         if result is None:
