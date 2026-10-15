@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1450" viewBox="0 0 1800 1450" role="img" aria-labelledby="title desc">
+  <title id="title">BizQuery Agent P1/P2 完整架构图</title>
+  <desc id="desc">展示前端会话层、FastAPI 接口层、双存储编排、LangGraph 短期记忆、NL2SQL 子图以及 MySQL 和 Redis 的关系。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 38px 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; fill: #172033; }
+      .subtitle { font: 400 20px 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; fill: #64748b; }
+      .lane-title { font: 700 24px 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; fill: #172033; }
+      .node-title { font: 700 21px 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; fill: #172033; }
+      .node-desc { font: 400 17px 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; fill: #475569; }
+      .edge-label { font: 600 16px 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; fill: #475569; }
+      .legend { font: 500 18px 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; fill: #334155; }
+      .edge { fill: none; stroke: #475569; stroke-width: 3; marker-end: url(#arrow); }
+      .edge-dashed { fill: none; stroke: #64748b; stroke-width: 3; stroke-dasharray: 10 8; marker-end: url(#arrow); }
+      .p1 { fill: #eaf2ff; stroke: #2563eb; stroke-width: 3; }
+      .p2 { fill: #fff0f0; stroke: #dc2626; stroke-width: 3; }
+      .shared { fill: #f5edff; stroke: #7e22ce; stroke-width: 3; }
+      .storage { fill: #eefbf3; stroke: #15803d; stroke-width: 3; }
+      .lane { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1450" fill="#f8fafc"/>
+  <text x="80" y="72" class="title">BizQuery Agent：P1 历史会话 + P2 LangGraph 短期记忆</text>
+  <text x="80" y="108" class="subtitle">conversation_id 与 LangGraph thread_id 一一对应；MySQL 是事实来源，Redis 是可重建的运行时状态。</text>
+
+  <rect x="60" y="145" width="1680" height="190" rx="18" class="lane"/>
+  <text x="90" y="183" class="lane-title">① P1 前端会话层</text>
+  <rect x="110" y="215" width="300" height="85" rx="12" class="p1"/>
+  <text x="260" y="248" text-anchor="middle" class="node-title">ConversationList.tsx</text>
+  <text x="260" y="277" text-anchor="middle" class="node-desc">历史选择与删除入口</text>
+  <rect x="500" y="215" width="300" height="85" rx="12" class="p1"/>
+  <text x="650" y="248" text-anchor="middle" class="node-title">App.tsx</text>
+  <text x="650" y="277" text-anchor="middle" class="node-desc">会话与流式状态协调</text>
+  <rect x="890" y="215" width="300" height="85" rx="12" class="p1"/>
+  <text x="1040" y="248" text-anchor="middle" class="node-title">agentApi.ts</text>
+  <text x="1040" y="277" text-anchor="middle" class="node-desc">JSON API + SSE 解析</text>
+  <rect x="1280" y="215" width="300" height="85" rx="12" class="p1"/>
+  <text x="1430" y="248" text-anchor="middle" class="node-title">删除确认框</text>
+  <text x="1430" y="277" text-anchor="middle" class="node-desc">防误删与错误反馈</text>
+  <path d="M410 258 H500" class="edge"/>
+  <path d="M800 258 H890" class="edge"/>
+  <path d="M800 275 H1280" class="edge-dashed"/>
+
+  <rect x="60" y="375" width="1680" height="175" rx="18" class="lane"/>
+  <text x="90" y="413" class="lane-title">② FastAPI 接口层</text>
+  <rect x="210" y="445" width="350" height="75" rx="12" class="shared"/>
+  <text x="385" y="477" text-anchor="middle" class="node-title">query_router.py</text>
+  <text x="385" y="503" text-anchor="middle" class="node-desc">接收问数请求</text>
+  <rect x="725" y="445" width="350" height="75" rx="12" class="p1"/>
+  <text x="900" y="477" text-anchor="middle" class="node-title">conversation_router.py</text>
+  <text x="900" y="503" text-anchor="middle" class="node-desc">会话 CRUD</text>
+  <rect x="1240" y="445" width="350" height="75" rx="12" class="shared"/>
+  <text x="1415" y="477" text-anchor="middle" class="node-title">dependencies.py</text>
+  <text x="1415" y="503" text-anchor="middle" class="node-desc">请求级依赖组装</text>
+  <path d="M1040 300 V350 H385 V445" class="edge"/>
+  <path d="M1040 300 V350 H900 V445" class="edge"/>
+  <path d="M560 483 H1240" class="edge"/>
+  <path d="M1075 500 H1240" class="edge"/>
+
+  <rect x="60" y="590" width="1680" height="190" rx="18" class="lane"/>
+  <text x="90" y="628" class="lane-title">③ P1 + P2 总编排层</text>
+  <rect x="280" y="665" width="470" height="80" rx="12" class="shared"/>
+  <text x="515" y="698" text-anchor="middle" class="node-title">QueryService.query</text>
+  <text x="515" y="726" text-anchor="middle" class="node-desc">MySQL Turn、Checkpoint、Graph 与 SSE 总编排</text>
+  <rect x="1050" y="665" width="470" height="80" rx="12" class="shared"/>
+  <text x="1285" y="698" text-anchor="middle" class="node-title">ConversationLockManager</text>
+  <text x="1285" y="726" text-anchor="middle" class="node-desc">单 Worker 内保证同会话请求串行</text>
+  <path d="M1415 520 V570 H515 V665" class="edge"/>
+  <path d="M750 705 H1050" class="edge"/>
+
+  <rect x="60" y="820" width="820" height="390" rx="18" class="lane"/>
+  <text x="90" y="858" class="lane-title">④ P1：完整历史持久化</text>
+  <rect x="125" y="900" width="340" height="82" rx="12" class="p1"/>
+  <text x="295" y="933" text-anchor="middle" class="node-title">ConversationRepository</text>
+  <text x="295" y="961" text-anchor="middle" class="node-desc">start / finish / fail / delete Turn</text>
+  <rect x="520" y="900" width="290" height="82" rx="12" class="p1"/>
+  <text x="665" y="933" text-anchor="middle" class="node-title">ORM Model</text>
+  <text x="665" y="961" text-anchor="middle" class="node-desc">会话表 + 消息表</text>
+  <rect x="245" y="1050" width="450" height="105" rx="52" class="storage"/>
+  <text x="470" y="1090" text-anchor="middle" class="node-title">Meta MySQL</text>
+  <text x="470" y="1120" text-anchor="middle" class="node-desc">完整消息 / SQL / 结果 / 步骤 / 错误</text>
+  <path d="M515 745 V790 H295 V900" class="edge"/>
+  <path d="M465 941 H520" class="edge"/>
+  <path d="M665 982 V1050" class="edge"/>
+
+  <rect x="920" y="820" width="820" height="520" rx="18" class="lane"/>
+  <text x="950" y="858" class="lane-title">⑤ P2：LangGraph 会话短期记忆</text>
+  <rect x="980" y="900" width="330" height="82" rx="12" class="p2"/>
+  <text x="1145" y="933" text-anchor="middle" class="node-title">RedisCheckpointManager</text>
+  <text x="1145" y="961" text-anchor="middle" class="node-desc">Saver 生命周期与 Thread 操作</text>
+  <rect x="1360" y="900" width="320" height="82" rx="12" class="p2"/>
+  <text x="1520" y="933" text-anchor="middle" class="node-title">Conversation State</text>
+  <text x="1520" y="961" text-anchor="middle" class="node-desc">精简跨轮状态</text>
+  <rect x="980" y="1035" width="330" height="82" rx="12" class="p2"/>
+  <text x="1145" y="1068" text-anchor="middle" class="node-title">Conversation Graph</text>
+  <text x="1145" y="1096" text-anchor="middle" class="node-desc">带 Checkpointer 的会话主图</text>
+  <rect x="1360" y="1035" width="320" height="82" rx="12" class="shared"/>
+  <text x="1520" y="1068" text-anchor="middle" class="node-title">data_graph</text>
+  <text x="1520" y="1096" text-anchor="middle" class="node-desc">原 NL2SQL 单轮子图</text>
+  <rect x="980" y="1180" width="330" height="105" rx="52" class="storage"/>
+  <text x="1145" y="1220" text-anchor="middle" class="node-title">Redis</text>
+  <text x="1145" y="1250" text-anchor="middle" class="node-desc">Checkpoint / 消息窗口 / 摘要</text>
+  <rect x="1360" y="1180" width="320" height="105" rx="12" class="shared"/>
+  <text x="1520" y="1220" text-anchor="middle" class="node-title">Agent Nodes</text>
+  <text x="1520" y="1250" text-anchor="middle" class="node-desc">改写 / RAG / SQL / 执行</text>
+  <path d="M515 745 V795 H1145 V900" class="edge"/>
+  <path d="M1310 941 H1360" class="edge"/>
+  <path d="M1145 982 V1035" class="edge"/>
+  <path d="M1310 1076 H1360" class="edge"/>
+  <path d="M1145 1117 V1180" class="edge"/>
+  <path d="M1520 1117 V1180" class="edge"/>
+  <path d="M980 1232 H740 V1102 H695" class="edge-dashed"/>
+  <text x="755" y="1080" class="edge-label">Checkpoint miss 时从 MySQL 懒恢复</text>
+
+  <rect x="80" y="1380" width="24" height="24" rx="4" class="p1"/><text x="118" y="1399" class="legend">P1 历史会话</text>
+  <rect x="310" y="1380" width="24" height="24" rx="4" class="p2"/><text x="348" y="1399" class="legend">P2 短期记忆</text>
+  <rect x="540" y="1380" width="24" height="24" rx="4" class="shared"/><text x="578" y="1399" class="legend">P1/P2 共享或原有链路</text>
+  <rect x="895" y="1380" width="24" height="24" rx="4" class="storage"/><text x="933" y="1399" class="legend">存储</text>
+</svg>

@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="920" viewBox="0 0 1480 920" font-family="PingFang SC, Microsoft YaHei, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a6741"/>
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8a8a"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b0413e"/>
+    </marker>
+  </defs>
+
+  <rect width="1480" height="920" fill="#f6efe3"/>
+  <text x="740" y="42" text-anchor="middle" font-size="24" font-weight="bold" fill="#2f3b2b">电商智能问数 Agent — 系统架构</text>
+
+  <!-- 用户 / 前端 -->
+  <rect x="40" y="120" width="220" height="330" rx="10" fill="#efe6d8" stroke="#4a6741" stroke-width="1.5"/>
+  <text x="150" y="150" text-anchor="middle" font-size="16" font-weight="bold" fill="#2f3b2b">React 前端</text>
+  <rect x="60" y="170" width="180" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="150" y="192" text-anchor="middle" font-size="13" fill="#444">历史会话栏 / 续聊</text>
+  <rect x="60" y="214" width="180" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="150" y="236" text-anchor="middle" font-size="13" fill="#444">步骤条 + SSE 进度</text>
+  <rect x="60" y="258" width="180" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="150" y="280" text-anchor="middle" font-size="13" fill="#444">结果表 / 截断提示</text>
+  <rect x="60" y="302" width="180" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="150" y="324" text-anchor="middle" font-size="13" fill="#444">解释面板 SQL+口径</text>
+  <rect x="60" y="346" width="180" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="150" y="368" text-anchor="middle" font-size="13" fill="#444">request_id 失败卡片</text>
+  <text x="150" y="430" text-anchor="middle" font-size="12" fill="#777">Vite / Tailwind</text>
+
+  <!-- API 层 -->
+  <rect x="320" y="120" width="200" height="330" rx="10" fill="#e6ecdf" stroke="#4a6741" stroke-width="1.5"/>
+  <text x="420" y="150" text-anchor="middle" font-size="16" font-weight="bold" fill="#2f3b2b">FastAPI 层</text>
+  <rect x="340" y="170" width="160" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="420" y="192" text-anchor="middle" font-size="13" fill="#444">会话 CRUD API</text>
+  <rect x="340" y="214" width="160" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="420" y="236" text-anchor="middle" font-size="13" fill="#444">POST …/query (SSE)</text>
+  <rect x="340" y="258" width="160" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="420" y="280" text-anchor="middle" font-size="13" fill="#444">request_id 中间件</text>
+  <rect x="340" y="302" width="160" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="420" y="324" text-anchor="middle" font-size="13" fill="#444">会话串行锁</text>
+  <rect x="340" y="346" width="160" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="420" y="368" text-anchor="middle" font-size="13" fill="#444">错误脱敏 sanitizer</text>
+  <text x="420" y="430" text-anchor="middle" font-size="12" fill="#777">单 Worker 部署边界</text>
+
+  <line x1="260" y1="285" x2="320" y2="285" stroke="#4a6741" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="290" y="272" text-anchor="middle" font-size="11" fill="#4a6741">HTTP/SSE</text>
+
+  <!-- QueryService 编排 -->
+  <rect x="580" y="120" width="230" height="330" rx="10" fill="#e6ecdf" stroke="#4a6741" stroke-width="1.5"/>
+  <text x="695" y="150" text-anchor="middle" font-size="16" font-weight="bold" fill="#2f3b2b">QueryService 编排</text>
+  <rect x="600" y="170" width="190" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="695" y="192" text-anchor="middle" font-size="13" fill="#444">Turn 账本（幂等落库）</text>
+  <rect x="600" y="214" width="190" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="695" y="236" text-anchor="middle" font-size="13" fill="#444">Checkpoint 命中/懒恢复</text>
+  <rect x="600" y="258" width="190" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="695" y="280" text-anchor="middle" font-size="13" fill="#444">取消 → 尽力 KILL</text>
+  <rect x="600" y="302" width="190" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="695" y="324" text-anchor="middle" font-size="13" fill="#444">RunMetrics 埋点</text>
+  <rect x="600" y="346" width="190" height="34" rx="6" fill="#ffffff" stroke="#c9bfae"/>
+  <text x="695" y="368" text-anchor="middle" font-size="13" fill="#444">MySQL 失败→清 Redis</text>
+  <text x="695" y="430" text-anchor="middle" font-size="12" fill="#777">双存储一致性编排</text>
+
+  <line x1="520" y1="285" x2="580" y2="285" stroke="#4a6741" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- LangGraph 区域 -->
+  <rect x="870" y="90" width="580" height="560" rx="12" fill="#f2f6ee" stroke="#4a6741" stroke-width="2"/>
+  <text x="1160" y="120" text-anchor="middle" font-size="17" font-weight="bold" fill="#2f3b2b">LangGraph：会话主图 + NL2SQL 子图</text>
+  <line x1="810" y1="285" x2="870" y2="285" stroke="#4a6741" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 主图 -->
+  <rect x="900" y="145" width="230" height="180" rx="8" fill="#ffffff" stroke="#8aa37e" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="1015" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#3c5231">会话主图（Redis Checkpoint）</text>
+  <rect x="920" y="185" width="190" height="28" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1015" y="204" text-anchor="middle" font-size="12" fill="#333">resolve_query 问题改写</text>
+  <rect x="920" y="221" width="190" height="28" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1015" y="240" text-anchor="middle" font-size="12" fill="#333">消息窗口 + 滚动摘要</text>
+  <rect x="920" y="257" width="190" height="28" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1015" y="276" text-anchor="middle" font-size="12" fill="#333">懒恢复（MySQL 水合）</text>
+  <text x="1015" y="308" text-anchor="middle" font-size="11" fill="#777">thread_id = conversation_id</text>
+
+  <!-- 子图 -->
+  <rect x="1160" y="145" width="270" height="480" rx="8" fill="#ffffff" stroke="#8aa37e" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="1295" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#3c5231">NL2SQL 子图（临时 State 不持久化）</text>
+
+  <rect x="1180" y="185" width="230" height="26" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1295" y="203" text-anchor="middle" font-size="12" fill="#333">extract_keywords 关键词抽取</text>
+  <rect x="1180" y="219" width="72" height="30" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1216" y="238" text-anchor="middle" font-size="11" fill="#333">字段召回</text>
+  <rect x="1259" y="219" width="72" height="30" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1295" y="238" text-anchor="middle" font-size="11" fill="#333">指标召回</text>
+  <rect x="1338" y="219" width="72" height="30" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1374" y="238" text-anchor="middle" font-size="11" fill="#333">取值召回</text>
+  <rect x="1180" y="257" width="230" height="26" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1295" y="275" text-anchor="middle" font-size="12" fill="#333">merge + 表/指标过滤 + 上下文</text>
+  <rect x="1180" y="291" width="230" height="26" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1295" y="309" text-anchor="middle" font-size="12" fill="#333">generate_sql（LLM）</text>
+  <rect x="1180" y="325" width="110" height="30" rx="5" fill="#fff7e0" stroke="#c9a84c"/>
+  <text x="1235" y="344" text-anchor="middle" font-size="12" fill="#333">sql_guard</text>
+  <rect x="1300" y="325" width="110" height="30" rx="5" fill="#fff7e0" stroke="#c9a84c"/>
+  <text x="1355" y="344" text-anchor="middle" font-size="12" fill="#333">validate_sql</text>
+  <rect x="1180" y="363" width="110" height="30" rx="5" fill="#fdeceb" stroke="#b0413e"/>
+  <text x="1235" y="382" text-anchor="middle" font-size="12" fill="#333">correct_sql</text>
+  <rect x="1300" y="363" width="110" height="30" rx="5" fill="#fdeceb" stroke="#b0413e"/>
+  <text x="1355" y="382" text-anchor="middle" font-size="12" fill="#333">reject_sql</text>
+  <rect x="1180" y="401" width="230" height="26" rx="5" fill="#eef3e9" stroke="#c9bfae"/>
+  <text x="1295" y="419" text-anchor="middle" font-size="12" fill="#333">run_sql（只读/限流/截断）</text>
+
+  <line x1="1295" y1="211" x2="1295" y2="219" stroke="#4a6741" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="1295" y1="249" x2="1295" y2="257" stroke="#4a6741" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="1295" y1="283" x2="1295" y2="291" stroke="#4a6741" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="1295" y1="317" x2="1295" y2="325" stroke="#4a6741" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="1290" y1="340" x2="1300" y2="340" stroke="#4a6741" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- 修正循环 -->
+  <path d="M 1235 355 L 1235 363 L 1235 378 L 1180 378 L 1180 340 L 1185 340" fill="none" stroke="#b0413e" stroke-width="1.5" marker-end="url(#arrowRed)" transform="translate(0,0)"/>
+  <path d="M 1355 355 C 1355 370, 1290 378, 1258 372" fill="none" stroke="#b0413e" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <text x="1295" y="448" text-anchor="middle" font-size="11" fill="#b0413e">失败进修正（≤3 轮）；out_of_scope 直达拒答</text>
+  <text x="1295" y="466" text-anchor="middle" font-size="11" fill="#777">guard=sqlglot AST 白/黑名单 · validate=EXPLAIN</text>
+
+  <!-- 主图→子图 -->
+  <line x1="1130" y1="235" x2="1180" y2="235" stroke="#4a6741" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1155" y="225" text-anchor="middle" font-size="10" fill="#4a6741">调用</text>
+
+  <!-- LLM -->
+  <rect x="900" y="360" width="230" height="80" rx="8" fill="#ffffff" stroke="#8aa37e" stroke-width="1.5"/>
+  <text x="1015" y="385" text-anchor="middle" font-size="14" font-weight="bold" fill="#3c5231">LLM（OpenAI 兼容）</text>
+  <text x="1015" y="408" text-anchor="middle" font-size="11" fill="#555">改写 / 扩词 / 过滤 / 生成 / 修正</text>
+  <text x="1015" y="426" text-anchor="middle" font-size="11" fill="#b0413e">thinking=disabled（性能关键决策）</text>
+  <line x1="1180" y1="304" x2="1130" y2="390" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+
+  <!-- 存储层 -->
+  <rect x="40" y="520" width="810" height="360" rx="12" fill="#eee7d8" stroke="#8a7a5c" stroke-width="1.5"/>
+  <text x="445" y="550" text-anchor="middle" font-size="16" font-weight="bold" fill="#5a4a2f">多存储：职责与事实来源</text>
+
+  <rect x="70" y="575" width="180" height="120" rx="8" fill="#ffffff" stroke="#8a7a5c"/>
+  <text x="160" y="600" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">DW MySQL（数仓）</text>
+  <text x="160" y="622" text-anchor="middle" font-size="11" fill="#555">星型：fact_order + dim_*</text>
+  <text x="160" y="640" text-anchor="middle" font-size="11" fill="#555">只读账号执行 SQL</text>
+  <text x="160" y="658" text-anchor="middle" font-size="11" fill="#555">超时30s/并发4/1000行</text>
+  <text x="160" y="676" text-anchor="middle" font-size="11" fill="#555">取消时尽力 KILL</text>
+
+  <rect x="270" y="575" width="180" height="120" rx="8" fill="#ffffff" stroke="#8a7a5c"/>
+  <text x="360" y="600" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Meta MySQL</text>
+  <text x="360" y="622" text-anchor="middle" font-size="11" fill="#555">表/字段/指标元数据</text>
+  <text x="360" y="640" text-anchor="middle" font-size="11" fill="#555">会话·消息·结果·步骤</text>
+  <text x="360" y="658" text-anchor="middle" font-size="11" fill="#b0413e">历史与审计的事实来源</text>
+  <text x="360" y="676" text-anchor="middle" font-size="11" fill="#555">表白名单来源</text>
+
+  <rect x="470" y="575" width="170" height="120" rx="8" fill="#ffffff" stroke="#8a7a5c"/>
+  <text x="555" y="600" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Redis 8</text>
+  <text x="555" y="622" text-anchor="middle" font-size="11" fill="#555">LangGraph Checkpoint</text>
+  <text x="555" y="640" text-anchor="middle" font-size="11" fill="#555">消息窗口/摘要/SQL 摘要</text>
+  <text x="555" y="658" text-anchor="middle" font-size="11" fill="#2f6b2f">可重建 Runtime State</text>
+  <text x="555" y="676" text-anchor="middle" font-size="11" fill="#555">TTL 7 天 · AOF</text>
+
+  <rect x="660" y="575" width="160" height="120" rx="8" fill="#ffffff" stroke="#8a7a5c"/>
+  <text x="740" y="600" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Qdrant</text>
+  <text x="740" y="622" text-anchor="middle" font-size="11" fill="#555">字段/指标向量集合</text>
+  <text x="740" y="640" text-anchor="middle" font-size="11" fill="#555">bge-large-zh 1024 维</text>
+  <text x="740" y="658" text-anchor="middle" font-size="11" fill="#555">稳定 Point ID 幂等写</text>
+
+  <rect x="70" y="715" width="180" height="120" rx="8" fill="#ffffff" stroke="#8a7a5c"/>
+  <text x="160" y="740" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Elasticsearch</text>
+  <text x="160" y="762" text-anchor="middle" font-size="11" fill="#555">字段真实值全文检索（IK）</text>
+  <text x="160" y="780" text-anchor="middle" font-size="11" fill="#555">value_index 稳定文档 ID</text>
+
+  <rect x="270" y="715" width="180" height="120" rx="8" fill="#ffffff" stroke="#8a7a5c"/>
+  <text x="360" y="740" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">TEI Embedding</text>
+  <text x="360" y="762" text-anchor="middle" font-size="11" fill="#555">BAAI/bge-large-zh-v1.5</text>
+  <text x="360" y="780" text-anchor="middle" font-size="11" fill="#555">索引构建与查询向量化</text>
+
+  <rect x="470" y="715" width="350" height="120" rx="8" fill="#ffffff" stroke="#8a7a5c"/>
+  <text x="645" y="740" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">离线索引链路（build_meta_knowledge）</text>
+  <text x="645" y="764" text-anchor="middle" font-size="11" fill="#555">conf 配置 + DW 抽样 → Meta MySQL / Qdrant / ES</text>
+  <text x="645" y="784" text-anchor="middle" font-size="11" fill="#555">可重复执行：upsert + 稳定 ID，无删除同步</text>
+  <text x="645" y="804" text-anchor="middle" font-size="11" fill="#777">元数据变更需重跑构建命令</text>
+
+  <!-- 存储连线 -->
+  <line x1="695" y1="450" x2="360" y2="575" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="500" y="505" font-size="11" fill="#666">Turn/消息持久化 · 懒恢复读取</text>
+  <line x1="760" y1="450" x2="560" y2="575" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="700" y="512" font-size="11" fill="#666">Checkpoint 读写</text>
+  <line x1="1180" y1="234" x2="1000" y2="560" stroke="none"/>
+  <path d="M 900 250 C 700 300, 760 500, 740 575" fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="850" y="330" font-size="11" fill="#666">三路召回检索</text>
+  <path d="M 1180 414 C 900 470, 400 470, 160 575" fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="640" y="470" font-size="11" fill="#666">只读执行</text>
+
+  <!-- 评测 -->
+  <rect x="870" y="680" width="580" height="200" rx="12" fill="#e6ecdf" stroke="#4a6741" stroke-width="1.5"/>
+  <text x="1160" y="710" text-anchor="middle" font-size="16" font-weight="bold" fill="#2f3b2b">评测与可观测</text>
+  <text x="1160" y="738" text-anchor="middle" font-size="12" fill="#444">evals/：100 题（A30·B35·C25·D10）金标 = 检索+SQL+冻结结果</text>
+  <text x="1160" y="760" text-anchor="middle" font-size="12" fill="#444">6 指标 + latency P50/P95 + token；形态等价判分（规则 1~4）</text>
+  <text x="1160" y="782" text-anchor="middle" font-size="12" fill="#2f6b2f">基线：可执行 100% · 一致 98.9% · 安全违规 0 · P50 3.4s</text>
+  <text x="1160" y="804" text-anchor="middle" font-size="12" fill="#444">RunMetrics：节点耗时/token 归因（ContextVar，不入 Checkpoint）</text>
+  <text x="1160" y="826" text-anchor="middle" font-size="12" fill="#444">request_id 贯通 · SSE 心跳 · 错误三份分离脱敏</text>
+  <line x1="810" y1="400" x2="870" y2="700" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="800" y="640" font-size="11" fill="#666">e2e 打真实 API</text>
+</svg>

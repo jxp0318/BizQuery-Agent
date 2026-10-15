@@ -25,7 +25,7 @@
 ## 核心能力
 
 - **元数据 RAG**：围绕数据库 Schema、业务指标和字段真实值构建检索上下文。
-- **三路并行召回**：字段与指标使用 Qdrant 向量检索，字段值使用 Elasticsearch 全文检索；批量向量化 + 并发检索。
+- **三路并行召回**：字段与指标使用 Qdrant 向量检索，字段值使用 Elasticsearch 全文检索，三路召回节点在图上并行执行。
 - **上下文组装**：按实体 ID 去重，并从 Meta MySQL 补齐指标依赖字段、主外键和值样例。
 - **LangGraph 编排**：会话主图 + NL2SQL 子图，组织问题改写、关键词抽取、并行召回、候选过滤、SQL 生成、安全校验和执行节点。
 - **NL2SQL 安全闭环**：SQL 生成后经 sqlglot AST 安全闸（语句类型/表白名单/危险函数黑名单）和 MySQL `EXPLAIN` 双重检查，失败自动修正最多 3 轮；执行层只读账号 + 行数截断 + 超时 + 并发限制；超范围问题走常量语句/显式拒答通道。
@@ -111,7 +111,7 @@ shopkeeper-agent/
 │   └── services/       # 查询与元数据构建服务
 ├── conf/               # 应用和业务元数据配置
 ├── docker/             # 本地基础服务与演示数仓
-├── docs/               # 路线图、评测规范、面试问答等说明文档
+├── docs/               # 架构图与演示截图
 ├── evals/              # 100 题评测集、指标计算与评测报告
 ├── frontend/           # React 问数界面
 ├── prompts/            # 问题改写、检索扩词、过滤、SQL 生成与修正 Prompt
@@ -238,7 +238,7 @@ SSE 事件分为：
 uv run python -m evals.run_eval --stage e2e --api http://127.0.0.1:8000
 ```
 
-报告输出到 `evals/report/`，指标口径与建集说明见 [评测规范](docs/p4-eval-spec.md)。
+报告输出到 `evals/report/`，评测集构建与指标口径见 `evals/README.md`。
 
 ## 当前边界
 
@@ -250,4 +250,4 @@ uv run python -m evals.run_eval --stage e2e --api http://127.0.0.1:8000
 - LLM 调用显式关闭思考模式（`extra_body.thinking=disabled`）：DeepSeek 默认开启会让机械步骤产生大量 reasoning token，关闭后 P50 由约 14s 降至 3.4s 且评测无回退。
 - 评测集、指标与基线在 `evals/`（见改进路线图 P4）；基线对比为本地手动口径，未接入 CI。
 
-短期记忆的架构取舍见 [LangGraph 短期记忆实现说明](docs/langgraph-short-term-memory.md)，各阶段决策与完成状态见 [改进路线图](docs/improvement-roadmap.md)。
+短期记忆基于 LangGraph Checkpointer 实现，按会话保存消息窗口与滚动摘要，MySQL 持久化全量历史；Redis 数据可随时重建。
